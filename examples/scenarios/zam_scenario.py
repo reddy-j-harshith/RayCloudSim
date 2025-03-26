@@ -46,6 +46,10 @@ class Scenario(BaseScenario):
                     if node['NodeName'] != node_info['NodeName'] else None
                     for node in self.json_nodes
                 }
+                malicious_node.peerRating2= {
+                    node['NodeName']: 0.000000001
+                    for node in self.json_nodes
+                }
                 self.infrastructure.add_node(malicious_node)
             self.node_id2name[node_info['NodeId']] = node_info['NodeName']
 
