@@ -59,11 +59,11 @@ def main():
     # flag = 'Tuple100K'
     
     # Create the environment with the specified scenario and configuration files.
-    scenario=Scenario(config_file=f"eval/benchmarks/Topo4MEC/data/{flag}/config.json", flag=flag)
+    scenario=Scenario(config_file=f"eval/benchmarks/Topo4MEC/data/25N50E/config.json", flag=flag)
     env = Env(scenario, config_file="core/configs/env_config_null.json", verbose=True, decimal_places=3)
 
     # Load the test dataset.
-    data = pd.read_csv(f"eval/benchmarks/Topo4MEC/data/{flag}/testset.csv")
+    data = pd.read_csv(f"eval/benchmarks/Topo4MEC/data/25N50E/testset.csv")
 
     # Init the policy.
     policy = RoundRobinPolicy()
