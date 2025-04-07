@@ -1,5 +1,6 @@
-import json
 import os
+import json
+import math
 import random
 import simpy
 import numpy as np
@@ -950,7 +951,7 @@ class ZAM_env(Env):
         self.onoffattackflag = True
         self.zscore_detections = {}
         self.boxplot_detections = {}
-        self.compute_final_adaptive_weights_flag =  False
+        self.compute_final_adaptive_weights_flag =  True
 
         # Confusion metrics - Z Score
         self.true_positive = 0
@@ -1300,7 +1301,10 @@ class ZAM_env(Env):
                         # Check the message type for each message
             if exec_flag == FLAG_TASK_EXECUTION_DONE:
                 # Trust Value increase
-                net_score += TRUST_INCREASE  
+                total_interactions = dst.get_total_tasks() + 1.0
+                unsuccessful = dst.get_total_tasks() - dst.get_successful_tasks()  # Suspicious/unsuccessful interactions so far
+                reward = ((total_interactions - unsuccessful) / total_interactions) * math.exp(unsuccessful / total_interactions)
+                net_score += reward  
             elif exec_flag == FLAG_TASK_EXECUTION_FAIL:
                 if isinstance(dst, ZAMMalicious) and isinstance(src, ZAMMalicious):
                     net_score += 1.0
@@ -1313,7 +1317,10 @@ class ZAM_env(Env):
                     else:
                        self.attacks[attack_time] = [attack_entry]
                 else:
-                    net_score += TRUST_DECREASE
+                    total_interactions = dst.get_total_tasks() + 1.0
+                    unsuccessful = dst.get_total_tasks() - dst.get_successful_tasks()  # Suspicious/unsuccessful interactions so far
+                    reward = ((total_interactions - unsuccessful) / total_interactions) * math.exp(unsuccessful / total_interactions)
+                    net_score -= reward
             elif exec_flag == FLAG_TASK_EXECUTION_TIMEOUT:
                 if isinstance(dst, ZAMMalicious) and isinstance(src, ZAMMalicious):
                     net_score += 1.0

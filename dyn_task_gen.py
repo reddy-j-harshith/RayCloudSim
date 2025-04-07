@@ -22,6 +22,7 @@ from examples.scenarios.zam_scenario import Scenario
 from eval.metrics.metrics import SuccessRate, AvgLatency  # metric
 from policies.demo.demo_round_robin import RoundRobinPolicy
 from policies.demo.demo_greedy import GreedyPolicy
+from policies.demo.demo_random import DemoRandom
 
 
 
@@ -76,17 +77,17 @@ def main():
     # flag = 'Tuple50K'
     # flag = 'Tuple100K'
     
-    alphas = np.arange(0.1, 1.1, 0.1)
-    betas = np.arange(0.1, 1.1, 0.1)
-    thresholds = np.arange(0.1, 1.1, 0.1)
+    alphas = np.arange(0.6, 0.7, 0.1)
+    betas = np.arange(0.4, 0.5, 0.1)
+    thresholds = np.arange(0.6, 0.7, 0.1)
 
     for threshold in thresholds:
-        for alpha in alphas:
-            for beta in betas:
+        # for alpha in alphas:
+        #     for beta in betas:
 
                 # Create the environment with the specified scenario and configuration files.
                 scenario=Scenario(config_file=f"eval/benchmarks/Topo4MEC/data/25N50E/config.json")
-                env = ZAM_env(scenario, config_file="core/configs/env_config.json", alpha = alpha, beta = beta, threshold = threshold)
+                env = ZAM_env(scenario, config_file="core/configs/env_config.json", alpha = 0.0, beta = 0.0, threshold = threshold)
 
                 env.true_positive = 0
                 env.true_negative = 0
@@ -103,7 +104,7 @@ def main():
                 simulated_tasks = list(data.iloc[:].values)
 
                 # Init the policy.
-                policy = GreedyPolicy()
+                policy = DemoRandom()
 
                 for task_info in simulated_tasks:
                     arrival_times[task_info[7]].append(task_info[1])
@@ -136,7 +137,7 @@ def main():
                             item = env.done_task_info.pop(0)
                         
                         if env.now >= generated_time:
-                            dst_node = policy.act_greed(env, task)  # offloading decision
+                            dst_node = policy.act(env, task)  # offloading decision
                             env.process(task=task, dst_name=f'n{dst_node}')
                             launched_task_cnt += 1
                             break
@@ -239,8 +240,8 @@ def main():
                 # Save the values alpha, beta and the metrics in a CSV file
                 metrics = {
                     "threshold": threshold,
-                    "alpha": alpha,
-                    "beta": beta,
+                    "alpha": "adaptive_alpha",
+                    "beta": "adaptive_beta",
                     "success_rate": r1,
                     "avg_latency": r2,
                     "avg_energy_consumption": env.avg_node_energy(),
@@ -265,59 +266,59 @@ def main():
                 # print("F1 Score:", (2 * env.true_positive_boxplot) / (2 * env.true_positive_boxplot + env.false_positive_boxplot + env.false_negative_boxplot))
                 # print("------------------------------------------------------\n")
 
-                # nodes_to_plot = [i for i in range(len(env.scenario.get_nodes()))]
-                # malicious_nodes = [3, 4, 10, 12, 14, 21, 23]
+                nodes_to_plot = [i for i in range(len(env.scenario.get_nodes()))]
+                malicious_nodes = [3, 4, 10, 12, 14, 21, 23]
 
-                # # vis_frame2video(env)
+                # vis_frame2video(env)
 
-                # plt.figure(figsize=(10, 6))
-                # for node in nodes_to_plot:
-                #     if node in malicious_nodes:
-                #         plt.plot(env.trust_values[node][:time_slice], label=f'Node n{node}', color='darkred', linewidth=3)
-                #     else:
-                #         plt.plot(env.trust_values[node][:time_slice], label=f'Node n{node}', linewidth=1)
+                plt.figure(figsize=(10, 6))
+                for node in nodes_to_plot:
+                    if node in malicious_nodes:
+                        plt.plot(env.trust_values[node][:time_slice], label=f'Node n{node}', color='darkred', linewidth=3)
+                    else:
+                        plt.plot(env.trust_values[node][:time_slice], label=f'Node n{node}', linewidth=1)
                         
-                # # Prepare lists to collect attack marker coordinates.
-                # bsa_x, bsa_y = [], []      
-                # onoff_x, onoff_y = [], []     
-                # # Loop through the attacks dictionary to get marker positions.
-                # for attack_time, events in env.attacks.items():
-                # # Only consider attacks within time 0-time_slice.
-                #     if attack_time < 0 or attack_time > time_slice:
-                #         continue
-                #     for event in events:
-                #         attacking_node = event["attacking_node"]
-                #         attack_type = event["attack_type"]
-                #         try:
-                #             node_index = int(attacking_node.strip('n'))
-                #         except Exception as e:
-                #             continue
-                #     # Use the simulation time as the x coordinate.
-                #     time_index = int(attack_time)
-                #     # Ensure that the trust value list is long enough.
-                #     if time_index < len(env.trust_values[node_index]):
-                #         y_value = env.trust_values[node_index][time_index]
-                #         if attack_type == "ballot stuffing":
-                #             bsa_x.append(time_index)
-                #             bsa_y.append(y_value)
-                #         elif attack_type == "on-off attack":
-                #             onoff_x.append(time_index)
-                #             onoff_y.append(y_value)
+                # Prepare lists to collect attack marker coordinates.
+                bsa_x, bsa_y = [], []      
+                onoff_x, onoff_y = [], []     
+                # Loop through the attacks dictionary to get marker positions.
+                for attack_time, events in env.attacks.items():
+                # Only consider attacks within time 0-time_slice.
+                    if attack_time < 0 or attack_time > time_slice:
+                        continue
+                    for event in events:
+                        attacking_node = event["attacking_node"]
+                        attack_type = event["attack_type"]
+                        try:
+                            node_index = int(attacking_node.strip('n'))
+                        except Exception as e:
+                            continue
+                    # Use the simulation time as the x coordinate.
+                    time_index = int(attack_time)
+                    # Ensure that the trust value list is long enough.
+                    if time_index < len(env.trust_values[node_index]):
+                        y_value = env.trust_values[node_index][time_index]
+                        if attack_type == "ballot stuffing":
+                            bsa_x.append(time_index)
+                            bsa_y.append(y_value)
+                        elif attack_type == "on-off attack":
+                            onoff_x.append(time_index)
+                            onoff_y.append(y_value)
 
-                # # Plot attack markers if any.
-                # if bsa_x:
-                #     plt.scatter(bsa_x, bsa_y, color='blue', marker='x', s=100, label='BSA Attack')
-                # if onoff_x:
-                #     plt.scatter(onoff_x, onoff_y, color='red', marker='x', s=100, label='On-off Attack')
+                # Plot attack markers if any.
+                if bsa_x:
+                    plt.scatter(bsa_x, bsa_y, color='blue', marker='x', s=100, label='BSA Attack')
+                if onoff_x:
+                    plt.scatter(onoff_x, onoff_y, color='red', marker='x', s=100, label='On-off Attack')
 
-                # plt.xlabel('Time', fontsize=12)
-                # plt.ylabel('Trust Value', fontsize=12)
-                # plt.title(f'Trust Values of Nodes n0 and n24 Over Time (Time 0-{time_slice})', fontsize=14, fontweight='bold')
-                # plt.legend(loc='lower right', fontsize=10)
-                # plt.grid(True, which='both', linestyle='--', linewidth=0.5)
-                # plt.xlim(0, time_slice)
-                # plt.tight_layout()
-                # plt.show()
+                plt.xlabel('Time', fontsize=12)
+                plt.ylabel('Trust Value', fontsize=12)
+                plt.title(f'Trust Values of Nodes n0 and n24 Over Time (Time 0-{time_slice})', fontsize=14, fontweight='bold')
+                plt.legend(loc='lower right', fontsize=10)
+                plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+                plt.xlim(0, time_slice)
+                plt.tight_layout()
+                plt.show()
    
 
 if __name__ == '__main__':
