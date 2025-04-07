@@ -51,7 +51,7 @@ def user_defined_info(task):
 class EnvLogger:
     """Logger for recording simulation events and key information."""
 
-    def __init__(self, controller, enable_logging: bool = True, decimal_places: int = 3):
+    def __init__(self, controller, enable_logging: bool = False, decimal_places: int = 3):
         self.controller = controller
         self.enable_logging = enable_logging  # Disable logging to speed up training
         self.decimal_places = decimal_places
@@ -62,7 +62,7 @@ class EnvLogger:
         """Log a message with a timestamp if logging is enabled."""
         if self.enable_logging:
             timestamp = f"{self.controller.now:.{self.decimal_places}f}"
-            print(f"[{timestamp}]: {message}")
+            # print(f"[{timestamp}]: {message}")
 
     def append(self, info_type: str, key: str, value: tuple) -> None:
         """
@@ -929,10 +929,14 @@ class Env_Trust(Env):
             yield self.controller.timeout(self.refresh_rate)
 
 
-class ZAM_env(Env_Trust):
+class ZAM_env(Env):
 
-    def __init__(self, scenario: BaseScenario, config_file, verbose=True, decimal_places=3):
+    def __init__(self, scenario: BaseScenario, config_file, alpha, beta, threshold, verbose=True, decimal_places=3):
         super().__init__(scenario, config_file, verbose, decimal_places)
+        self.alpha = alpha
+        self.beta = beta
+        self.threshold = threshold
+
         self.down = {}
         self.up = {}
         self.down.setdefault(self.controller.now, [])
@@ -946,7 +950,7 @@ class ZAM_env(Env_Trust):
         self.onoffattackflag = True
         self.zscore_detections = {}
         self.boxplot_detections = {}
-        self.compute_final_adaptive_weights_flag =  True
+        self.compute_final_adaptive_weights_flag =  False
 
         # Confusion metrics - Z Score
         self.true_positive = 0
@@ -1027,8 +1031,8 @@ class ZAM_env(Env_Trust):
             else:
                 self.attacks[attack_time] = [attack_entry]
         
-            print(f"Ballot stuffing attack: Malicious node {malicious_node.name} set peer ratings of top trusted nodes "
-                f"{[tn.name for tn in top_trusted_nodes]} to 0.")
+            # print(f"Ballot stuffing attack: Malicious node {malicious_node.name} set peer ratings of top trusted nodes "
+            #     f"{[tn.name for tn in top_trusted_nodes]} to 0.")
 
     def toggle_dynamic(self, arrival_times, next_arrival):
 
@@ -1064,7 +1068,7 @@ class ZAM_env(Env_Trust):
 
                 if len(arrival_times[node.name]) == arrival_pointer[node.name]:
                     if node.get_online():
-                        print(f"Node {node.name} is going at offline at {now}")
+                        # print(f"Node {node.name} is going at offline at {now}")
                         self.scenario.get_node(node.name).set_online(False)
                     continue
 
@@ -1073,13 +1077,13 @@ class ZAM_env(Env_Trust):
                 if node.get_online() \
                         and total_tasks == 0 \
                         and arrival_times[node.name][arrival_pointer[node.name]] > now + 2:
-                    print(f"Node {node.name} is going at offline at {now}, and has {total_tasks} tasks")
+                    # print(f"Node {node.name} is going at offline at {now}, and has {total_tasks} tasks")
                     self.scenario.get_node(node.name).set_online(False)
 
                 # Toggle to Online if required
                 if not node.get_online() and arrival_times[node.name][arrival_pointer[node.name]] <= now + 2 :
                     self.scenario.get_node(node.name).set_online(True)
-                    print(f"Node {node.name} is going at online at {now}")
+                    # print(f"Node {node.name} is going at online at {now}")
                     while arrival_pointer[node.name] < len(arrival_times[node.name]) and arrival_times[node.name][arrival_pointer[node.name]] <= now + 2:
                         arrival_pointer[node.name] += 1
 
@@ -1098,8 +1102,8 @@ class ZAM_env(Env_Trust):
             if node != target and isinstance(node, ZAMNode):
                 peerRating = 0.0
                 trust_w = 0.0
-                if (node.peerRating.get(target.name) == None):
-                    print("Key Error for the node type:", type(target), "Size:", len(node.peerRating))
+                # if (node.peerRating.get(target.name) == None):
+                    # print("Key Error for the node type:", type(target), "Size:", len(node.peerRating))
                 peerRating = node.peerRating[target.name]
                 trust_w = trust_weights[node]
 
@@ -1138,8 +1142,8 @@ class ZAM_env(Env_Trust):
          T_final = adaptive_lambda * T_qos + (1 - adaptive_lambda) * T_peer
          return T_final
     def compute_final(self, target: ZAMNode) -> float:
-        ALPHA = 0.7
-        BETA = 0.3
+        ALPHA = self.alpha
+        BETA = self.beta
 
         peerRating = self.accumulate_PR(target)
         t_final = (ALPHA * target.get_QoS()) + (BETA * peerRating)
@@ -1148,8 +1152,8 @@ class ZAM_env(Env_Trust):
 
     def compute_trust(self):
 
-        THRESHOLD = 1.2
-        OLD_WEIGHT = 0.8
+        THRESHOLD = self.threshold
+        OLD_WEIGHT = 0.7
         COMPUTE_WEIGHT = 1.0 - OLD_WEIGHT
 
         # Update over all the nodes
@@ -1164,9 +1168,9 @@ class ZAM_env(Env_Trust):
                 new_trust = (COMPUTE_WEIGHT * compute_trust) + (OLD_WEIGHT * old_trust)
                 if(new_trust > 1.0):
                     new_trust = 1.0
-                    print("Trust Value Exceeded 1.0")
+                    # print("Trust Value Exceeded 1.0")
                 self.global_trust[node] = new_trust
-                print(new_trust)
+                # print(new_trust)
 
         
         for i in range(len(self.trust_values)):
@@ -1184,23 +1188,25 @@ class ZAM_env(Env_Trust):
         higher_bound = mean_trust + THRESHOLD * std_trust
         lower_bound = mean_trust - THRESHOLD * std_trust
 
-        print("----------------------------------------------------")
-        print("Higher Bound", higher_bound, "Lower Bound", lower_bound)
-        trusts = [trust for _, trust in self.global_trust.items()]
-        print(trusts)
+        # print("----------------------------------------------------")
+        # print("Higher Bound", higher_bound, "Lower Bound", lower_bound)
+        # trusts = [trust for _, trust in self.global_trust.items()]
+        # print(trusts)
 
-        print("=== Z-Scores ===")
+        # print("=== Z-Scores ===")
         zscore_detected = []
         for node, trust in self.global_trust.items():
             z_trust = (trust - mean_trust) / std_trust if std_trust != 0.0 else 0.0
-            print(z_trust)
+            # print(z_trust)
 
-        print("=== ===")
+        # print("=== ===")
         for node, trust in self.global_trust.items():
 
             z_trust = (trust - mean_trust) / std_trust if std_trust != 0.0 else 0.0
-            if z_trust <= lower_bound and isinstance(node, ZAMNode):
-                print(f"Malicious Node Detected: {node.node_id}")
+            higher_zscore = (higher_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
+            lower_zscore = (lower_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
+            if (z_trust <= -THRESHOLD or z_trust >= THRESHOLD) and isinstance(node, ZAMNode):
+                # print(f"Malicious Node Detected: {node.node_id}")
                 zscore_detected.append(node.node_id)
                 # Update the confusion metrics
                 if isinstance(node, ZAMMalicious):
@@ -1209,11 +1215,11 @@ class ZAM_env(Env_Trust):
                     self.false_positive += 1
             else:
                 if isinstance(node, ZAMMalicious):
-                    self.true_negative += 1
-                else:
                     self.false_negative += 1
+                else:
+                    self.true_negative += 1
 
-        print("=== ===")
+        # print("=== ===")
         if zscore_detected:
             self.zscore_detections[self.controller.now] = zscore_detected
 
@@ -1228,42 +1234,42 @@ class ZAM_env(Env_Trust):
         upper_bound = Q3 + 1.5 * IQR
         boxplot_detected = []
 
-        print("----------------------------------------------------")
-        print(f"Q1 (25th percentile): {Q1}")
-        print(f"Q3 (75th percentile): {Q3}")
-        print(f"IQR (Interquartile Range): {IQR}")
-        print(f"Lower Bound for Outliers: {lower_bound}")
-        print(f"Upper Bound for Outliers: {upper_bound}")
+        # print("----------------------------------------------------")
+        # print(f"Q1 (25th percentile): {Q1}")
+        # print(f"Q3 (75th percentile): {Q3}")
+        # print(f"IQR (Interquartile Range): {IQR}")
+        # print(f"Lower Bound for Outliers: {lower_bound}")
+        # print(f"Upper Bound for Outliers: {upper_bound}")
 
         # Identify potential outliers
         outliers = [trust for trust in trust_values if trust < lower_bound]
         for outlier in outliers:
             node_id = [node.node_id for node, trust in self.global_trust.items() if trust == outlier][0]
-            print(f"using boxplot method the malicious node is {node_id} with trust value {outlier}")
+            # print(f"using boxplot method the malicious node is {node_id} with trust value {outlier}")
             boxplot_detected.append(node_id)
 
         # Update the confusion metrics
         for node, _ in self.global_trust.items():
             if node.node_id not in boxplot_detected:
                 if isinstance(node, ZAMMalicious):
-                    self.true_negative_boxplot += 1
-                else:
                     self.false_negative_boxplot += 1
+                else:
+                    self.true_negative_boxplot += 1
             else:
                 if isinstance(node, ZAMMalicious):
                     self.true_positive_boxplot += 1
                 else:
                     self.false_positive_boxplot += 1
 
-        print("----------------------------------------------------")
+        # print("----------------------------------------------------")
         if boxplot_detected:
             self.boxplot_detections[self.controller.now] = boxplot_detected
 
     def computeQoS(self):
 
-        TRUST_INCREASE = 0.1
-        TRUST_DECREASE = -0.2
-        TRUST_DECREASE_SMALL = -0.1
+        TRUST_INCREASE = 0.05
+        TRUST_DECREASE = -0.1
+        TRUST_DECREASE_SMALL = -0.05
         NO_CHANGE = 0.0
 
         lambda_task = 0.7
@@ -1273,21 +1279,21 @@ class ZAM_env(Env_Trust):
         for message in self.trust_messages:
             dst = self.scenario.get_node(message[1])
             if isinstance(dst, ZAMNode):
-                if dst.get_online == False:
-                    print(f"Node {dst.name} is offline")
+                if dst.get_online() == False:
+                    # print(f"Node {dst.name} is offline")
                     continue
 
             if message[1] == None:
-                print(message[2], "Error in dst node")
+                # print(message[2], "Error in dst node")
                 continue
             oldQos = dst.get_QoS()
-            
+
             exec_flag = message[3]
 
             src = self.scenario.get_node(message[0])
-            if isinstance(src, ZAMNode):
-                if src.get_online == False:
-                    print(f"Node {src.name} is offline")
+            # if isinstance(src, ZAMNode):
+            #     if src.get_online == False:
+                    # print(f"Node {src.name} is offline")
 
             net_score = src.peerRating[dst.name]
 
@@ -1298,7 +1304,7 @@ class ZAM_env(Env_Trust):
             elif exec_flag == FLAG_TASK_EXECUTION_FAIL:
                 if isinstance(dst, ZAMMalicious) and isinstance(src, ZAMMalicious):
                     net_score += 1.0
-                    print(" BALLOT STUFF Malicious Node",src.name,"increased","rating of Malicious Node",dst.name)
+                    # print(" BALLOT STUFF Malicious Node",src.name,"increased","rating of Malicious Node",dst.name)
                     # Record ballot stuffing attack event
                     attack_time = self.controller.now
                     attack_entry = {"attacking_node": dst.name, "attack_type": "ballot stuffing"}
@@ -1311,7 +1317,7 @@ class ZAM_env(Env_Trust):
             elif exec_flag == FLAG_TASK_EXECUTION_TIMEOUT:
                 if isinstance(dst, ZAMMalicious) and isinstance(src, ZAMMalicious):
                     net_score += 1.0
-                    print(" BALLOT STUFF Malicious Node",src.name,"increased","rating of Malicious Node",dst.name)
+                    # print(" BALLOT STUFF Malicious Node",src.name,"increased","rating of Malicious Node",dst.name)
                     # Record ballot stuffing attack event
                     attack_time = self.controller.now
                     attack_entry = {"attacking_node": dst.name, "attack_type": "ballot stuffing"}
@@ -1342,7 +1348,7 @@ class ZAM_env(Env_Trust):
             ddl = message[5]
             if dst.get_total_tasks() != 0 and ddl != 0:
                 dst.set_QoS((lambda_task * (dst.get_successful_tasks() / dst.get_total_tasks())) + (lambda_time * (1.0 - (exec_time / ddl))))
-            print(f"QoS of {dst.name} Updated: {oldQos} -> {dst.get_QoS()}")
+            # print(f"QoS of {dst.name} Updated: {oldQos} -> {dst.get_QoS()}")
 
         # Clear the trust messages
         self.trust_messages.clear()
@@ -1516,7 +1522,7 @@ class ZAM_env(Env_Trust):
 
             if flag_exec == FLAG_TASK_EXECUTION_FAIL:
                 if isinstance(node, ZAMMalicious) and self.onoffattackflag:
-                    print("Attack Attack Attack....")
+                    # print("Attack Attack Attack....")
                     attack_time = self.controller.now
                     attack_entry = {"attacking_node": node.name, "attack_type": "on-off attack"}
                     if attack_time in self.attacks:
