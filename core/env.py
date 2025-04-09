@@ -1183,7 +1183,7 @@ class ZAM_env(Env):
         for node, trust in self.global_trust.items():
              trust_list.append(trust)
 
-        if self.controller.now > 200:
+        if self.controller.now > 100:
             # window = 5
             # for node, trust in self.global_trust.items():
             #     if isinstance(node, ZAMNode) and self.controller.now > 4:
