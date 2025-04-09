@@ -357,8 +357,8 @@ class ZAMMalicious(ZAMNode):
                          idle_energy_coef, exe_energy_coef)
         
         self.malicious_type = mal_type
-        self.normal_threshold = 0
-        self.peerRating2 = {}
+        self.normal_threshold = 5
+        self.pick_counter = 0
 
     def set_malicious_type(self, mal_type: int):
         self.malicious_type = mal_type
@@ -374,12 +374,10 @@ class ZAMMalicious(ZAMNode):
             threshold: The trust threshold to trigger the attack.
             delay: The amount of delay to introduce.
         """
-        top_40_count = max(1, int(np.ceil(0.4 * len(sorted_online))))
-        top_40_nodes = sorted_online[:top_40_count]
-        if self in top_40_nodes:
-            # generate a random sleep
-            delay = random.uniform(0.05, 0.1)
-            
+
+        if self.pick_counter >= self.normal_threshold:
+            self.pick_counter = 0
             return 1
         else:
+            self.pick_counter += 1
             return 0

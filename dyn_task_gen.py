@@ -104,7 +104,7 @@ def main():
                 simulated_tasks = list(data.iloc[:].values)
 
                 # Init the policy.
-                policy = DemoRandom()
+                policy = GreedyPolicy()
 
                 for task_info in simulated_tasks:
                     arrival_times[task_info[7]].append(task_info[1])
@@ -137,7 +137,7 @@ def main():
                             item = env.done_task_info.pop(0)
                         
                         if env.now >= generated_time:
-                            dst_node = policy.act(env, task)  # offloading decision
+                            dst_node = policy.act_greed(env, task)  # offloading decision
                             env.process(task=task, dst_name=f'n{dst_node}')
                             launched_task_cnt += 1
                             break

@@ -1214,7 +1214,7 @@ class ZAM_env(Env):
             # Adjustment factor: shift the thresholds in the direction of the skewness.
             # A positive skew (right-skewed) shifts the thresholds to the right,
             # whereas a negative skew shifts them to the left.
-            adjustment = skewness * std_trust  # factor of 0.5 scales the shift conservatively
+            adjustment = skewness * std_trust * 1.5# factor of 0.5 scales the shift conservatively
             print("Skewness:", skewness, "Adjustment:", adjustment)
             higher_bound = mean_trust + (THRESHOLD * std_trust) + ((skewness / abs(skewness)) * adjustment)
             lower_bound = mean_trust - (THRESHOLD * std_trust) + ((skewness / abs(skewness)) * adjustment)
@@ -1238,23 +1238,23 @@ class ZAM_env(Env):
 
             # print("=== ===")
             for node, trust in self.global_trust.items():
-
-                z_trust = (trust - mean_trust) / std_trust if std_trust != 0.0 else 0.0
-                higher_zscore = (higher_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
-                lower_zscore = (lower_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
-                if (trust <= lower_bound or trust >= higher_bound) and isinstance(node, ZAMNode):
-                    # print(f"Malicious Node Detected: {node.node_id}")
-                    zscore_detected.append(node.node_id)
-                    # Update the confusion metrics
-                    if isinstance(node, ZAMMalicious):
-                        self.true_positive += 1
+                if self.global_trust[node] >= 0.00001:
+                    z_trust = (trust - mean_trust) / std_trust if std_trust != 0.0 else 0.0
+                    higher_zscore = (higher_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
+                    lower_zscore = (lower_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
+                    if (trust <= lower_bound or trust >= higher_bound) and isinstance(node, ZAMNode):
+                        # print(f"Malicious Node Detected: {node.node_id}")
+                        zscore_detected.append(node.node_id)
+                        # Update the confusion metrics
+                        if isinstance(node, ZAMMalicious):
+                            self.true_positive += 1
+                        else:
+                            self.false_positive += 1
                     else:
-                        self.false_positive += 1
-                else:
-                    if isinstance(node, ZAMMalicious):
-                        self.false_negative += 1
-                    else:
-                        self.true_negative += 1
+                        if isinstance(node, ZAMMalicious):
+                            self.false_negative += 1
+                        else:
+                            self.true_negative += 1
 
             # print("=== ===")
             if zscore_detected:
