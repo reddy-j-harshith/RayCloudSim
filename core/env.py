@@ -938,10 +938,10 @@ class ZAM_env(Env):
         self.sigma_max = sigma_max
         self.threshold = threshold
 
-        self.down = {}
-        self.up = {}
-        self.down.setdefault(self.controller.now, [])
-        self.up.setdefault(self.controller.now, [])
+        self.means = []
+        self.top = []
+        self.down = []
+
         self.ONLINE_NODES = [node for _, node in self.scenario.get_nodes().items() if node.get_online()]
         self.ACTIVE_NODES = []
         self.trust_messages = []
@@ -1180,91 +1180,73 @@ class ZAM_env(Env):
 
         # Label the malicious
         trust_list = []
-        for node, trust in self.global_trust.items():
-             trust_list.append(trust)
-        trust_list = np.array(trust_list)
-        mean_trust = trust_list.mean()
-        std_trust = trust_list.std()
+        # for node, trust in self.global_trust.items():
+        #      trust_list.append(trust)
 
-        higher_bound = mean_trust + THRESHOLD * std_trust
-        lower_bound = mean_trust - THRESHOLD * std_trust
+        if self.controller.now > 200:
+            window = 5
+            for node, trust in self.global_trust.items():
+                if isinstance(node, ZAMNode) and self.controller.now > 4:
+                    j = 0
+                    for i in range(window):
+                        if self.zscore_detections.get(self.controller.now - i) != None and node.node_id in self.zscore_detections[self.controller.now - i]:
+                            j += 1
+                        if j >= 0.6 * window:
+                            trust_list.append(0.5 * trust)
+                            break
 
-        # print("----------------------------------------------------")
-        # print("Higher Bound", higher_bound, "Lower Bound", lower_bound)
-        # trusts = [trust for _, trust in self.global_trust.items()]
-        # print(trusts)
-
-        # print("=== Z-Scores ===")
-        zscore_detected = []
-        for node, trust in self.global_trust.items():
-            z_trust = (trust - mean_trust) / std_trust if std_trust != 0.0 else 0.0
-            # print(z_trust)
-
-        # print("=== ===")
-        for node, trust in self.global_trust.items():
-
-            z_trust = (trust - mean_trust) / std_trust if std_trust != 0.0 else 0.0
-            higher_zscore = (higher_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
-            lower_zscore = (lower_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
-            if (z_trust <= -THRESHOLD or z_trust >= THRESHOLD) and isinstance(node, ZAMNode):
-                # print(f"Malicious Node Detected: {node.node_id}")
-                zscore_detected.append(node.node_id)
-                # Update the confusion metrics
-                if isinstance(node, ZAMMalicious):
-                    self.true_positive += 1
+                    if j < 0.6 * window:
+                        trust_list.append(1.5 * trust)
                 else:
-                    self.false_positive += 1
-            else:
-                if isinstance(node, ZAMMalicious):
-                    self.false_negative += 1
+                    trust_list.append(1.5 * trust)
+
+            trust_list = np.array(trust_list)
+            mean_trust = trust_list.mean()
+            std_trust = trust_list.std()
+
+            higher_bound = mean_trust + THRESHOLD * std_trust
+            lower_bound = mean_trust - THRESHOLD * std_trust
+
+            self.means.append(mean_trust)
+            self.top.append(higher_bound)
+            self.down.append(lower_bound)        
+
+
+
+            # print("----------------------------------------------------")
+            # print("Higher Bound", higher_bound, "Lower Bound", lower_bound)
+            # trusts = [trust for _, trust in self.global_trust.items()]
+            # print(trusts)
+
+            # print("=== Z-Scores ===")
+            zscore_detected = []
+            # for node, trust in self.global_trust.items():
+            #     z_trust = (trust - mean_trust) / std_trust if std_trust != 0.0 else 0.0
+                # print(z_trust)
+
+            # print("=== ===")
+            for node, trust in self.global_trust.items():
+
+                z_trust = (trust - mean_trust) / std_trust if std_trust != 0.0 else 0.0
+                higher_zscore = (higher_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
+                lower_zscore = (lower_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
+                if (z_trust <= -THRESHOLD or z_trust >= THRESHOLD) and isinstance(node, ZAMNode):
+                    # print(f"Malicious Node Detected: {node.node_id}")
+                    zscore_detected.append(node.node_id)
+                    # Update the confusion metrics
+                    if isinstance(node, ZAMMalicious):
+                        self.true_positive += 1
+                    else:
+                        self.false_positive += 1
                 else:
-                    self.true_negative += 1
+                    if isinstance(node, ZAMMalicious):
+                        self.false_negative += 1
+                    else:
+                        self.true_negative += 1
 
-        # print("=== ===")
-        if zscore_detected:
-            self.zscore_detections[self.controller.now] = zscore_detected
-
-        # Calculate interquartile range (IQR) for trust values
-        trust_values = trust_list
-        Q1 = np.percentile(trust_values, 25)
-        Q3 = np.percentile(trust_values, 75)
-        IQR = Q3 - Q1
-
-        # Calculate bounds for outliers
-        lower_bound = Q1 - 1.5 * IQR
-        upper_bound = Q3 + 1.5 * IQR
-        boxplot_detected = []
-
-        # print("----------------------------------------------------")
-        # print(f"Q1 (25th percentile): {Q1}")
-        # print(f"Q3 (75th percentile): {Q3}")
-        # print(f"IQR (Interquartile Range): {IQR}")
-        # print(f"Lower Bound for Outliers: {lower_bound}")
-        # print(f"Upper Bound for Outliers: {upper_bound}")
-
-        # Identify potential outliers
-        outliers = [trust for trust in trust_values if trust < lower_bound]
-        for outlier in outliers:
-            node_id = [node.node_id for node, trust in self.global_trust.items() if trust == outlier][0]
-            # print(f"using boxplot method the malicious node is {node_id} with trust value {outlier}")
-            boxplot_detected.append(node_id)
-
-        # Update the confusion metrics
-        for node, _ in self.global_trust.items():
-            if node.node_id not in boxplot_detected:
-                if isinstance(node, ZAMMalicious):
-                    self.false_negative_boxplot += 1
-                else:
-                    self.true_negative_boxplot += 1
-            else:
-                if isinstance(node, ZAMMalicious):
-                    self.true_positive_boxplot += 1
-                else:
-                    self.false_positive_boxplot += 1
-
-        # print("----------------------------------------------------")
-        if boxplot_detected:
-            self.boxplot_detections[self.controller.now] = boxplot_detected
+            # print("=== ===")
+            if zscore_detected:
+                self.zscore_detections[self.controller.now] = zscore_detected
 
     def computeQoS(self):
 

@@ -254,18 +254,6 @@ def main():
                 metrics_df = pd.DataFrame([metrics])
                 metrics_df.to_csv(f"metrics_{flag}.csv", mode='a', header=not os.path.exists(f"metrics_{flag}.csv"), index=False)
 
-                # Print the confusion metrics - Boxplot
-                print("------------------------------------------------------")
-                print("Boxplot Confusion Matrix:")
-                print("True Positives:", env.true_positive_boxplot)
-                print("True Negatives:", env.true_negative_boxplot)
-                print("False Positives:", env.false_positive_boxplot)
-                print("False Negatives:", env.false_negative_boxplot)
-                print("Accuracy:", (env.true_positive_boxplot + env.true_negative_boxplot) / (env.true_positive_boxplot + env.true_negative_boxplot + env.false_positive_boxplot + env.false_negative_boxplot))
-                # print("Precision:", env.true_positive_boxplot / (env.true_positive_boxplot + env.false_positive_boxplot))
-                print("F1 Score:", (2 * env.true_positive_boxplot) / (2 * env.true_positive_boxplot + env.false_positive_boxplot + env.false_negative_boxplot))
-                print("------------------------------------------------------\n")
-
                 nodes_to_plot = [i for i in range(len(env.scenario.get_nodes()))]
                 malicious_nodes = [3, 4, 10, 12, 14, 21, 23]
 
@@ -310,6 +298,11 @@ def main():
                     plt.scatter(bsa_x, bsa_y, color='blue', marker='x', s=100, label='BSA Attack')
                 if onoff_x:
                     plt.scatter(onoff_x, onoff_y, color='red', marker='x', s=100, label='On-off Attack')
+
+                plt.plot(env.means[:time_slice], label=f'Mean', linewidth=3, color='purple')
+                plt.plot(env.top[:time_slice], label=f'Upper Bound', linewidth=3, color='green')
+                plt.plot(env.down[:time_slice], label='Lower Bound', linewidth=3, color='orange')
+
 
                 plt.xlabel('Time', fontsize=12)
                 plt.ylabel('Trust Value', fontsize=12)
