@@ -77,17 +77,17 @@ def main():
     # flag = 'Tuple50K'
     # flag = 'Tuple100K'
     
-    alphas = np.arange(0.6, 0.7, 0.1)
-    betas = np.arange(0.4, 0.5, 0.1)
-    thresholds = np.arange(0.6, 0.7, 0.1)
+    lambda_base = np.arange(0.5, 1.1, 0.1)
+    sigma_max = np.arange(0.1, 1.1, 0.1)
+    thresholds = np.arange(0.7, 0.8, 0.1)
 
     for threshold in thresholds:
-        # for alpha in alphas:
-        #     for beta in betas:
+        for lmbda in lambda_base:
+            for sigma in sigma_max:
 
                 # Create the environment with the specified scenario and configuration files.
                 scenario=Scenario(config_file=f"eval/benchmarks/Topo4MEC/data/25N50E/config.json")
-                env = ZAM_env(scenario, config_file="core/configs/env_config.json", alpha = 0.0, beta = 0.0, threshold = threshold)
+                env = ZAM_env(scenario, config_file="core/configs/env_config.json", lambda_base = lmbda, sigma_max = sigma, threshold = threshold)
 
                 env.true_positive = 0
                 env.true_negative = 0
@@ -240,8 +240,8 @@ def main():
                 # Save the values alpha, beta and the metrics in a CSV file
                 metrics = {
                     "threshold": threshold,
-                    "alpha": "adaptive_alpha",
-                    "beta": "adaptive_beta",
+                    "lambda_base": lmbda,
+                    "sigma_max": sigma,
                     "success_rate": r1,
                     "avg_latency": r2,
                     "avg_energy_consumption": env.avg_node_energy(),
@@ -254,17 +254,17 @@ def main():
                 metrics_df = pd.DataFrame([metrics])
                 metrics_df.to_csv(f"metrics_{flag}.csv", mode='a', header=not os.path.exists(f"metrics_{flag}.csv"), index=False)
 
-                # # Print the confusion metrics - Boxplot
-                # print("------------------------------------------------------")
-                # print("Boxplot Confusion Matrix:")
-                # print("True Positives:", env.true_positive_boxplot)
-                # print("True Negatives:", env.true_negative_boxplot)
-                # print("False Positives:", env.false_positive_boxplot)
-                # print("False Negatives:", env.false_negative_boxplot)
-                # print("Accuracy:", (env.true_positive_boxplot + env.true_negative_boxplot) / (env.true_positive_boxplot + env.true_negative_boxplot + env.false_positive_boxplot + env.false_negative_boxplot))
-                # # print("Precision:", env.true_positive_boxplot / (env.true_positive_boxplot + env.false_positive_boxplot))
-                # print("F1 Score:", (2 * env.true_positive_boxplot) / (2 * env.true_positive_boxplot + env.false_positive_boxplot + env.false_negative_boxplot))
-                # print("------------------------------------------------------\n")
+                # Print the confusion metrics - Boxplot
+                print("------------------------------------------------------")
+                print("Boxplot Confusion Matrix:")
+                print("True Positives:", env.true_positive_boxplot)
+                print("True Negatives:", env.true_negative_boxplot)
+                print("False Positives:", env.false_positive_boxplot)
+                print("False Negatives:", env.false_negative_boxplot)
+                print("Accuracy:", (env.true_positive_boxplot + env.true_negative_boxplot) / (env.true_positive_boxplot + env.true_negative_boxplot + env.false_positive_boxplot + env.false_negative_boxplot))
+                # print("Precision:", env.true_positive_boxplot / (env.true_positive_boxplot + env.false_positive_boxplot))
+                print("F1 Score:", (2 * env.true_positive_boxplot) / (2 * env.true_positive_boxplot + env.false_positive_boxplot + env.false_negative_boxplot))
+                print("------------------------------------------------------\n")
 
                 nodes_to_plot = [i for i in range(len(env.scenario.get_nodes()))]
                 malicious_nodes = [3, 4, 10, 12, 14, 21, 23]

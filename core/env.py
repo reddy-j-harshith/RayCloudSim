@@ -932,10 +932,10 @@ class Env_Trust(Env):
 
 class ZAM_env(Env):
 
-    def __init__(self, scenario: BaseScenario, config_file, alpha, beta, threshold, verbose=True, decimal_places=3):
+    def __init__(self, scenario: BaseScenario, config_file, lambda_base, sigma_max, threshold, verbose=True, decimal_places=3):
         super().__init__(scenario, config_file, verbose, decimal_places)
-        self.alpha = alpha
-        self.beta = beta
+        self.lambda_base = lambda_base
+        self.sigma_max = sigma_max
         self.threshold = threshold
 
         self.down = {}
@@ -1113,9 +1113,9 @@ class ZAM_env(Env):
         return accumulate
     def compute_final_adaptive_weights(self, target: ZAMNode) -> float:
          # Base weight for QoS
-         lambda_base = 0.5  
+         lambda_base = self.lambda_base
          # Maximum expected variance for normalized trust values 
-         sigma_max2 = 0.25  
+         sigma_max2 = self.sigma_max 
  
          # Gather peer ratings for the target from all other ZAMNodes
          peer_ratings = []
@@ -1301,13 +1301,13 @@ class ZAM_env(Env):
                         # Check the message type for each message
             if exec_flag == FLAG_TASK_EXECUTION_DONE:
                 # Trust Value increase
-                total_interactions = dst.get_total_tasks() + 1.0
-                unsuccessful = dst.get_total_tasks() - dst.get_successful_tasks()  # Suspicious/unsuccessful interactions so far
-                reward = ((total_interactions - unsuccessful) / total_interactions) * math.exp(unsuccessful / total_interactions)
-                net_score += reward  
+                # total_interactions = dst.get_total_tasks() + 1.0
+                # unsuccessful = dst.get_total_tasks() - dst.get_successful_tasks()  # Suspicious/unsuccessful interactions so far
+                # reward = ((total_interactions - unsuccessful) / total_interactions) * math.exp(unsuccessful / total_interactions)
+                net_score += TRUST_INCREASE
             elif exec_flag == FLAG_TASK_EXECUTION_FAIL:
                 if isinstance(dst, ZAMMalicious) and isinstance(src, ZAMMalicious):
-                    net_score += 1.0
+                    net_score = 1.0
                     # print(" BALLOT STUFF Malicious Node",src.name,"increased","rating of Malicious Node",dst.name)
                     # Record ballot stuffing attack event
                     attack_time = self.controller.now
@@ -1317,13 +1317,13 @@ class ZAM_env(Env):
                     else:
                        self.attacks[attack_time] = [attack_entry]
                 else:
-                    total_interactions = dst.get_total_tasks() + 1.0
-                    unsuccessful = dst.get_total_tasks() - dst.get_successful_tasks()  # Suspicious/unsuccessful interactions so far
-                    reward = ((total_interactions - unsuccessful) / total_interactions) * math.exp(unsuccessful / total_interactions)
-                    net_score -= reward
+                    # total_interactions = dst.get_total_tasks() + 1.0
+                    # unsuccessful = dst.get_total_tasks() - dst.get_successful_tasks()  # Suspicious/unsuccessful interactions so far
+                    # reward = ((total_interactions - unsuccessful) / total_interactions) * math.exp(unsuccessful / total_interactions)
+                    net_score -= TRUST_DECREASE
             elif exec_flag == FLAG_TASK_EXECUTION_TIMEOUT:
                 if isinstance(dst, ZAMMalicious) and isinstance(src, ZAMMalicious):
-                    net_score += 1.0
+                    net_score = 1.0
                     # print(" BALLOT STUFF Malicious Node",src.name,"increased","rating of Malicious Node",dst.name)
                     # Record ballot stuffing attack event
                     attack_time = self.controller.now
