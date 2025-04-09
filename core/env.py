@@ -1180,34 +1180,46 @@ class ZAM_env(Env):
 
         # Label the malicious
         trust_list = []
-        # for node, trust in self.global_trust.items():
-        #      trust_list.append(trust)
+        for node, trust in self.global_trust.items():
+             trust_list.append(trust)
 
         if self.controller.now > 200:
-            window = 5
-            for node, trust in self.global_trust.items():
-                if isinstance(node, ZAMNode) and self.controller.now > 4:
-                    j = 0
-                    for i in range(window):
-                        if self.zscore_detections.get(self.controller.now - i) != None and node.node_id in self.zscore_detections[self.controller.now - i]:
-                            j += 1
-                        if j >= 0.6 * window:
-                            trust_list.append(0.5 * trust)
-                            break
+            # window = 5
+            # for node, trust in self.global_trust.items():
+            #     if isinstance(node, ZAMNode) and self.controller.now > 4:
+            #         j = 0
+            #         for i in range(window):
+            #             if self.zscore_detections.get(self.controller.now - i) != None and node.node_id in self.zscore_detections[self.controller.now - i]:
+            #                 j += 1
+            #             if j >= 0.6 * window:
+            #                 trust_list.append(0.5 * trust)
+            #                 break
 
-                    if j < 0.6 * window:
-                        trust_list.append(1.5 * trust)
-                else:
-                    trust_list.append(1.5 * trust)
+            #         if j < 0.6 * window:
+            #             trust_list.append(1.5 * trust)
+            #     else:
+            #         trust_list.append(1.5 * trust)
 
             trust_list = np.array(trust_list)
             mean_trust = trust_list.mean()
             std_trust = trust_list.std()
+            n = len(trust_list)
+            print(n)
+            kurtosis = ((((n * (n + 1.0)) / ((n - 1.0) * (n - 2.0) * (n - 3.0))) * np.sum(((trust_list - mean_trust) / std_trust) ** 4.0))) - (3.0 * ((n - 1) ** 2.0) / ((n - 2.0) * (n - 3.0)))
+            print("Kurtosis:", kurtosis)
 
-            higher_bound = mean_trust + THRESHOLD * std_trust
-            lower_bound = mean_trust - THRESHOLD * std_trust
+            # Compute sample skewness using the Fisher-Pearson coefficient
+            skewness = (n / ((n - 1.0) * (n - 2.0))) * np.sum(((trust_list - mean_trust) / std_trust) ** 3.0)
+            
+            # Adjustment factor: shift the thresholds in the direction of the skewness.
+            # A positive skew (right-skewed) shifts the thresholds to the right,
+            # whereas a negative skew shifts them to the left.
+            adjustment = skewness * std_trust  # factor of 0.5 scales the shift conservatively
+            print("Skewness:", skewness, "Adjustment:", adjustment)
+            higher_bound = mean_trust + (THRESHOLD * std_trust) + ((skewness / abs(skewness)) * adjustment)
+            lower_bound = mean_trust - (THRESHOLD * std_trust) + ((skewness / abs(skewness)) * adjustment)
 
-            self.means.append(mean_trust)
+            self.means.append(mean_trust + (skewness / abs(skewness)) * adjustment)
             self.top.append(higher_bound)
             self.down.append(lower_bound)        
 
@@ -1230,7 +1242,7 @@ class ZAM_env(Env):
                 z_trust = (trust - mean_trust) / std_trust if std_trust != 0.0 else 0.0
                 higher_zscore = (higher_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
                 lower_zscore = (lower_bound - mean_trust) / std_trust if std_trust != 0.0 else 0.0
-                if (z_trust <= -THRESHOLD or z_trust >= THRESHOLD) and isinstance(node, ZAMNode):
+                if (trust <= lower_bound or trust >= higher_bound) and isinstance(node, ZAMNode):
                     # print(f"Malicious Node Detected: {node.node_id}")
                     zscore_detected.append(node.node_id)
                     # Update the confusion metrics
