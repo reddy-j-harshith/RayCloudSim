@@ -78,7 +78,7 @@ def main():
     # flag = 'Tuple100K'
     
     lambda_base = np.arange(0.5, 1.1, 0.1)
-    sigma_max = np.arange(0.1, 1.1, 0.1)
+    sigma_max = np.arange(0.3, 1.1, 0.1)
     thresholds = np.arange(0.7, 0.8, 0.1)
 
     for threshold in thresholds:
@@ -235,6 +235,7 @@ def main():
                 print("Accuracy:", (env.true_positive + env.true_negative) / (env.true_positive + env.true_negative + env.false_positive + env.false_negative))
                 print("Precision:", env.true_positive / (env.true_positive + env.false_positive))
                 print("F1 Score:", (2 * env.true_positive) / (2 * env.true_positive + env.false_positive + env.false_negative))
+                print("Bruh Count:", env.bruh_count)
                 print("------------------------------------------------------\n")
 
                 # Save the values alpha, beta and the metrics in a CSV file

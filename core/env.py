@@ -937,6 +937,8 @@ class ZAM_env(Env):
         self.lambda_base = lambda_base
         self.sigma_max = sigma_max
         self.threshold = threshold
+        self.bruh_count = 0
+        self.omega = 0.2
 
         self.means = []
         self.top = []
@@ -964,6 +966,9 @@ class ZAM_env(Env):
         self.true_negative_boxplot = 0
         self.false_positive_boxplot = 0
         self.false_negative_boxplot = 0
+        self.prev_lower_bound = 0.0
+        self.prev_upper_bound = 0.0
+        self.isfirst = 1
 
     def _record_frame_info(self):
         """Record simulation frame information at regular intervals."""
@@ -1131,6 +1136,9 @@ class ZAM_env(Env):
          variance = np.var(peer_ratings) if peer_ratings else 0.0
  
          # Adaptive weight: as variance increases, give more weight to QoS (lambda increases)
+         if 1 - (variance / sigma_max2) < 0:
+             print("bruh")
+             self.bruh_count += 1
          adaptive_lambda = lambda_base + (1 - lambda_base) * (1 - (variance / sigma_max2))
          # Ensure the weight remains in the valid range [0, 1]
          adaptive_lambda = max(0.0, min(1.0, adaptive_lambda))
@@ -1179,11 +1187,12 @@ class ZAM_env(Env):
 
 
         # Label the malicious
-        trust_list = []
-        for node, trust in self.global_trust.items():
-             trust_list.append(trust)
+        
 
         if self.controller.now > 100:
+            trust_list = []
+            for node, trust in self.global_trust.items():
+                trust_list.append(trust)
             # window = 5
             # for node, trust in self.global_trust.items():
             #     if isinstance(node, ZAMNode) and self.controller.now > 4:
@@ -1201,27 +1210,70 @@ class ZAM_env(Env):
             #         trust_list.append(1.5 * trust)
 
             trust_list = np.array(trust_list)
+            print(trust_list)
+            print(self.global_trust)
+            # print("=== ===")
+            trust_list = trust_list[trust_list > 1e-9]
             mean_trust = trust_list.mean()
             std_trust = trust_list.std()
+            med_trust = np.median(trust_list)
+            mad_trust = np.median(np.abs(trust_list - med_trust))
             n = len(trust_list)
             print(n)
             kurtosis = ((((n * (n + 1.0)) / ((n - 1.0) * (n - 2.0) * (n - 3.0))) * np.sum(((trust_list - mean_trust) / std_trust) ** 4.0))) - (3.0 * ((n - 1) ** 2.0) / ((n - 2.0) * (n - 3.0)))
             print("Kurtosis:", kurtosis)
-
-            # Compute sample skewness using the Fisher-Pearson coefficient
             skewness = (n / ((n - 1.0) * (n - 2.0))) * np.sum(((trust_list - mean_trust) / std_trust) ** 3.0)
-            
-            # Adjustment factor: shift the thresholds in the direction of the skewness.
-            # A positive skew (right-skewed) shifts the thresholds to the right,
-            # whereas a negative skew shifts them to the left.
-            adjustment = skewness * std_trust * 1.5# factor of 0.5 scales the shift conservatively
-            print("Skewness:", skewness, "Adjustment:", adjustment)
-            higher_bound = mean_trust + (THRESHOLD * std_trust) + ((skewness / abs(skewness)) * adjustment)
-            lower_bound = mean_trust - (THRESHOLD * std_trust) + ((skewness / abs(skewness)) * adjustment)
+            print("Skewness:", skewness)
+            # Calculate skewness
+            alpha_k = 0.25    # sensitivity to kurtosis
+            alpha_s = 0.25    # sensitivity to skewness
 
-            self.means.append(mean_trust + (skewness / abs(skewness)) * adjustment)
+            kurt_factor = 1.0 + np.sign(kurtosis) * np.log1p(alpha_k * abs(kurtosis))
+            skew_factor = 1.0 + np.sign(skewness) * np.log1p(alpha_s * abs(skewness))
+            from scipy.stats import t
+            exkurt = max(kurtosis, 1e-6)               # → robust threshold in σ‐units
+            nu = 4.0 + 6.0/exkurt
+            alpha   = 0.05
+            t_crit  = t.ppf(1 - alpha/2, df=nu)
+
+            ROBUST_THRESH = t_crit
+            # 4. base MAD-fences (Tukey’s robust z ≈ 3.5)
+            OMEGA = self.omega
+            base_lower = med_trust - (ROBUST_THRESH * mad_trust  )
+            base_upper = med_trust + (ROBUST_THRESH * mad_trust )
+
+            up_skew_fac   = 1.0 + (skewness<0) * np.log1p(alpha_s * abs(skewness))
+            down_skew_fac = 1.0 + (skewness>0) * np.log1p(alpha_s * abs(skewness))
+
+
+            center_shift = -1*np.sign(skewness) * (std_trust * abs(skewness) * 0.4)
+
+            spread_lower = mean_trust + center_shift - (med_trust - base_lower) * kurt_factor * down_skew_fac
+            spread_upper = mean_trust + center_shift + (base_upper - med_trust) * kurt_factor * up_skew_fac
+        
+            # 5. apply both factors
+            #    - We scale the “spread” around the median by (kurt_factor * skew_factor)
+            #    - We also shift the center slightly by a skew‐weighted adjustment
+            final_lower = spread_lower + center_shift
+            final_upper = spread_upper + center_shift
+
+            # 4. compute bounds
+            if  self.isfirst:
+                higher_bound = min(final_upper,1.05)
+                lower_bound  = final_lower
+                self.prev_lower_bound = lower_bound
+                self.prev_upper_bound = higher_bound
+                self.isfirst = 0
+            else:
+                higher_bound = (1.0- OMEGA) * self.prev_upper_bound + OMEGA * final_upper
+                lower_bound  = (1.0 - OMEGA) * self.prev_lower_bound  + OMEGA * final_lower
+                higher_bound = min(final_upper,1.1)
+                self.prev_lower_bound = lower_bound
+                self.prev_upper_bound = higher_bound
+            # store results
+            self.means.append((mean_trust  + center_shift))
             self.top.append(higher_bound)
-            self.down.append(lower_bound)        
+            self.down.append(lower_bound)
 
 
 
@@ -1259,12 +1311,16 @@ class ZAM_env(Env):
             # print("=== ===")
             if zscore_detected:
                 self.zscore_detections[self.controller.now] = zscore_detected
+        else:
+            self.means.append(0.0)
+            self.top.append(0.0)
+            self.down.append(0.0)              
 
     def computeQoS(self):
 
         TRUST_INCREASE = 0.05
-        TRUST_DECREASE = -0.1
-        TRUST_DECREASE_SMALL = -0.05
+        TRUST_DECREASE = -0.3
+        TRUST_DECREASE_SMALL = -0.2
         NO_CHANGE = 0.0
 
         lambda_task = 0.7
@@ -1333,7 +1389,7 @@ class ZAM_env(Env):
             elif exec_flag == FLAG_TASK_INSUFFICIENT_BUFFER:
                  net_score += NO_CHANGE # Trust Value no change
 
-            net_score = max(0.0000001, min(1.0, net_score))
+            net_score = max(0.000000001, min(1.0, net_score))
             src.peerRating[dst.name] = net_score
 
             # Update the task counters
