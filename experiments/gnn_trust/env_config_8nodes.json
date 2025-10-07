@@ -1,0 +1,25 @@
+{
+  "Basic": {
+    "VisFrame": "off",
+    "Train": "off",
+    "Test": "off"
+  },
+  "VisFrame": {
+    "LogInfoPath": "experiments/gnn_trust/logs/vis",
+    "LogFramesPath": "experiments/gnn_trust/logs/vis/frames",
+    "TargetNodeList": [
+      "e0",
+      "f0",
+      "f1",
+      "f2",
+      "f3",
+      "f4",
+      "c0",
+      "c1"
+    ]
+  },
+  "Train": {
+    "CloseLogger": "True"
+  },
+  "Test": {}
+}

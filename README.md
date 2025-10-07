@@ -7,6 +7,12 @@
 [<img src="https://img.shields.io/badge/License-MIT-blue.svg" height="30px" />](https://github.com/ZhangRui111/RayCloudSim/blob/main/LICENSE) [<img src="https://api.gitsponsors.com/api/badge/img?id=638982897" height="30">](https://api.gitsponsors.com/api/badge/link?p=JIrAC5FDNZDuOserq1+rtK+ePrdHC6pqFQMndZ+SGnLnSZE6kl4J4Dp3L4yJ1EunkradtRRZ0Nn4KY4O6aHr0kZk/a7DLTdz6bFIn667HJuIoij3RANSfBXi+eoJVy1zDTde6CE8enSRQddgwpgVPQ==)
 
 ## Update Summary
+- **2025/10/07**
+  - [**New**] Added GNN-based trust calculation for task offloading ([policies/gnn_trust](https://github.com/dhairya8luthra/RayCloudSim/tree/gnn_trust/policies/gnn_trust))
+  - [**New**] Implemented spatio-temporal graph neural networks for modeling node behavior over time
+  - [**New**] Added configurable message passing and aggregation strategies for trust propagation
+  - [**New**] Created contextual thresholding for adaptive trust-based decision making
+
 - **2024/07/02**
   - [**New**] Adding support for the [Topo4MEC](https://github.com/ZhangRui111/RayCloudSim/blob/main/eval/benchmarks/Topo4MEC/__init__.py) dataset
 
@@ -110,6 +116,50 @@ print("-----------------------------------------------\n")
 env.close()
 ```
 
+### 3.1.1 Using GNN-based Trust for Task Offloading
+
+```python
+# Create the scenario with GNN trust nodes
+scenario = Scenario(config_file="examples/scenarios/configs/gnn_trust_config.json")
+env = Env_Trust(scenario, config_file="core/configs/env_config.json")
+
+# Load simulated tasks
+data = pd.read_csv("examples/dataset/task_dataset.csv")
+simulated_tasks = list(data.iloc[:].values)
+
+# Begin Simulation with intelligent trust-based offloading
+until = 1
+for task_info in simulated_tasks:
+    # Update time
+    delta_t = task_info[1] - until
+    if delta_t > 0:
+        env.run(delta_t)
+        until = task_info[1]
+    
+    # Create task
+    task = Task(
+        task_id=int(task_info[2]),
+        task_size=int(task_info[3]),
+        cycles_per_bit=int(task_info[4]),
+        trans_bit_rate=int(task_info[5]),
+        src_name=task_info[7],
+        ddl=int(task_info[6]),
+        task_name=task_info[0]
+    )
+    
+    # Process task (GNN will automatically select best destination)
+    env.process(task=task)
+    print(f"Task {task.task_id} from {task.src_name} to {task.dst_name}")
+    
+# Continue simulation until completion
+while env.task_count > env.task_done:
+    env.run(10)
+    print(f"Time {until}, Completed {env.task_done} / {env.task_count} tasks")
+
+# Success rate
+print(f"Success rate: {env.task_success / env.task_count:.2%}")
+```
+
 Simulation log:
 
 ```text
@@ -200,6 +250,7 @@ The complete video:
 <!-- - [ ] Details such as the energy consumption and transmission of wireless nodes -->
 - [X] Metric/* (2024/04/16)
 - [X] Evaluation APIs (2024/04/16)
+- [X] GNN-based trust calculation for task offloading (2025/10/07)
 - [ ] Anything reasonable
 
 ### 4.2 Contribute Code to RayCloudSim

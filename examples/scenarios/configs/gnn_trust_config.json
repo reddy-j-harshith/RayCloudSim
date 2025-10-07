@@ -1,0 +1,94 @@
+{
+    "Simulation": {
+        "TaskExecutionTimeout": 100
+    },
+    "Nodes": [
+        {
+            "NodeType": "GNNTrustNode",
+            "NodeName": "n0",
+            "NodeId": 0,
+            "MaxCpuFreq": 1000,
+            "MaxBufferSize": 1000,
+            "LocX": 0,
+            "LocY": 0,
+            "IdleEnergyCoef": 0.01,
+            "ExeEnergyCoef": 1
+        },
+        {
+            "NodeType": "GNNTrustNode",
+            "NodeName": "n1",
+            "NodeId": 1,
+            "MaxCpuFreq": 1500,
+            "MaxBufferSize": 1200,
+            "LocX": 10,
+            "LocY": 10,
+            "IdleEnergyCoef": 0.01,
+            "ExeEnergyCoef": 1
+        },
+        {
+            "NodeType": "GNNTrustNode",
+            "NodeName": "n2",
+            "NodeId": 2,
+            "MaxCpuFreq": 1200,
+            "MaxBufferSize": 1100,
+            "LocX": 20,
+            "LocY": 20,
+            "IdleEnergyCoef": 0.01,
+            "ExeEnergyCoef": 1
+        },
+        {
+            "NodeType": "TrustNode",
+            "NodeName": "n3",
+            "NodeId": 3,
+            "MaxCpuFreq": 900,
+            "MaxBufferSize": 900,
+            "LocX": 30,
+            "LocY": 30,
+            "IdleEnergyCoef": 0.01,
+            "ExeEnergyCoef": 1
+        },
+        {
+            "NodeType": "MaliciousNode",
+            "NodeName": "n4",
+            "NodeId": 4,
+            "MaxCpuFreq": 800,
+            "MaxBufferSize": 800,
+            "LocX": 40,
+            "LocY": 40,
+            "IdleEnergyCoef": 0.01,
+            "ExeEnergyCoef": 1
+        }
+    ],
+    "Edges": [
+        {
+            "EdgeType": "Link",
+            "SrcNodeID": 0,
+            "DstNodeID": 1,
+            "Bandwidth": [1000, 0]
+        },
+        {
+            "EdgeType": "Link",
+            "SrcNodeID": 0,
+            "DstNodeID": 2,
+            "Bandwidth": [800, 0]
+        },
+        {
+            "EdgeType": "Link",
+            "SrcNodeID": 1,
+            "DstNodeID": 3,
+            "Bandwidth": [800, 0]
+        },
+        {
+            "EdgeType": "Link",
+            "SrcNodeID": 1,
+            "DstNodeID": 4,
+            "Bandwidth": [600, 0]
+        },
+        {
+            "EdgeType": "Link",
+            "SrcNodeID": 2,
+            "DstNodeID": 3,
+            "Bandwidth": [800, 0]
+        }
+    ]
+}
