@@ -4,7 +4,7 @@
     "dataset_flag": "25N50E",
     "num_tasks": 5,
     "simulation_time": 300,
-    "start_time": 1759852185.437946,
+    "start_time": 1759853152.5700386,
     "status": "success",
     "error": null,
     "metrics": {
@@ -16,22 +16,22 @@
       "avg_trust_score": 0.5,
       "min_trust_score": 0.5,
       "max_trust_score": 0.5,
-      "avg_selection_time": 0.00044317245483398436,
-      "max_selection_time": 0.0011098384857177734,
+      "avg_selection_time": 0.00044116973876953127,
+      "max_selection_time": 0.0005595684051513672,
       "total_processed_tasks": 5,
       "completed_tasks": 0,
-      "simulation_time": 0.01626873016357422,
-      "total_experiment_time": 1.7525982856750488
+      "simulation_time": 0.012117147445678711,
+      "total_experiment_time": 1.8076066970825195
     },
-    "end_time": 1759852187.1910958,
-    "duration": 1.7531497478485107
+    "end_time": 1759853154.3776453,
+    "duration": 1.8076066970825195
   },
   {
     "dataset": "topo4mec",
     "dataset_flag": "50N50E",
     "num_tasks": 8,
     "simulation_time": 400,
-    "start_time": 1759852187.1917493,
+    "start_time": 1759853154.3776453,
     "status": "success",
     "error": null,
     "metrics": {
@@ -43,22 +43,22 @@
       "avg_trust_score": 0.5,
       "min_trust_score": 0.5,
       "max_trust_score": 0.5,
-      "avg_selection_time": 0.0013595819473266602,
-      "max_selection_time": 0.0028541088104248047,
+      "avg_selection_time": 0.0011836886405944824,
+      "max_selection_time": 0.0028221607208251953,
       "total_processed_tasks": 8,
       "completed_tasks": 0,
-      "simulation_time": 0.0368039608001709,
-      "total_experiment_time": 0.07971835136413574
+      "simulation_time": 0.04252028465270996,
+      "total_experiment_time": 0.07683563232421875
     },
-    "end_time": 1759852187.2720215,
-    "duration": 0.08027219772338867
+    "end_time": 1759853154.454481,
+    "duration": 0.07683563232421875
   },
   {
     "dataset": "topo4mec",
     "dataset_flag": "100N150E",
     "num_tasks": 10,
     "simulation_time": 500,
-    "start_time": 1759852187.2720215,
+    "start_time": 1759853154.454481,
     "status": "success",
     "error": null,
     "metrics": {
@@ -70,22 +70,22 @@
       "avg_trust_score": 0.5,
       "min_trust_score": 0.5,
       "max_trust_score": 0.5,
-      "avg_selection_time": 0.004104828834533692,
-      "max_selection_time": 0.012943029403686523,
+      "avg_selection_time": 0.003850865364074707,
+      "max_selection_time": 0.009987115859985352,
       "total_processed_tasks": 10,
       "completed_tasks": 0,
-      "simulation_time": 0.09313249588012695,
-      "total_experiment_time": 0.1691269874572754
+      "simulation_time": 0.07531976699829102,
+      "total_experiment_time": 0.14728260040283203
     },
-    "end_time": 1759852187.4411485,
-    "duration": 0.1691269874572754
+    "end_time": 1759853154.6017635,
+    "duration": 0.14728260040283203
   },
   {
     "dataset": "pakistan",
     "dataset_flag": "Tuple30K",
     "num_tasks": 5,
     "simulation_time": 300,
-    "start_time": 1759852187.4417012,
+    "start_time": 1759853154.6017635,
     "status": "success",
     "error": null,
     "metrics": {
@@ -97,49 +97,35 @@
       "avg_trust_score": 0.5,
       "min_trust_score": 0.5,
       "max_trust_score": 0.5,
-      "avg_selection_time": 0.0,
-      "max_selection_time": 0.0,
+      "avg_selection_time": 0.00010838508605957032,
+      "max_selection_time": 0.0005419254302978516,
       "total_processed_tasks": 5,
       "completed_tasks": 0,
-      "simulation_time": 0.007013082504272461,
-      "total_experiment_time": 0.026942729949951172
+      "simulation_time": 0.008424043655395508,
+      "total_experiment_time": 0.018390655517578125
     },
-    "end_time": 1759852187.469201,
-    "duration": 0.027499914169311523
+    "end_time": 1759853154.6201541,
+    "duration": 0.018390655517578125
   },
   {
     "dataset": "pakistan",
     "dataset_flag": "Tuple50K",
-    "num_tasks": 8,
+    "num_tasks": 100,
     "simulation_time": 400,
-    "start_time": 1759852187.469201,
-    "status": "success",
-    "error": null,
-    "metrics": {
-      "num_nodes": 11,
-      "gnn_nodes": 4,
-      "successful_selections": 8,
-      "failed_selections": 0,
-      "selection_success_rate": 1.0,
-      "avg_trust_score": 0.5,
-      "min_trust_score": 0.5,
-      "max_trust_score": 0.5,
-      "avg_selection_time": 6.940960884094238e-05,
-      "max_selection_time": 0.0005552768707275391,
-      "total_processed_tasks": 8,
-      "completed_tasks": 0,
-      "simulation_time": 0.011337518692016602,
-      "total_experiment_time": 0.03329968452453613
-    },
-    "end_time": 1759852187.5025008,
-    "duration": 0.03329968452453613
+    "start_time": 1759853154.6207006,
+    "status": "failed",
+    "error": "('NetCongestionError', '**NetCongestionError: Task {45}** network congestion Node {f1} --> {e0}', 45)",
+    "metrics": {},
+    "traceback": "Traceback (most recent call last):\n  File \"O:\\geeta implementation\\raycloud_good\\RayCloudSim\\core\\env.py\", line 851, in _execute_task\n    yield from self._handle_task_transmission(task, dst_name)\n  File \"O:\\geeta implementation\\raycloud_good\\RayCloudSim\\core\\env.py\", line 739, in _handle_task_transmission\n    raise EnvironmentError(('NetCongestionError', log_info, task.task_id))\nOSError: ('NetCongestionError', '**NetCongestionError: Task {45}** network congestion Node {f1} --> {e0}', 45)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"O:\\geeta implementation\\raycloud_good\\RayCloudSim\\gnn_experiments.py\", line 211, in run_experiment\n    env.run(simulation_time)\n  File \"O:\\geeta implementation\\raycloud_good\\RayCloudSim\\core\\env.py\", line 151, in run\n    self.controller.run(until)\n  File \"O:\\geeta implementation\\raycloud_good\\ray\\Lib\\site-packages\\simpy\\core.py\", line 246, in run\n    self.step()\n  File \"O:\\geeta implementation\\raycloud_good\\ray\\Lib\\site-packages\\simpy\\core.py\", line 204, in step\n    raise exc\nOSError: ('NetCongestionError', '**NetCongestionError: Task {45}** network congestion Node {f1} --> {e0}', 45)\n",
+    "end_time": 1759853175.7627468,
+    "duration": 21.142046213150024
   },
   {
     "dataset": "pakistan",
     "dataset_flag": "Tuple100K",
     "num_tasks": 10,
     "simulation_time": 500,
-    "start_time": 1759852187.5025008,
+    "start_time": 1759853175.7627468,
     "status": "success",
     "error": null,
     "metrics": {
@@ -151,14 +137,14 @@
       "avg_trust_score": 0.5,
       "min_trust_score": 0.5,
       "max_trust_score": 0.5,
-      "avg_selection_time": 0.00011315345764160157,
-      "max_selection_time": 0.0005662441253662109,
+      "avg_selection_time": 0.0002962350845336914,
+      "max_selection_time": 0.0006492137908935547,
       "total_processed_tasks": 10,
       "completed_tasks": 0,
-      "simulation_time": 0.016301631927490234,
-      "total_experiment_time": 0.04588794708251953
+      "simulation_time": 0.03675127029418945,
+      "total_experiment_time": 0.05728602409362793
     },
-    "end_time": 1759852187.548939,
-    "duration": 0.04643821716308594
+    "end_time": 1759853175.8206143,
+    "duration": 0.05786752700805664
   }
 ]

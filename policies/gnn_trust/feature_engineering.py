@@ -39,7 +39,7 @@ class FeatureExtractor:
             nodes: List of node IDs
             
         Returns:
-            Tensor of node features
+            Tensor of node features [num_nodes, feature_dim]
         """
         features = []
         
@@ -51,41 +51,210 @@ class FeatureExtractor:
                 
             # Extract static features
             node_feats = []
-            for feat in self.feature_config['node_features']:
-                if hasattr(node_data, feat):
-                    node_feats.append(getattr(node_data, feat))
-                elif isinstance(node_data, dict) and feat in node_data:
-                    node_feats.append(node_data[feat])
+            
+            # CPU utilization (normalized)
+            if hasattr(node_data, 'free_cpu_freq') and hasattr(node_data, 'max_cpu_freq'):
+                cpu_util = 1.0 - (node_data.free_cpu_freq / max(1.0, node_data.max_cpu_freq))
+                node_feats.append(cpu_util)
+            else:
+                node_feats.append(0.5)  # default utilization
+            
+            # Buffer utilization (normalized)
+            if hasattr(node_data, 'task_buffer'):
+                buffer = node_data.task_buffer
+                if hasattr(buffer, 'free_size') and hasattr(buffer, 'max_size'):
+                    buffer_util = 1.0 - (buffer.free_size / max(1.0, buffer.max_size))
+                    node_feats.append(buffer_util)
                 else:
-                    # Map feature names to actual node attributes
-                    feat_value = 0.0
-                    if feat == 'cpu_freq' and hasattr(node_data, 'free_cpu_freq'):
-                        feat_value = node_data.free_cpu_freq
-                    elif feat == 'buffer_size' and hasattr(node_data, 'task_buffer'):
-                        feat_value = node_data.task_buffer.max_size if hasattr(node_data.task_buffer, 'max_size') else 0.0
-                    elif feat == 'energy_level' and hasattr(node_data, 'energy_consumption'):
-                        feat_value = 1.0 - min(1.0, node_data.energy_consumption / 100.0)  # Normalize energy
-                    elif feat == 'task_count' and hasattr(node_data, 'active_tasks'):
-                        feat_value = len(node_data.active_tasks)
-                    
-                    node_feats.append(feat_value)
+                    node_feats.append(0.5)
+            else:
+                node_feats.append(0.5)
+            
+            # Energy level (normalized)
+            if hasattr(node_data, 'energy_consumption'):
+                # Assume max consumption is 100
+                energy_level = max(0.0, 1.0 - (node_data.energy_consumption / 100.0))
+                node_feats.append(energy_level)
+            elif hasattr(node_data, 'energy'):
+                node_feats.append(min(1.0, max(0.0, node_data.energy)))
+            else:
+                node_feats.append(0.8)  # default high energy
+            
+            # Online status
+            if hasattr(node_data, 'get_online'):
+                online = 1.0 if node_data.get_online() else 0.0
+                node_feats.append(online)
+            else:
+                node_feats.append(1.0)  # assume online
+            
+            # Task processing capability
+            if hasattr(node_data, 'get_successful_tasks') and hasattr(node_data, 'get_total_tasks'):
+                total_tasks = max(1, node_data.get_total_tasks())
+                success_rate = node_data.get_successful_tasks() / total_tasks
+                node_feats.append(success_rate)
+            else:
+                node_feats.append(0.5)  # default success rate
+            
+            # Current task load
+            active_tasks = 0
+            if hasattr(node_data, 'active_tasks'):
+                active_tasks = len(node_data.active_tasks)
+            elif hasattr(node_data, 'task_buffer') and hasattr(node_data.task_buffer, 'task_ids'):
+                active_tasks = len(node_data.task_buffer.task_ids)
+            
+            # Normalize task load (assume max 10 tasks)
+            task_load = min(1.0, active_tasks / 10.0)
+            node_feats.append(task_load)
+            
+            # Network degree (centrality measure)
+            degree = graph.degree(node) if node in graph else 0
+            max_degree = max([graph.degree(n) for n in graph.nodes()]) if graph.nodes() else 1
+            normalized_degree = degree / max(1.0, max_degree)
+            node_feats.append(normalized_degree)
+            
+            # Clustering coefficient
+            try:
+                clustering = nx.clustering(graph, node) if node in graph else 0.0
+                node_feats.append(clustering)
+            except:
+                node_feats.append(0.0)
+            
+            # Betweenness centrality (simplified)
+            try:
+                if len(graph.nodes()) > 2:
+                    betweenness = nx.betweenness_centrality(graph).get(node, 0.0)
+                    node_feats.append(betweenness)
+                else:
+                    node_feats.append(0.5)
+            except:
+                node_feats.append(0.5)
             
             # Add temporal features if available
             if node in self.history_buffer:
                 temporal_features = self._compute_temporal_features(node)
                 node_feats.extend(temporal_features)
             else:
-                # If no history, add zeros for temporal features
-                node_feats.extend([0.0] * 5)  # Success rate, failure rate, etc.
+                # If no history, add default temporal features
+                node_feats.extend([0.5, 0.1, 0.05, 0.0, 0.5])  # success, failure, timeout, trend, recency
+            
+            # Add trust-related features
+            trust_features = self._compute_trust_features(node, graph)
+            node_feats.extend(trust_features)
             
             features.append(node_feats)
         
         # Convert to tensor
         if len(features) == 0:
             # Return empty tensor with correct shape
-            return torch.zeros((0, len(self.feature_config['node_features']) + 5))
+            feature_dim = 10 + 5 + 3  # static + temporal + trust features
+            return torch.zeros((0, feature_dim))
         
-        return torch.tensor(features, dtype=torch.float)
+        # Apply feature normalization
+        features_tensor = torch.tensor(features, dtype=torch.float)
+        features_tensor = self._normalize_features(features_tensor)
+        
+        return features_tensor
+    
+    def _compute_trust_features(self, node_id: str, graph: nx.Graph) -> List[float]:
+        """Compute trust-related features for a node.
+        
+        Args:
+            node_id: Node identifier
+            graph: NetworkX graph
+            
+        Returns:
+            List of trust-related features
+        """
+        trust_features = []
+        
+        # Average trust received from neighbors
+        incoming_trust = []
+        try:
+            for neighbor in graph.neighbors(node_id):
+                # Handle different graph types
+                if graph.has_edge(neighbor, node_id):
+                    if isinstance(graph, nx.MultiGraph) or isinstance(graph, nx.MultiDiGraph):
+                        # For multigraphs
+                        edge_data = {}
+                        for key in graph[neighbor][node_id]:
+                            edge_data = graph[neighbor][node_id][key]
+                            break
+                    else:
+                        edge_data = graph[neighbor][node_id]
+                    
+                    trust_score = edge_data.get('trust', 0.5)
+                    incoming_trust.append(trust_score)
+        except:
+            pass
+        
+        avg_incoming_trust = np.mean(incoming_trust) if incoming_trust else 0.5
+        trust_features.append(avg_incoming_trust)
+        
+        # Trust variance (reputation stability)
+        trust_variance = np.var(incoming_trust) if len(incoming_trust) > 1 else 0.0
+        trust_features.append(trust_variance)
+        
+        # Trust consistency (how much this node's outgoing trust aligns with others)
+        outgoing_trust = []
+        try:
+            for neighbor in graph.neighbors(node_id):
+                if graph.has_edge(node_id, neighbor):
+                    if isinstance(graph, nx.MultiGraph) or isinstance(graph, nx.MultiDiGraph):
+                        # For multigraphs
+                        edge_data = {}
+                        for key in graph[node_id][neighbor]:
+                            edge_data = graph[node_id][neighbor][key]
+                            break
+                    else:
+                        edge_data = graph[node_id][neighbor]
+                    
+                    trust_score = edge_data.get('trust', 0.5)
+                    outgoing_trust.append(trust_score)
+        except:
+            pass
+        
+        # Compare with network average trust
+        all_trust_scores = []
+        try:
+            for _, _, edge_data in graph.edges(data=True):
+                if isinstance(edge_data, dict) and 'trust' in edge_data:
+                    all_trust_scores.append(edge_data['trust'])
+        except:
+            pass
+        
+        network_avg_trust = np.mean(all_trust_scores) if all_trust_scores else 0.5
+        node_avg_trust = np.mean(outgoing_trust) if outgoing_trust else 0.5
+        trust_alignment = 1.0 - abs(node_avg_trust - network_avg_trust)
+        trust_features.append(trust_alignment)
+        
+        return trust_features
+    
+    def _normalize_features(self, features: torch.Tensor) -> torch.Tensor:
+        """Normalize features to improve training stability.
+        
+        Args:
+            features: Feature tensor [num_nodes, feature_dim]
+            
+        Returns:
+            Normalized feature tensor
+        """
+        if features.size(0) == 0:
+            return features
+        
+        # Apply min-max normalization to ensure all features are in [0, 1]
+        min_vals = features.min(dim=0, keepdim=True)[0]
+        max_vals = features.max(dim=0, keepdim=True)[0]
+        
+        # Avoid division by zero
+        range_vals = max_vals - min_vals
+        range_vals = torch.where(range_vals == 0, torch.ones_like(range_vals), range_vals)
+        
+        normalized = (features - min_vals) / range_vals
+        
+        # Clamp to [0, 1] to handle any numerical issues
+        normalized = torch.clamp(normalized, 0.0, 1.0)
+        
+        return normalized
     
     def extract_edge_features(self, graph: nx.Graph, edges: List[Tuple[int, int]]) -> torch.Tensor:
         """Extract edge features from the graph.

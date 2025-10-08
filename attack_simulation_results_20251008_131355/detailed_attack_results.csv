@@ -1,0 +1,121 @@
+topology,accuracy,precision,recall,f1,true_malicious,detected_malicious,true_positives,false_positives,false_negatives,avg_trust,std_trust,scenario,model
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7338204681873322,0.19057700817773582,Static Threshold,GAT
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7476937730203975,0.16417068073142826,Static Threshold,GAT
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7574011544386546,0.1415206211415511,Static Threshold,GAT
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7665696316957473,0.15591404081767202,Static Threshold,GAT
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7700241458415985,0.10858673486043241,Static Threshold,GAT
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7733504463732243,0.0760920704044342,Static Threshold,GAT
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7405469994992018,0.1956419629619164,Static Threshold,GraphSAGE
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7513723833994432,0.16762302690368336,Static Threshold,GraphSAGE
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7585205247004827,0.14383392310097307,Static Threshold,GraphSAGE
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7673644024133682,0.1549232589893682,Static Threshold,GraphSAGE
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7689543071389199,0.10836605988591995,Static Threshold,GraphSAGE
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7734062658250331,0.07597618989770645,Static Threshold,GraphSAGE
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7423411030322313,0.1951864829628104,Static Threshold,GCN
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7557322586124594,0.16946106410869383,Static Threshold,GCN
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7636668523152669,0.14611420610886858,Static Threshold,GCN
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7660068637132644,0.15811904472272012,Static Threshold,GCN
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7692917194962502,0.10950400112963418,Static Threshold,GCN
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7738470959663392,0.07741600023651146,Static Threshold,GCN
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.719564501196146,0.17994957541072396,Static Threshold,Transformer
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7326952815055847,0.15776114373131475,Static Threshold,Transformer
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7361493031183879,0.13697960121772407,Static Threshold,Transformer
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7599032700061799,0.15288777516492957,Static Threshold,Transformer
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7605533245205879,0.10734443129175927,Static Threshold,Transformer
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7713553346693516,0.07472457347679076,Static Threshold,Transformer
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7338204681873322,0.19057700817773582,Adaptive Threshold,GAT
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7476937730203975,0.16417068073142826,Adaptive Threshold,GAT
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7574011544386546,0.1415206211415511,Adaptive Threshold,GAT
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7665696316957473,0.15591404081767202,Adaptive Threshold,GAT
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7700241458415985,0.10858673486043241,Adaptive Threshold,GAT
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7733504463732243,0.0760920704044342,Adaptive Threshold,GAT
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7405469994992018,0.1956419629619164,Adaptive Threshold,GraphSAGE
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7513723833994432,0.16762302690368336,Adaptive Threshold,GraphSAGE
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7585205247004827,0.14383392310097307,Adaptive Threshold,GraphSAGE
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7673644024133682,0.1549232589893682,Adaptive Threshold,GraphSAGE
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7689543071389199,0.10836605988591995,Adaptive Threshold,GraphSAGE
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7734062658250331,0.07597618989770645,Adaptive Threshold,GraphSAGE
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7423411030322313,0.1951864829628104,Adaptive Threshold,GCN
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7557322586124594,0.16946106410869383,Adaptive Threshold,GCN
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7636668523152669,0.14611420610886858,Adaptive Threshold,GCN
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7660068637132644,0.15811904472272012,Adaptive Threshold,GCN
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7692917194962502,0.10950400112963418,Adaptive Threshold,GCN
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7738470959663392,0.07741600023651146,Adaptive Threshold,GCN
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.719564501196146,0.17994957541072396,Adaptive Threshold,Transformer
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7326952815055847,0.15776114373131475,Adaptive Threshold,Transformer
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7361493031183879,0.13697960121772407,Adaptive Threshold,Transformer
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7599032700061799,0.15288777516492957,Adaptive Threshold,Transformer
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7605533245205879,0.10734443129175927,Adaptive Threshold,Transformer
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7713553346693516,0.07472457347679076,Adaptive Threshold,Transformer
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7338204681873322,0.19057700817773582,Statistical Z-Score,GAT
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7476937730203975,0.16417068073142826,Statistical Z-Score,GAT
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7574011544386546,0.1415206211415511,Statistical Z-Score,GAT
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7665696316957473,0.15591404081767202,Statistical Z-Score,GAT
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7700241458415985,0.10858673486043241,Statistical Z-Score,GAT
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7733504463732243,0.0760920704044342,Statistical Z-Score,GAT
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7405469994992018,0.1956419629619164,Statistical Z-Score,GraphSAGE
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7513723833994432,0.16762302690368336,Statistical Z-Score,GraphSAGE
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7585205247004827,0.14383392310097307,Statistical Z-Score,GraphSAGE
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7673644024133682,0.1549232589893682,Statistical Z-Score,GraphSAGE
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7689543071389199,0.10836605988591995,Statistical Z-Score,GraphSAGE
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7734062658250331,0.07597618989770645,Statistical Z-Score,GraphSAGE
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7423411030322313,0.1951864829628104,Statistical Z-Score,GCN
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7557322586124594,0.16946106410869383,Statistical Z-Score,GCN
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7636668523152669,0.14611420610886858,Statistical Z-Score,GCN
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7660068637132644,0.15811904472272012,Statistical Z-Score,GCN
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7692917194962502,0.10950400112963418,Statistical Z-Score,GCN
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7738470959663392,0.07741600023651146,Statistical Z-Score,GCN
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.719564501196146,0.17994957541072396,Statistical Z-Score,Transformer
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7326952815055847,0.15776114373131475,Statistical Z-Score,Transformer
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7361493031183879,0.13697960121772407,Statistical Z-Score,Transformer
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7599032700061799,0.15288777516492957,Statistical Z-Score,Transformer
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7605533245205879,0.10734443129175927,Statistical Z-Score,Transformer
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7713553346693516,0.07472457347679076,Statistical Z-Score,Transformer
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7338204681873322,0.19057700817773582,IQR Outlier Detection,GAT
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7476937730203975,0.16417068073142826,IQR Outlier Detection,GAT
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7574011544386546,0.1415206211415511,IQR Outlier Detection,GAT
+gnn_topo4mec_25N50E_config.json,0.96,0.6666666666666666,1.0,0.8,2,3,2,1,0,0.7665696316957473,0.15591404081767202,IQR Outlier Detection,GAT
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7700241458415985,0.10858673486043241,IQR Outlier Detection,GAT
+gnn_topo4mec_100N150E_config.json,0.96,0.3333333333333333,1.0,0.5,2,6,2,4,0,0.7733504463732243,0.0760920704044342,IQR Outlier Detection,GAT
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7405469994992018,0.1956419629619164,IQR Outlier Detection,GraphSAGE
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7513723833994432,0.16762302690368336,IQR Outlier Detection,GraphSAGE
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7585205247004827,0.14383392310097307,IQR Outlier Detection,GraphSAGE
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7673644024133682,0.1549232589893682,IQR Outlier Detection,GraphSAGE
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7689543071389199,0.10836605988591995,IQR Outlier Detection,GraphSAGE
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7734062658250331,0.07597618989770645,IQR Outlier Detection,GraphSAGE
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7423411030322313,0.1951864829628104,IQR Outlier Detection,GCN
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7557322586124594,0.16946106410869383,IQR Outlier Detection,GCN
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7636668523152669,0.14611420610886858,IQR Outlier Detection,GCN
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7660068637132644,0.15811904472272012,IQR Outlier Detection,GCN
+gnn_topo4mec_50N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7692917194962502,0.10950400112963418,IQR Outlier Detection,GCN
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7738470959663392,0.07741600023651146,IQR Outlier Detection,GCN
+gnn_pakistan_Tuple30K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.719564501196146,0.17994957541072396,IQR Outlier Detection,Transformer
+gnn_pakistan_Tuple50K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7326952815055847,0.15776114373131475,IQR Outlier Detection,Transformer
+gnn_pakistan_Tuple100K_config.json,1.0,1.0,1.0,1.0,1,1,1,0,0,0.7361493031183879,0.13697960121772407,IQR Outlier Detection,Transformer
+gnn_topo4mec_25N50E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7599032700061799,0.15288777516492957,IQR Outlier Detection,Transformer
+gnn_topo4mec_50N50E_config.json,0.96,0.5,1.0,0.6666666666666666,2,4,2,2,0,0.7605533245205879,0.10734443129175927,IQR Outlier Detection,Transformer
+gnn_topo4mec_100N150E_config.json,1.0,1.0,1.0,1.0,2,2,2,0,0,0.7713553346693516,0.07472457347679076,IQR Outlier Detection,Transformer
+gnn_pakistan_Tuple30K_config.json,0.875,0.5,1.0,0.6666666666666666,1,2,1,1,0,0.7338204681873322,0.19057700817773582,Bottom 20% Percentile,GAT
+gnn_pakistan_Tuple50K_config.json,0.6363636363636364,0.2,1.0,0.33333333333333337,1,5,1,4,0,0.7476937730203975,0.16417068073142826,Bottom 20% Percentile,GAT
+gnn_pakistan_Tuple100K_config.json,0.8666666666666667,0.3333333333333333,1.0,0.5,1,3,1,2,0,0.7574011544386546,0.1415206211415511,Bottom 20% Percentile,GAT
+gnn_topo4mec_25N50E_config.json,0.88,0.4,1.0,0.5714285714285715,2,5,2,3,0,0.7665696316957473,0.15591404081767202,Bottom 20% Percentile,GAT
+gnn_topo4mec_50N50E_config.json,0.84,0.2,1.0,0.33333333333333337,2,10,2,8,0,0.7700241458415985,0.10858673486043241,Bottom 20% Percentile,GAT
+gnn_topo4mec_100N150E_config.json,0.82,0.1,1.0,0.18181818181818182,2,20,2,18,0,0.7733504463732243,0.0760920704044342,Bottom 20% Percentile,GAT
+gnn_pakistan_Tuple30K_config.json,0.875,0.5,1.0,0.6666666666666666,1,2,1,1,0,0.7405469994992018,0.1956419629619164,Bottom 20% Percentile,GraphSAGE
+gnn_pakistan_Tuple50K_config.json,0.8181818181818182,0.3333333333333333,1.0,0.5,1,3,1,2,0,0.7513723833994432,0.16762302690368336,Bottom 20% Percentile,GraphSAGE
+gnn_pakistan_Tuple100K_config.json,0.8666666666666667,0.3333333333333333,1.0,0.5,1,3,1,2,0,0.7585205247004827,0.14383392310097307,Bottom 20% Percentile,GraphSAGE
+gnn_topo4mec_25N50E_config.json,0.88,0.4,1.0,0.5714285714285715,2,5,2,3,0,0.7673644024133682,0.1549232589893682,Bottom 20% Percentile,GraphSAGE
+gnn_topo4mec_50N50E_config.json,0.84,0.2,1.0,0.33333333333333337,2,10,2,8,0,0.7689543071389199,0.10836605988591995,Bottom 20% Percentile,GraphSAGE
+gnn_topo4mec_100N150E_config.json,0.82,0.1,1.0,0.18181818181818182,2,20,2,18,0,0.7734062658250331,0.07597618989770645,Bottom 20% Percentile,GraphSAGE
+gnn_pakistan_Tuple30K_config.json,0.875,0.5,1.0,0.6666666666666666,1,2,1,1,0,0.7423411030322313,0.1951864829628104,Bottom 20% Percentile,GCN
+gnn_pakistan_Tuple50K_config.json,0.8181818181818182,0.3333333333333333,1.0,0.5,1,3,1,2,0,0.7557322586124594,0.16946106410869383,Bottom 20% Percentile,GCN
+gnn_pakistan_Tuple100K_config.json,0.8666666666666667,0.3333333333333333,1.0,0.5,1,3,1,2,0,0.7636668523152669,0.14611420610886858,Bottom 20% Percentile,GCN
+gnn_topo4mec_25N50E_config.json,0.88,0.4,1.0,0.5714285714285715,2,5,2,3,0,0.7660068637132644,0.15811904472272012,Bottom 20% Percentile,GCN
+gnn_topo4mec_50N50E_config.json,0.84,0.2,1.0,0.33333333333333337,2,10,2,8,0,0.7692917194962502,0.10950400112963418,Bottom 20% Percentile,GCN
+gnn_topo4mec_100N150E_config.json,0.82,0.1,1.0,0.18181818181818182,2,20,2,18,0,0.7738470959663392,0.07741600023651146,Bottom 20% Percentile,GCN
+gnn_pakistan_Tuple30K_config.json,0.875,0.5,1.0,0.6666666666666666,1,2,1,1,0,0.719564501196146,0.17994957541072396,Bottom 20% Percentile,Transformer
+gnn_pakistan_Tuple50K_config.json,0.8181818181818182,0.3333333333333333,1.0,0.5,1,3,1,2,0,0.7326952815055847,0.15776114373131475,Bottom 20% Percentile,Transformer
+gnn_pakistan_Tuple100K_config.json,0.8666666666666667,0.3333333333333333,1.0,0.5,1,3,1,2,0,0.7361493031183879,0.13697960121772407,Bottom 20% Percentile,Transformer
+gnn_topo4mec_25N50E_config.json,0.88,0.4,1.0,0.5714285714285715,2,5,2,3,0,0.7599032700061799,0.15288777516492957,Bottom 20% Percentile,Transformer
+gnn_topo4mec_50N50E_config.json,0.84,0.2,1.0,0.33333333333333337,2,10,2,8,0,0.7605533245205879,0.10734443129175927,Bottom 20% Percentile,Transformer
+gnn_topo4mec_100N150E_config.json,0.82,0.1,1.0,0.18181818181818182,2,20,2,18,0,0.7713553346693516,0.07472457347679076,Bottom 20% Percentile,Transformer

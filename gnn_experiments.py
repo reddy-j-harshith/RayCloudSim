@@ -260,7 +260,7 @@ class GNNTrustExperiment:
             
             # Pakistan datasets  
             ('pakistan', 'Tuple30K', 5, 300),
-            ('pakistan', 'Tuple50K', 8, 400),
+            ('pakistan', 'Tuple50K', 100, 400),
             ('pakistan', 'Tuple100K', 10, 500),
         ]
         
