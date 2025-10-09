@@ -2370,11 +2370,16 @@
         <button class="zoom-btn" id="zoomOut">-</button>
         <button class="zoom-btn" id="resetZoom">⌂</button>
       </div>
-      <img class="modal-content" id="modalImage">
+      <img class="modal-content" id="modalImage" />
       <div id="caption">
         <h3 id="captionTitle"></h3>
         <p id="captionDescription"></p>
-        <p><strong>Click and drag to pan • Use zoom controls or mouse wheel to zoom • Press ESC to close</strong></p>
+        <p>
+          <strong
+            >Click and drag to pan • Use zoom controls or mouse wheel to zoom •
+            Press ESC to close</strong
+          >
+        </p>
       </div>
     </div>
 
@@ -2382,33 +2387,36 @@
       // Interactive Graph Modal System
       let currentZoom = 1;
       let isPanning = false;
-      let startX, startY, translateX = 0, translateY = 0;
+      let startX,
+        startY,
+        translateX = 0,
+        translateY = 0;
 
-      const modal = document.getElementById('imageModal');
-      const modalImg = document.getElementById('modalImage');
-      const captionTitle = document.getElementById('captionTitle');
-      const captionDescription = document.getElementById('captionDescription');
-      const graphTitle = document.getElementById('graphTitle');
-      const closeBtn = document.getElementsByClassName('close')[0];
-      const zoomInBtn = document.getElementById('zoomIn');
-      const zoomOutBtn = document.getElementById('zoomOut');
-      const resetZoomBtn = document.getElementById('resetZoom');
+      const modal = document.getElementById("imageModal");
+      const modalImg = document.getElementById("modalImage");
+      const captionTitle = document.getElementById("captionTitle");
+      const captionDescription = document.getElementById("captionDescription");
+      const graphTitle = document.getElementById("graphTitle");
+      const closeBtn = document.getElementsByClassName("close")[0];
+      const zoomInBtn = document.getElementById("zoomIn");
+      const zoomOutBtn = document.getElementById("zoomOut");
+      const resetZoomBtn = document.getElementById("resetZoom");
 
       // Add interactive indicators and click handlers to all graphs
-      document.addEventListener('DOMContentLoaded', function() {
-        const vizItems = document.querySelectorAll('.viz-item');
-        
-        vizItems.forEach(item => {
+      document.addEventListener("DOMContentLoaded", function () {
+        const vizItems = document.querySelectorAll(".viz-item");
+
+        vizItems.forEach((item) => {
           // Add interactive indicator
-          const indicator = document.createElement('div');
-          indicator.className = 'interactive-indicator';
-          indicator.textContent = '🔍 Click to zoom';
+          const indicator = document.createElement("div");
+          indicator.className = "interactive-indicator";
+          indicator.textContent = "🔍 Click to zoom";
           item.appendChild(indicator);
 
           // Add click handler to images
-          const img = item.querySelector('img');
+          const img = item.querySelector("img");
           if (img) {
-            img.addEventListener('click', function() {
+            img.addEventListener("click", function () {
               openModal(this, item);
             });
           }
@@ -2416,17 +2424,17 @@
       });
 
       function openModal(img, vizItem) {
-        modal.style.display = 'block';
+        modal.style.display = "block";
         modalImg.src = img.src;
-        
+
         // Extract title and description from the viz item
-        const title = vizItem.querySelector('h4').textContent;
-        const description = vizItem.querySelector('p').textContent;
-        
+        const title = vizItem.querySelector("h4").textContent;
+        const description = vizItem.querySelector("p").textContent;
+
         captionTitle.textContent = title;
         captionDescription.textContent = description;
         graphTitle.textContent = title;
-        
+
         // Reset zoom and pan
         currentZoom = 1;
         translateX = 0;
@@ -2439,50 +2447,50 @@
       }
 
       // Close modal handlers
-      closeBtn.onclick = function() {
-        modal.style.display = 'none';
-      }
+      closeBtn.onclick = function () {
+        modal.style.display = "none";
+      };
 
-      modal.onclick = function(event) {
+      modal.onclick = function (event) {
         if (event.target === modal) {
-          modal.style.display = 'none';
+          modal.style.display = "none";
         }
-      }
+      };
 
-      document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-          modal.style.display = 'none';
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          modal.style.display = "none";
         }
       });
 
       // Zoom controls
-      zoomInBtn.onclick = function() {
+      zoomInBtn.onclick = function () {
         currentZoom = Math.min(currentZoom * 1.2, 5);
         updateTransform();
-      }
+      };
 
-      zoomOutBtn.onclick = function() {
+      zoomOutBtn.onclick = function () {
         currentZoom = Math.max(currentZoom / 1.2, 0.5);
         updateTransform();
-      }
+      };
 
-      resetZoomBtn.onclick = function() {
+      resetZoomBtn.onclick = function () {
         currentZoom = 1;
         translateX = 0;
         translateY = 0;
         updateTransform();
-      }
+      };
 
       // Mouse wheel zoom
-      modalImg.addEventListener('wheel', function(e) {
+      modalImg.addEventListener("wheel", function (e) {
         e.preventDefault();
         const rect = modalImg.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
         const newZoom = Math.min(Math.max(currentZoom * zoomFactor, 0.5), 5);
-        
+
         if (newZoom !== currentZoom) {
           const zoomRatio = newZoom / currentZoom;
           translateX = (translateX - x) * zoomRatio + x;
@@ -2493,17 +2501,17 @@
       });
 
       // Pan functionality
-      modalImg.addEventListener('mousedown', function(e) {
+      modalImg.addEventListener("mousedown", function (e) {
         if (currentZoom > 1) {
           isPanning = true;
           startX = e.clientX - translateX;
           startY = e.clientY - translateY;
-          modalImg.style.cursor = 'grabbing';
+          modalImg.style.cursor = "grabbing";
           e.preventDefault();
         }
       });
 
-      document.addEventListener('mousemove', function(e) {
+      document.addEventListener("mousemove", function (e) {
         if (isPanning && currentZoom > 1) {
           translateX = e.clientX - startX;
           translateY = e.clientY - startY;
@@ -2511,16 +2519,16 @@
         }
       });
 
-      document.addEventListener('mouseup', function() {
+      document.addEventListener("mouseup", function () {
         isPanning = false;
-        modalImg.style.cursor = currentZoom > 1 ? 'grab' : 'default';
+        modalImg.style.cursor = currentZoom > 1 ? "grab" : "default";
       });
 
       // Touch support for mobile
       let initialDistance = 0;
       let initialZoom = 1;
 
-      modalImg.addEventListener('touchstart', function(e) {
+      modalImg.addEventListener("touchstart", function (e) {
         if (e.touches.length === 2) {
           initialDistance = getDistance(e.touches[0], e.touches[1]);
           initialZoom = currentZoom;
@@ -2532,7 +2540,7 @@
         e.preventDefault();
       });
 
-      modalImg.addEventListener('touchmove', function(e) {
+      modalImg.addEventListener("touchmove", function (e) {
         if (e.touches.length === 2) {
           const currentDistance = getDistance(e.touches[0], e.touches[1]);
           const scale = currentDistance / initialDistance;
@@ -2546,7 +2554,7 @@
         e.preventDefault();
       });
 
-      modalImg.addEventListener('touchend', function() {
+      modalImg.addEventListener("touchend", function () {
         isPanning = false;
       });
 
@@ -2557,7 +2565,7 @@
       }
 
       // Add smooth animations
-      modalImg.style.transition = 'transform 0.1s ease-out';
+      modalImg.style.transition = "transform 0.1s ease-out";
     </script>
   </body>
 </html>
