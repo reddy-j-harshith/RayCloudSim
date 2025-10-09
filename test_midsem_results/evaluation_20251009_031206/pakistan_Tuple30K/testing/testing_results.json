@@ -1,0 +1,20 @@
+{
+  "dataset": "pakistan_Tuple30K",
+  "test_metrics": {
+    "GAT": {
+      "error": "Model not found"
+    },
+    "GraphSAGE": {
+      "error": "Model not found"
+    },
+    "GCN": {
+      "error": "Model not found"
+    },
+    "Transformer": {
+      "error": "Model not found"
+    }
+  },
+  "confusion_matrices": {},
+  "classification_reports": {},
+  "attack_detection_results": {}
+}

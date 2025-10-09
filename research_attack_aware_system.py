@@ -246,12 +246,15 @@ class GNNTrustModel(nn.Module):
         self.output_dim = output_dim
         
         # Build GNN layers with simpler architecture
+        # Convert model_type to uppercase for consistency
+        model_type = model_type.upper()
+        
         if model_type == 'GAT':
             self.conv_layers = nn.ModuleList([
                 GATConv(input_dim, hidden_dim, heads=1, concat=False),
                 GATConv(hidden_dim, output_dim, heads=1, concat=False)
             ])
-        elif model_type == 'GraphSAGE':
+        elif model_type == 'GRAPHSAGE':
             self.conv_layers = nn.ModuleList([
                 SAGEConv(input_dim, hidden_dim),
                 SAGEConv(hidden_dim, output_dim)
@@ -261,10 +264,17 @@ class GNNTrustModel(nn.Module):
                 GCNConv(input_dim, hidden_dim),
                 GCNConv(hidden_dim, output_dim)
             ])
-        elif model_type == 'Transformer':
+        elif model_type == 'TRANSFORMER':
             self.conv_layers = nn.ModuleList([
                 TransformerConv(input_dim, hidden_dim, heads=1, concat=False),
                 TransformerConv(hidden_dim, output_dim, heads=1, concat=False)
+            ])
+        else:
+            # Default to GAT if model_type is not recognized
+            print(f"⚠️ Unknown model_type '{model_type}', defaulting to GAT")
+            self.conv_layers = nn.ModuleList([
+                GATConv(input_dim, hidden_dim, heads=1, concat=False),
+                GATConv(hidden_dim, output_dim, heads=1, concat=False)
             ])
         
         # Trust prediction head
@@ -313,6 +323,7 @@ class ResearchAttackAwareSystem:
         self.gnn_models = {}
         self.trust_matrices = {}
         self.node_embeddings = {}
+        self.model_type = 'gat'  # Default model type
         
         # Research parameters
         self.trust_stabilization_tasks = 1000  # Tasks needed for trust stabilization
@@ -508,34 +519,19 @@ class ResearchAttackAwareSystem:
         
         # Phase 3: GNN Training on accumulated data
         print(f"\n🤖 GNN TRAINING: Learning from attack-aware data")
-        gnn_results = self.train_gnn_models(train_results, network_graph)
-        # Compute per-model classification metrics on train graph using ground truth
-        for m in gnn_results.values():
-            # Map node order back to ids: current node order is 'nodes' in graph
-            nodes_list = list(network_graph.nodes())
-            true_labels = [1 if n in malicious_nodes else 0 for n in nodes_list]
-            pred_labels = m.get('cls_pred_labels', [0]*len(nodes_list))
-            if len(pred_labels) == len(true_labels):
-                m['classification_train'] = {
-                    'accuracy': accuracy_score(true_labels, pred_labels),
-                    'precision': precision_score(true_labels, pred_labels, zero_division=0),
-                    'recall': recall_score(true_labels, pred_labels, zero_division=0),
-                    'f1': f1_score(true_labels, pred_labels, zero_division=0)
-                }
-        
-        # Phase 4: Detection Phase - Statistical and ML-based detection
-        print(f"\n🔍 DETECTION PHASE: Identifying malicious nodes")
-        detection_results = self.detect_malicious_nodes(
-            train_results, malicious_nodes, honest_nodes
-        )
-        
+        gnn_results = self.train_gnn_models(train_results, network_graph, malicious_nodes)
+        self.evaluate_gnns_on_phase(train_results, network_graph, gnn_results, malicious_nodes)
+
+        # Phase 4: Detection analysis on training data
+        print(f"\n🔍 DETECTION ANALYSIS: Identifying malicious nodes")
+        detection_results = self.detect_malicious_nodes(train_results, malicious_nodes, honest_nodes)
+
         # Phase 5: Testing Phase - Evaluate on testset
-        print(f"\n🧪 TESTING PHASE: Processing {len(testset):,} tasks") 
+        print(f"\n🧪 TESTING PHASE: Processing {len(testset):,} tasks")
         test_results = self.simulate_task_execution_phase(
             testset, network_graph, trust_matrix, malicious_nodes,
             honest_nodes, phase='testing', use_detection=True
         )
-        # Evaluate trained GNNs on testing phase
         self.evaluate_gnns_on_phase(test_results, network_graph, gnn_results, malicious_nodes)
 
         # Evaluate each GNN's predicted trust as a downstream classifier on testing logs
@@ -584,11 +580,255 @@ class ResearchAttackAwareSystem:
         self.save_dataset_results(study_results, dataset_name, dataset_flag)
         
         return study_results
+
+    def run_comprehensive_attack_simulation(self, dataset_name: str, dataset_flag: str,
+                                          output_dir: str, model_type: str = 'gat',
+                                          malicious_ratio: float = 0.30, num_epochs: int = 50,
+                                          task_cycles: int = 25, save_models: bool = True,
+                                          test_mode: bool = False, load_pretrained: str = None,
+                                          enable_trust_offloading: bool = False) -> Dict:
+        """
+        Comprehensive attack simulation for mid-semester evaluation
+        
+        This method provides the interface needed by the midsem evaluation system
+        """
+        print(f"🚀 Running comprehensive attack simulation:")
+        print(f"   Dataset: {dataset_name}/{dataset_flag}")
+        print(f"   Model Type: {model_type}")
+        print(f"   Malicious Ratio: {malicious_ratio}")
+        print(f"   Epochs: {num_epochs}")
+        print(f"   Task Cycles: {task_cycles}")
+        print(f"   Test Mode: {test_mode}")
+        print(f"   Trust Offloading: {enable_trust_offloading}")
+        
+        # Create output directory
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # Load dataset and network
+        trainset, testset, network_config = self.load_dataset(dataset_name, dataset_flag)
+        network_graph = self.create_network_graph(network_config)
+        
+        # Update malicious ratio
+        original_ratio = self.malicious_ratio
+        self.malicious_ratio = malicious_ratio
+        
+        # Select malicious nodes
+        malicious_nodes = self.select_malicious_nodes(network_graph)
+        honest_nodes = [n for n in network_graph.nodes() if n not in malicious_nodes]
+        
+        print(f"   🎯 Selected {len(malicious_nodes)} malicious nodes")
+        print(f"   ✅ Honest nodes: {len(honest_nodes)}")
+        
+        # Initialize components
+        self.attack_simulator = AdvancedAttackSimulator(malicious_nodes)
+        trust_matrix = self.initialize_trust_matrix(network_graph)
+        
+        results = {
+            'dataset_name': dataset_name,
+            'dataset_flag': dataset_flag,
+            'model_type': model_type,
+            'malicious_ratio': malicious_ratio,
+            'malicious_nodes': malicious_nodes,
+            'honest_nodes': honest_nodes,
+            'network_size': len(network_graph.nodes())
+        }
+        
+        # Choose dataset for processing
+        if test_mode:
+            process_data = testset
+            phase_name = 'testing'
+        else:
+            process_data = trainset
+            phase_name = 'training'
+        
+        # Limit data for focused evaluation (reduced for faster processing)
+        max_tasks = min(task_cycles * 500, len(process_data))  # Reduced from 1000 to 500
+        if len(process_data) > max_tasks:
+            process_data = process_data.sample(n=max_tasks, random_state=42)
+        
+        try:
+            # Phase 1: Task Execution Simulation
+            print(f"   📊 Running {phase_name} phase simulation...")
+            execution_results = self.simulate_task_execution_phase(
+                process_data, network_graph, trust_matrix, malicious_nodes,
+                honest_nodes, phase=phase_name, use_detection=test_mode
+            )
+            
+            results.update({
+                'execution_results': execution_results,
+                'successful_tasks': execution_results['successful_tasks'],
+                'failed_tasks': execution_results['failed_tasks'],
+                'total_attacks_simulated': execution_results['attack_statistics'].get('total_attacks', 0),
+                'attack_statistics': dict(execution_results['attack_statistics'])
+            })
+            
+            # Phase 2: GNN Training/Evaluation
+            if not test_mode or load_pretrained is None:
+                print(f"   🧠 Training GNN models...")
+                gnn_results = self.train_gnn_models(execution_results, network_graph, malicious_nodes)
+
+                target_model_key = model_type.lower()
+
+                # Focus on the specified model type
+                if target_model_key in gnn_results:
+                    model_result = gnn_results[target_model_key]
+                    results.update({
+                        'trained_model': model_result.get('model'),
+                        'final_train_accuracy': model_result.get('classification_train', {}).get('accuracy', 0.0),
+                        'final_val_accuracy': model_result.get('classification_val', {}).get('accuracy', 0.0),
+                        'training_losses': model_result.get('train_losses', []),
+                        'validation_losses': model_result.get('val_losses', []),
+                        'converged': model_result.get('converged', False),
+                        'train_rmse': model_result.get('train_rmse', 0.0),
+                        'val_rmse': model_result.get('val_rmse', 0.0)
+                    })
+
+                    # Save model if requested
+                    if save_models and model_result.get('model') is not None:
+                        model_path = os.path.join(output_dir, f'{model_type.lower()}_trust_regressor.pth')
+                        torch.save(model_result['model'].state_dict(), model_path)
+                        results['model_path'] = model_path
+            
+            # Phase 3: Detection and Classification
+            print(f"   🔍 Running detection analysis...")
+            detection_results = self.detect_malicious_nodes(
+                execution_results, malicious_nodes, honest_nodes
+            )
+            
+            # Extract key metrics
+            total_detected = 0
+            detection_accuracy = 0.0
+            
+            if 'statistical_detection' in detection_results:
+                stat_detection = detection_results['statistical_detection']
+                results.update({
+                    'test_accuracy': stat_detection.get('accuracy', 0.0),
+                    'test_precision': stat_detection.get('precision', 0.0),
+                    'test_recall': stat_detection.get('recall', 0.0),
+                    'test_f1': stat_detection.get('f1_score', 0.0),
+                    'attack_detection_accuracy': stat_detection.get('accuracy', 0.0)
+                })
+                total_detected = stat_detection.get('detected_count', 0)
+                detection_accuracy = stat_detection.get('accuracy', 0.0)
+            
+            results.update({
+                'total_attacks_detected': total_detected,
+                'detection_results': detection_results
+            })
+            
+            # Phase 4: Trust-based Offloading Analysis (if enabled)
+            if enable_trust_offloading:
+                print(f"   🛡️ Analyzing trust-based offloading...")
+                offloading_results = self.analyze_trust_offloading(
+                    execution_results, malicious_nodes, honest_nodes
+                )
+                
+                results.update({
+                    'successful_offloads': offloading_results.get('successful_offloads', 0),
+                    'failed_offloads': offloading_results.get('failed_offloads', 0),
+                    'malicious_avoided': offloading_results.get('malicious_avoided', 0),
+                    'honest_selected': offloading_results.get('honest_selected', 0),
+                    'avg_trust_honest': offloading_results.get('avg_trust_honest', 0.0),
+                    'avg_trust_malicious': offloading_results.get('avg_trust_malicious', 0.0),
+                    'network_efficiency': offloading_results.get('network_efficiency', 0.0),
+                    'protection_rate': offloading_results.get('protection_rate', 0.0),
+                    'trust_trajectories': offloading_results.get('trust_trajectories', {}),
+                    'attack_timeline': offloading_results.get('attack_timeline', {})
+                })
+            
+            # Phase 5: Save comprehensive logs
+            execution_results['phase_logger'].save_logs(output_dir)
+            
+            # Save results summary
+            with open(os.path.join(output_dir, f'{phase_name}_simulation_results.json'), 'w') as f:
+                json_results = self._convert_for_json(results)
+                json.dump(json_results, f, indent=2)
+            
+            print(f"   ✅ Simulation completed successfully")
+            
+        except Exception as e:
+            print(f"   ❌ Simulation failed: {str(e)}")
+            results['error'] = str(e)
+            import traceback
+            traceback.print_exc()
+        
+        finally:
+            # Restore original malicious ratio
+            self.malicious_ratio = original_ratio
+        
+        return results
+    
+    def analyze_trust_offloading(self, execution_results: Dict, malicious_nodes: List[int], 
+                               honest_nodes: List[int]) -> Dict:
+        """Analyze trust-based offloading performance"""
+        
+        try:
+            # Get task logs
+            task_logs = pd.DataFrame(execution_results['phase_logger'].task_logs)
+            
+            if task_logs.empty:
+                return {'error': 'No task logs available'}
+            
+            # Calculate offloading metrics
+            successful_offloads = len(task_logs[task_logs['execution_success'] == True])
+            failed_offloads = len(task_logs[task_logs['execution_success'] == False])
+            
+            # Malicious avoidance analysis
+            malicious_selected = len(task_logs[task_logs['dst_node'].isin(malicious_nodes)])
+            honest_selected = len(task_logs[task_logs['dst_node'].isin(honest_nodes)])
+            malicious_avoided = honest_selected  # Simplified metric
+            
+            # Trust score analysis
+            trust_scores = task_logs['trust_score'].values
+            honest_trust_scores = task_logs[task_logs['dst_node'].isin(honest_nodes)]['trust_score'].values
+            malicious_trust_scores = task_logs[task_logs['dst_node'].isin(malicious_nodes)]['trust_score'].values
+            
+            avg_trust_honest = honest_trust_scores.mean() if len(honest_trust_scores) > 0 else 0.0
+            avg_trust_malicious = malicious_trust_scores.mean() if len(malicious_trust_scores) > 0 else 0.0
+            
+            # Network efficiency and protection rate
+            total_tasks = len(task_logs)
+            network_efficiency = successful_offloads / total_tasks if total_tasks > 0 else 0.0
+            protection_rate = honest_selected / total_tasks if total_tasks > 0 else 0.0
+            
+            # Trust trajectories over time
+            trust_trajectories = {
+                'honest': honest_trust_scores.tolist() if len(honest_trust_scores) > 0 else [],
+                'malicious': malicious_trust_scores.tolist() if len(malicious_trust_scores) > 0 else []
+            }
+            
+            # Attack timeline
+            attack_timeline = {}
+            if hasattr(execution_results['phase_logger'], 'attack_logs'):
+                attack_logs = pd.DataFrame(execution_results['phase_logger'].attack_logs)
+                if not attack_logs.empty:
+                    attack_timeline = {
+                        'timestamps': attack_logs['timestamp'].tolist(),
+                        'attack_types': attack_logs['attack_type'].tolist(),
+                        'attackers': attack_logs['attacker_id'].tolist()
+                    }
+            
+            return {
+                'successful_offloads': successful_offloads,
+                'failed_offloads': failed_offloads,
+                'malicious_avoided': malicious_avoided,
+                'honest_selected': honest_selected,
+                'avg_trust_honest': float(avg_trust_honest),
+                'avg_trust_malicious': float(avg_trust_malicious),
+                'network_efficiency': float(network_efficiency),
+                'protection_rate': float(protection_rate),
+                'trust_trajectories': trust_trajectories,
+                'attack_timeline': attack_timeline,
+                'total_tasks_analyzed': total_tasks
+            }
+        
+        except Exception as e:
+            return {'error': f'Offloading analysis failed: {str(e)}'}
     
     def simulate_task_execution_phase(self, tasks_df: pd.DataFrame, network_graph: nx.Graph,
                                     trust_matrix: Dict, malicious_nodes: List[int], 
                                     honest_nodes: List[int], phase: str = 'training',
-                                    use_detection: bool = False) -> Dict:
+                                    use_detection: bool = False, enable_temporal_logging: bool = True) -> Dict:
         """Simulate task execution with comprehensive logging"""
         
         # Reset logger for this phase
@@ -935,31 +1175,26 @@ class ResearchAttackAwareSystem:
             'avg_stabilization_point': avg_stabilization_point if stabilized_nodes > 0 else float('inf')
         }
     
-    def train_gnn_models(self, train_results: Dict, network_graph: nx.Graph) -> Dict:
+    def train_gnn_models(self, train_results: Dict, network_graph: nx.Graph,
+                         malicious_nodes: List[int]) -> Dict:
         """Train GNN models on accumulated trust and interaction data"""
-        
-        # Extract node features and graph structure
+
         nodes = list(network_graph.nodes())
-        node_features = []
-        trust_targets = []
-        
-        # Get final trust matrix
+        node_features: List[List[float]] = []
+        trust_targets: List[float] = []
+        node_labels: List[int] = []
+
         final_trust = train_results['final_trust_matrix']
-        
-        # Create node features from trust data and network properties
+        task_logs = train_results['phase_logger'].task_logs
+
         for node in nodes:
-            # Trust-based features
             given_trust = list(final_trust[node].values())
             received_trust = [final_trust[other][node] for other in nodes if other != node]
-            
-            # Network features
+
             degree = network_graph.degree(node)
             clustering = nx.clustering(network_graph, node)
-            
-            # Task execution features (from logs)
-            task_logs = train_results['phase_logger'].task_logs
+
             node_task_data = [log for log in task_logs if log['dst_node'] == node]
-            
             if node_task_data:
                 success_rate = sum(1 for log in node_task_data if log['execution_success']) / len(node_task_data)
                 avg_execution_time = np.mean([log['execution_time'] for log in node_task_data])
@@ -968,67 +1203,68 @@ class ResearchAttackAwareSystem:
                 success_rate = 0.5
                 avg_execution_time = 10.0
                 avg_energy = 5.0
-            
-            # Combine features (keep it small and meaningful)
+
             features = [
-                np.mean(given_trust),        # Average trust given
-                np.std(given_trust),         # Trust giving variance
-                np.mean(received_trust),     # Average trust received
-                np.std(received_trust),      # Trust receiving variance
-                degree / len(nodes),         # Normalized degree
-                clustering,                  # Clustering coefficient
-                success_rate,               # Historical success rate
-                avg_execution_time / 100,   # Normalized execution time
-                avg_energy / 50,            # Normalized energy consumption
-                len(node_task_data) / 1000  # Normalized task count
+                np.mean(given_trust),
+                np.std(given_trust),
+                np.mean(received_trust),
+                np.std(received_trust),
+                degree / max(1, len(nodes)),
+                clustering,
+                success_rate,
+                avg_execution_time / 100.0,
+                avg_energy / 50.0,
+                len(node_task_data) / 1000.0
             ]
-            
+
             node_features.append(features)
-            trust_targets.append(np.mean(received_trust))  # Target: avg received trust
-        
-        # Create edge indices
+            trust_targets.append(np.mean(received_trust))
+            node_labels.append(1 if node in malicious_nodes else 0)
+
         edges = list(network_graph.edges())
         if not edges:
-            # Create self-loops if no edges
             edges = [(i, i) for i in range(len(nodes))]
-        
-        edge_index = torch.tensor([[nodes.index(u), nodes.index(v)] for u, v in edges], 
-                                dtype=torch.long).t()
-        
-        # Convert to tensors
+
+        edge_index = torch.tensor([[nodes.index(u), nodes.index(v)] for u, v in edges], dtype=torch.long).t()
         x = torch.tensor(node_features, dtype=torch.float)
         y = torch.tensor(trust_targets, dtype=torch.float)
-        
-        # Create graph data
+
         graph_data = Data(x=x, edge_index=edge_index, y=y)
-        
-        # Train different GNN models
+
         model_types = ['GAT', 'GraphSAGE', 'GCN', 'Transformer']
-        gnn_results = {}
-        
+        gnn_results: Dict[str, Dict[str, Any]] = {}
+        temporal = pd.DataFrame(train_results.get('temporal_trust_data', []))
+
         for model_type in model_types:
             print(f"   🤖 Training {model_type} model...")
-            
-            # Create and train model
+
             input_dim = x.shape[1]
             model = GNNTrustModel(input_dim, model_type=model_type)
-            
-            # Train model
-            model_result = self._train_single_gnn_model(model, graph_data, model_type)
-            # Attach per-model trust trajectory from temporal data by simple mapping
-            temporal = pd.DataFrame(train_results.get('temporal_trust_data', []))
+
+            model_result = self._train_single_gnn_model(
+                model,
+                graph_data,
+                model_type,
+                node_labels
+            )
+
             if not temporal.empty:
-                # Average per node over time for this model as baseline signal
-                per_node_traj = temporal.groupby(['task_index','node_id'])['avg_trust'].mean().reset_index()
+                per_node_traj = (
+                    temporal.groupby(['task_index', 'node_id'])['avg_trust']
+                    .mean()
+                    .reset_index()
+                )
                 model_result['trust_trajectory'] = per_node_traj.to_dict(orient='list')
-            gnn_results[model_type] = model_result
-            
-            # Save trained model
+
+            model_key = model_type.lower()
+            model_result['model'] = model
+            model_result['node_order'] = nodes
+            gnn_results[model_key] = model_result
+
             model_path = os.path.join(self.output_dir, f"{model_type}_trust_model.pth")
             torch.save(model.state_dict(), model_path)
-            # Keep model in memory for downstream evaluation
-            self.gnn_models[model_type] = model.eval()
-        
+            self.gnn_models[model_key] = model.eval()
+
         return gnn_results
 
     def _build_phase_graph_data(self, phase_results: Dict, network_graph: nx.Graph) -> Tuple[Data, list]:
@@ -1094,8 +1330,8 @@ class ResearchAttackAwareSystem:
                 'f1': f1_score(true_labels, pred_labels, zero_division=0)
             }
     
-    def _train_single_gnn_model(self, model: GNNTrustModel, graph_data: Data, 
-                               model_type: str) -> Dict:
+    def _train_single_gnn_model(self, model: GNNTrustModel, graph_data: Data,
+                               model_type: str, node_labels: List[int]) -> Dict:
         """Train a single GNN model"""
         optimizer = torch.optim.AdamW(model.parameters(), lr=0.01, weight_decay=1e-4)
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=10)
@@ -1110,6 +1346,9 @@ class ResearchAttackAwareSystem:
         best_val_loss = float('inf')
         patience = 0
         
+        train_losses = []
+        val_losses = []
+
         for epoch in range(200):
             model.train()
             optimizer.zero_grad()
@@ -1120,12 +1359,14 @@ class ResearchAttackAwareSystem:
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
+            train_losses.append(loss.item())
             
             # Validation
             model.eval()
             with torch.no_grad():
                 embeddings, predictions = model(graph_data.x, graph_data.edge_index)
                 val_loss = criterion(predictions[val_mask], graph_data.y[val_mask].unsqueeze(1))
+            val_losses.append(val_loss.item())
             
             scheduler.step(val_loss)
             
@@ -1147,22 +1388,48 @@ class ResearchAttackAwareSystem:
             val_rmse = torch.sqrt(criterion(predictions[val_mask], 
                                           graph_data.y[val_mask].unsqueeze(1))).item()
         
-        # Derive a simple classifier from predictions: use actual malicious ratio
+        # Derive a simple classifier from predictions using actual malicious labels
         y_pred = predictions.squeeze().detach().numpy()
-        # Use dynamic threshold based on actual data distribution
-        # Instead of fixed percentile, use median as threshold for binary classification
         threshold = float(np.median(y_pred))
         cls_pred = (y_pred <= threshold).astype(int)
+        labels_array = np.array(node_labels)
+        train_indices = train_mask.cpu().numpy()
+        val_indices = val_mask.cpu().numpy()
+        train_labels = labels_array[train_indices]
+        val_labels = labels_array[val_indices]
+        train_preds = cls_pred[train_indices]
+        val_preds = cls_pred[val_indices]
+
+        classification_train = {
+            'accuracy': accuracy_score(train_labels, train_preds) if len(train_labels) else 0.0,
+            'precision': precision_score(train_labels, train_preds, zero_division=0) if len(train_labels) else 0.0,
+            'recall': recall_score(train_labels, train_preds, zero_division=0) if len(train_labels) else 0.0,
+            'f1': f1_score(train_labels, train_preds, zero_division=0) if len(train_labels) else 0.0
+        }
+
+        classification_val = {
+            'accuracy': accuracy_score(val_labels, val_preds) if len(val_labels) else 0.0,
+            'precision': precision_score(val_labels, val_preds, zero_division=0) if len(val_labels) else 0.0,
+            'recall': recall_score(val_labels, val_preds, zero_division=0) if len(val_labels) else 0.0,
+            'f1': f1_score(val_labels, val_preds, zero_division=0) if len(val_labels) else 0.0
+        }
+
+        converged = patience < 20 and len(train_losses) > 0
 
         return {
             'model_type': model_type,
             'train_rmse': train_rmse,
             'val_rmse': val_rmse,
             'final_epoch': epoch + 1,
+            'train_losses': train_losses,
+            'val_losses': val_losses,
             'node_embeddings': embeddings.detach().numpy(),
             'predicted_trust': y_pred,
             'classifier_threshold': threshold,
-            'cls_pred_labels': cls_pred.tolist()
+            'cls_pred_labels': cls_pred.tolist(),
+            'classification_train': classification_train,
+            'classification_val': classification_val,
+            'converged': converged
         }
     
     def detect_malicious_nodes(self, train_results: Dict, true_malicious: List[int], 
@@ -1184,7 +1451,18 @@ class ResearchAttackAwareSystem:
         statistical_results = self._statistical_detection(detection_features, node_ids, true_labels)
         
         # Method 2: Machine learning-based detection
-        ml_results = self._ml_based_detection(detection_features, true_labels)
+        try:
+            ml_results = self._ml_based_detection(detection_features, true_labels)
+        except ValueError as e:
+            # Handle cases with insufficient samples for stratified split
+            print(f"      ⚠️ ML detection skipped: {str(e)}")
+            ml_results = {
+                'error': f'ML detection failed: {str(e)}',
+                'accuracy': 0.0,
+                'precision': 0.0,
+                'recall': 0.0,
+                'f1': 0.0
+            }
         
         # Method 3: Trust-based anomaly detection
         trust_results = self._trust_anomaly_detection(train_results, node_ids, true_labels)
@@ -1448,16 +1726,75 @@ class ResearchAttackAwareSystem:
         dataset_dir = os.path.join(self.output_dir, f"{dataset_name}_{dataset_flag}")
         os.makedirs(dataset_dir, exist_ok=True)
         
-        # Save JSON results
+        # Save JSON results with enhanced data
         with open(os.path.join(dataset_dir, 'study_results.json'), 'w') as f:
             # Convert numpy arrays to lists for JSON serialization
             json_results = self._convert_for_json(study_results)
             json.dump(json_results, f, indent=2)
         
+        # Save detailed temporal trust data for enhanced visualizations
+        self._save_detailed_trust_data(study_results, dataset_dir)
+        
+        # Save detailed task logs for offloading analysis
+        self._save_detailed_task_logs(study_results, dataset_dir)
+        
         # Generate dataset-specific visualizations
         self.generate_dataset_visualizations(study_results, dataset_dir)
         
         print(f"   💾 Results saved to {dataset_dir}")
+    
+    def _save_detailed_trust_data(self, study_results: Dict, dataset_dir: str):
+        """Save detailed temporal trust data for enhanced visualizations"""
+        try:
+            # Extract temporal trust data from training results
+            training_results = study_results.get('training_results', {})
+            temporal_data = training_results.get('temporal_trust_data', [])
+            
+            if temporal_data:
+                # Save as CSV for easy loading
+                df = pd.DataFrame(temporal_data)
+                csv_path = os.path.join(dataset_dir, 'temporal_trust_data.csv')
+                df.to_csv(csv_path, index=False)
+                print(f"   📊 Temporal trust data saved: {len(temporal_data)} records")
+            else:
+                print(f"   ⚠️ No temporal trust data found to save")
+                
+        except Exception as e:
+            print(f"   ⚠️ Error saving temporal trust data: {e}")
+    
+    def _save_detailed_task_logs(self, study_results: Dict, dataset_dir: str):
+        """Save detailed task logs for offloading analysis"""
+        try:
+            # Extract task logs from both training and testing phases
+            all_task_logs = []
+            
+            # Training phase logs
+            training_results = study_results.get('training_results', {})
+            if hasattr(training_results.get('phase_logger'), 'task_logs'):
+                training_logs = training_results['phase_logger'].task_logs
+                for log in training_logs:
+                    log['phase'] = 'training'
+                    all_task_logs.append(log)
+            
+            # Testing phase logs
+            testing_results = study_results.get('testing_results', {})
+            if hasattr(testing_results.get('phase_logger'), 'task_logs'):
+                testing_logs = testing_results['phase_logger'].task_logs
+                for log in testing_logs:
+                    log['phase'] = 'testing'
+                    all_task_logs.append(log)
+            
+            if all_task_logs:
+                # Save as CSV for easy loading
+                df = pd.DataFrame(all_task_logs)
+                csv_path = os.path.join(dataset_dir, 'detailed_task_logs.csv')
+                df.to_csv(csv_path, index=False)
+                print(f"   📋 Task logs saved: {len(all_task_logs)} records")
+            else:
+                print(f"   ⚠️ No task logs found to save")
+                
+        except Exception as e:
+            print(f"   ⚠️ Error saving task logs: {e}")
     
     def _convert_for_json(self, obj):
         """Convert numpy arrays and other non-serializable objects for JSON"""
