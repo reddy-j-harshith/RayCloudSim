@@ -1591,50 +1591,89 @@ class ResearchAttackAwareSystem:
         }
     
     def _ml_based_detection(self, features: np.ndarray, true_labels: List[int]) -> Dict:
-        """Machine learning-based detection"""
+        """Machine learning-based detection with small dataset handling"""
         
         # Normalize features
         scaler = StandardScaler()
         features_scaled = scaler.fit_transform(features)
         
-        # Split data for training - use different random state per dataset to avoid identical results
-        dataset_seed = hash(str(features_scaled.shape)) % 10000  # Different seed per dataset
-        X_train, X_test, y_train, y_test = train_test_split(
-            features_scaled, true_labels, test_size=0.3, random_state=dataset_seed, stratify=true_labels
-        )
+        # Check if we have enough samples for stratified split
+        unique, counts = np.unique(true_labels, return_counts=True)
+        min_class_count = min(counts)
+        
+        # Need at least 2 samples per class for stratification
+        if min_class_count < 2:
+            print(f"      ℹ️ ML detection using leave-one-out due to small dataset (min class count: {min_class_count})")
+            # Use Leave-One-Out or simple train on all, predict on all
+            X_train, X_test = features_scaled, features_scaled
+            y_train, y_test = true_labels, true_labels
+            use_stratify = None
+        else:
+            # Use stratified split with appropriate test size
+            test_size = max(0.2, 2.0 / len(true_labels))  # At least 2 samples in test, or 20%
+            dataset_seed = hash(str(features_scaled.shape)) % 10000
+            
+            try:
+                X_train, X_test, y_train, y_test = train_test_split(
+                    features_scaled, true_labels, test_size=test_size, 
+                    random_state=dataset_seed, stratify=true_labels
+                )
+            except ValueError:
+                # Fallback: non-stratified split
+                X_train, X_test, y_train, y_test = train_test_split(
+                    features_scaled, true_labels, test_size=test_size, random_state=dataset_seed
+                )
         
         # Try multiple ML models
         models = {
-            'RandomForest': RandomForestClassifier(n_estimators=100, random_state=42),
+            'RandomForest': RandomForestClassifier(n_estimators=50, max_depth=5, random_state=42, min_samples_split=2),
             'IsolationForest': IsolationForest(contamination=0.3, random_state=42)
         }
         
         results = {}
         
         for name, model in models.items():
-            if name == 'IsolationForest':
-                # Unsupervised learning
-                model.fit(X_train)
-                predictions = model.predict(X_test)
-                predictions = [1 if p == -1 else 0 for p in predictions]  # Convert to binary
-            else:
-                # Supervised learning
-                model.fit(X_train, y_train)
-                predictions = model.predict(X_test)
-            
-            # Calculate metrics
-            accuracy = accuracy_score(y_test, predictions)
-            precision = precision_score(y_test, predictions, zero_division=0)
-            recall = recall_score(y_test, predictions, zero_division=0)
-            f1 = f1_score(y_test, predictions, zero_division=0)
-            
-            results[name] = {
-                'accuracy': accuracy,
-                'precision': precision,
-                'recall': recall,
-                'f1_score': f1,
-                'predictions': predictions,
-                'test_labels': y_test
+            try:
+                if name == 'IsolationForest':
+                    # Unsupervised learning
+                    model.fit(X_train)
+                    predictions = model.predict(X_test)
+                    predictions = [1 if p == -1 else 0 for p in predictions]  # Convert to binary
+                else:
+                    # Supervised learning
+                    if len(set(y_train)) < 2:
+                        # Skip if only one class in training
+                        print(f"      ⚠️ {name} skipped: only one class in training data")
+                        continue
+                    model.fit(X_train, y_train)
+                    predictions = model.predict(X_test)
+                
+                # Calculate metrics
+                accuracy = accuracy_score(y_test, predictions)
+                precision = precision_score(y_test, predictions, zero_division=0)
+                recall = recall_score(y_test, predictions, zero_division=0)
+                f1 = f1_score(y_test, predictions, zero_division=0)
+                
+                results[name] = {
+                    'accuracy': accuracy,
+                    'precision': precision,
+                    'recall': recall,
+                    'f1_score': f1,
+                    'predictions': predictions,
+                    'test_labels': y_test
+                }
+            except Exception as e:
+                print(f"      ⚠️ {name} failed: {str(e)}")
+                continue
+        
+        # Return best result or default
+        if not results:
+            return {
+                'error': 'All ML models failed',
+                'accuracy': 0.0,
+                'precision': 0.0,
+                'recall': 0.0,
+                'f1': 0.0
             }
         
         return results
