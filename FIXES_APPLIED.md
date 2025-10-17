@@ -7,12 +7,14 @@
 ## 1. ✅ Loss Curves Plotting All 4 Models (FIXED)
 
 **Problem:**
+
 - Loss curves plot showed 4 subplots (GAT, GraphSAGE, GCN, Transformer)
 - 3 out of 4 were empty because only one model was being evaluated at a time
 - Confusing visualization showing empty plots
 
 **Solution:**
 Modified `create_loss_curves_plot()` in `fixed_enhanced_midsem_system.py`:
+
 - Now plots **ONLY the current model** being evaluated
 - 4 subplots showing different aspects of the SAME model:
   1. **Loss Curves**: Train vs Validation loss over epochs
@@ -21,9 +23,11 @@ Modified `create_loss_curves_plot()` in `fixed_enhanced_midsem_system.py`:
   4. **Final Metrics Summary**: Bar chart of final epoch metrics
 
 **Files Modified:**
+
 - `fixed_enhanced_midsem_system.py` - Line ~869-950
 
 **Benefits:**
+
 - Clear, focused visualization for each model
 - Better understanding of model convergence
 - Overfitting detection subplot added
@@ -34,12 +38,14 @@ Modified `create_loss_curves_plot()` in `fixed_enhanced_midsem_system.py`:
 ## 2. ✅ ML Detection Skipping Due to Small Classes (FIXED)
 
 **Problem:**
+
 ```
-⚠️ ML detection skipped: The least populated class in y has only 1 member, 
+⚠️ ML detection skipped: The least populated class in y has only 1 member,
 which is too few. The minimum number of groups for any class cannot be less than 2.
 ```
 
 This occurred when:
+
 - Small datasets had very few malicious nodes (e.g., 2-3 nodes)
 - Stratified train_test_split required at least 2 samples per class
 - Small networks failed ML-based detection completely
@@ -48,17 +54,20 @@ This occurred when:
 Modified `_ml_based_detection()` in `research_attack_aware_system.py`:
 
 1. **Pre-check class counts:**
+
    ```python
    unique, counts = np.unique(true_labels, return_counts=True)
    min_class_count = min(counts)
    ```
 
 2. **Adaptive splitting strategy:**
+
    - If `min_class_count < 2`: Use leave-one-out or train=test (all data)
    - If sufficient samples: Use stratified split with adaptive test size
    - Fallback to non-stratified split if stratification fails
 
 3. **Graceful error handling:**
+
    - Try-except for each ML model individually
    - Skip models that fail instead of crashing entire detection
    - Print informative warnings
@@ -68,9 +77,11 @@ Modified `_ml_based_detection()` in `research_attack_aware_system.py`:
    - Works better with small datasets
 
 **Files Modified:**
+
 - `research_attack_aware_system.py` - Line ~1593-1680
 
 **Benefits:**
+
 - ML detection now works on small networks (8-20 nodes)
 - Graceful degradation: uses available methods even if one fails
 - Informative messages about what's happening
@@ -84,6 +95,7 @@ Modified `_ml_based_detection()` in `research_attack_aware_system.py`:
 The attack logging infrastructure is in place and should be working:
 
 **Architecture:**
+
 ```
 AttackSimulator.execute_attack()
     ↓
@@ -99,17 +111,21 @@ attack_events_log.csv
 ```
 
 **What's Implemented:**
+
 - ✅ Attack event logging in `ResearchLogger.log_attack_event()`
 - ✅ Logging called from `execute_task()` when attacks are active
 - ✅ CSV export in `save_logs()` method
 - ✅ Synthetic attack log generation in `extract_attack_logs()` for metrics
 
 **Possible Causes for Empty CSVs:**
+
 1. **Attack simulator not triggering attacks:**
+
    - Check if malicious nodes are actually performing attacks
    - Verify attack probability/frequency settings
 
 2. **save_logs() not being called:**
+
    - Check if `save_logs()` is invoked after simulation
    - Verify output directory path
 
@@ -117,6 +133,7 @@ attack_events_log.csv
    - Empty list being converted to empty CSV
 
 **Investigation Needed:**
+
 - Check actual simulation runs to see if attacks are happening
 - Add debug prints to `log_attack_event()` to confirm it's being called
 - Verify `save_logs()` is called at simulation end
@@ -129,7 +146,9 @@ The `extract_attack_logs()` method in `fixed_enhanced_midsem_system.py` generate
 ## Summary of Changes
 
 ### Files Modified:
+
 1. **`fixed_enhanced_midsem_system.py`**
+
    - `create_loss_curves_plot()` - Only plot current model with 4 detailed subplots
 
 2. **`research_attack_aware_system.py`**
@@ -138,19 +157,24 @@ The `extract_attack_logs()` method in `fixed_enhanced_midsem_system.py` generate
 ### Testing Recommendations:
 
 1. **Test Loss Curves:**
+
    ```bash
    # Check plots in model folders
    ls midsem_results/*/pakistan_Tuple30K/model_*/plots/*_loss_curves.png
    ```
+
    Each should show 4 subplots for ONE model only.
 
 2. **Test ML Detection:**
    Run on small dataset (8-11 nodes) and verify no crashes:
+
    ```bash
    # Should complete without errors
    python run_permodel_evaluation.py
    ```
+
    Look for messages like:
+
    - `ℹ️ ML detection using leave-one-out due to small dataset`
    - No more `⚠️ ML detection skipped` with errors
 
@@ -166,6 +190,7 @@ The `extract_attack_logs()` method in `fixed_enhanced_midsem_system.py` generate
 ## Visual Improvements
 
 ### Before (Loss Curves):
+
 ```
 ┌─────────────┬─────────────┐
 │   GAT       │  GraphSAGE  │  ← Only GAT has data
@@ -177,6 +202,7 @@ The `extract_attack_logs()` method in `fixed_enhanced_midsem_system.py` generate
 ```
 
 ### After (Loss Curves):
+
 ```
 ┌─────────────────┬─────────────────┐
 │  GAT Loss       │  GAT Accuracy   │
@@ -186,6 +212,7 @@ The `extract_attack_logs()` method in `fixed_enhanced_midsem_system.py` generate
 │ Analysis (Gap)  │  Bar Chart      │
 └─────────────────┴─────────────────┘
 ```
+
 All 4 subplots show GAT data with different analyses!
 
 ---

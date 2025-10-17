@@ -1,17 +1,20 @@
 # Per-Model GNN Trust Evaluation - Implementation Summary
 
 ## Problem Statement
+
 Previously, the system logged metrics **once per dataset** instead of **once per GNN model per dataset**.
 
 For example, `pakistan_Tuple30K` had only ONE set of metrics, but should have had **4 separate sets**:
+
 1. GAT metrics
-2. GraphSAGE metrics  
+2. GraphSAGE metrics
 3. GCN metrics
 4. Transformer metrics
 
 ## Solution Implemented
 
 ### 1. Modified `process_dataset_with_metrics()`
+
 - **Before**: Ran experiments once with hardcoded `model_type='gat'`
 - **After**: Loops through ALL 4 GNN models (`self.gnn_models = ['GAT', 'GraphSAGE', 'GCN', 'Transformer']`)
 - Each model gets its own subdirectory: `model_gat/`, `model_graphsage/`, `model_gcn/`, `model_transformer/`
@@ -22,12 +25,14 @@ For example, `pakistan_Tuple30K` had only ONE set of metrics, but should have ha
   4. Baseline Offloading
 
 ### 2. Updated `extract_real_metrics()`
+
 - **New parameter**: `model_type` (e.g., 'GAT', 'GraphSAGE')
 - Metrics now include `'model_type': model_type` field
 - Model-specific accuracy: `{model_type.lower()}_accuracy` instead of all 4 models
 - Stored with model-specific key: `f"{dataset_name}_{model_type}"`
 
 ### 3. Updated `extract_loss_curves()`
+
 - **New parameter**: `model_type`
 - Generates model-specific loss curves with different characteristics:
   - GAT: decay_train=0.08, base_loss=2.5
@@ -37,11 +42,13 @@ For example, `pakistan_Tuple30K` had only ONE set of metrics, but should have ha
 - Returns loss curves for THAT model only (not all 4)
 
 ### 4. Updated `create_enhanced_visualizations()`
+
 - **New parameter**: `model_type`
 - Plot filenames now include model: `{dataset_name}_{model_type}_trust_trajectories.png`
 - All plots labeled with model name
 
 ### 5. Added `create_model_comparison_visualizations()`
+
 - **NEW METHOD** for cross-model analysis
 - Creates comparison plots:
   - Success rates across models (bar chart)
@@ -53,6 +60,7 @@ For example, `pakistan_Tuple30K` had only ONE set of metrics, but should have ha
 ## Results Structure
 
 ### Before (OLD):
+
 ```
 midsem_results/
 └── fixed_enhanced_evaluation_TIMESTAMP/
@@ -65,6 +73,7 @@ midsem_results/
 ```
 
 ### After (NEW):
+
 ```
 midsem_results/
 └── fixed_enhanced_evaluation_TIMESTAMP/
@@ -101,17 +110,20 @@ midsem_results/
 Each model now has its own:
 
 ### Performance Metrics
+
 - Success Rate (training/testing/trust-based/baseline)
 - Average Latency
 - Energy Consumption
 - Improvement percentages
 
 ### Trust Analysis
+
 - Trust trajectories (malicious vs honest nodes over time)
 - Attack event timeline
 - Trust gap evolution
 
 ### Classification Metrics
+
 - Precision
 - Recall
 - F1-Score
@@ -119,11 +131,13 @@ Each model now has its own:
 - Confusion Matrix (TP, FP, TN, FN)
 
 ### Protection Metrics
+
 - Prevention rate (trust-based vs baseline)
 - Successful attacks count
 - Average response time
 
 ### Training Metrics
+
 - Model-specific loss curves (train/val)
 - Model-specific accuracy curves
 - Epoch-wise performance
@@ -145,12 +159,14 @@ python run_permodel_evaluation.py
 For **7 datasets** × **4 models** = **28 complete experimental runs**
 
 Each run includes:
+
 - 4 simulation phases (training, testing, trust-based, baseline)
 - Full metrics extraction
 - 11 visualization plots
 - JSON results file
 
 Plus:
+
 - 7 cross-model comparison plots (one per dataset)
 - Consolidated HTML report with all results
 
@@ -177,6 +193,7 @@ After running `run_permodel_evaluation.py`:
 ## Files Modified
 
 1. **fixed_enhanced_midsem_system.py**:
+
    - `process_dataset_with_metrics()` - Loop through models
    - `extract_real_metrics()` - Add model_type parameter
    - `extract_loss_curves()` - Model-specific curves
