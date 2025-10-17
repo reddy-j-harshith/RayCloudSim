@@ -1,0 +1,44 @@
+{
+  "dataset": "pakistan_Tuple30K",
+  "malicious_ratio": 0.3,
+  "models": {
+    "GAT": {
+      "training_accuracy": 0,
+      "validation_accuracy": 0,
+      "training_loss": [],
+      "validation_loss": [],
+      "model_path": null,
+      "trust_evolution": {},
+      "attack_logs": []
+    },
+    "GraphSAGE": {
+      "training_accuracy": 0,
+      "validation_accuracy": 0,
+      "training_loss": [],
+      "validation_loss": [],
+      "model_path": null,
+      "trust_evolution": {},
+      "attack_logs": []
+    },
+    "GCN": {
+      "training_accuracy": 0,
+      "validation_accuracy": 0,
+      "training_loss": [],
+      "validation_loss": [],
+      "model_path": null,
+      "trust_evolution": {},
+      "attack_logs": []
+    },
+    "Transformer": {
+      "training_accuracy": 0,
+      "validation_accuracy": 0,
+      "training_loss": [],
+      "validation_loss": [],
+      "model_path": null,
+      "trust_evolution": {},
+      "attack_logs": []
+    }
+  },
+  "training_logs": {},
+  "validation_metrics": {}
+}

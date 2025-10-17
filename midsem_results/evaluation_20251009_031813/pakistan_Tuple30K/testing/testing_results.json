@@ -1,0 +1,28 @@
+{
+  "dataset": "pakistan_Tuple30K",
+  "test_metrics": {
+    "GAT": {
+      "accuracy": 0.14285714285714285,
+      "precision": 0.16666666666666666,
+      "recall": 0.5,
+      "f1_score": 0.25,
+      "roc_auc": 0.0,
+      "attack_detection_accuracy": 0.14285714285714285,
+      "total_attacks_detected": 0,
+      "total_attacks_simulated": 0
+    },
+    "GraphSAGE": {
+      "accuracy": 0.14285714285714285,
+      "precision": 0.16666666666666666,
+      "recall": 0.5,
+      "f1_score": 0.25,
+      "roc_auc": 0.0,
+      "attack_detection_accuracy": 0.14285714285714285,
+      "total_attacks_detected": 0,
+      "total_attacks_simulated": 0
+    }
+  },
+  "confusion_matrices": {},
+  "classification_reports": {},
+  "attack_detection_results": {}
+}

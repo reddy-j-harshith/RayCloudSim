@@ -1,0 +1,13 @@
+{
+  "evaluation_timestamp": "2025-10-09T03:36:11.852759",
+  "datasets_processed": [],
+  "total_datasets": 0,
+  "gnn_models": [
+    "GAT",
+    "GraphSAGE",
+    "GCN",
+    "Transformer"
+  ],
+  "malicious_ratio": 0.3,
+  "performance_summary": {}
+}

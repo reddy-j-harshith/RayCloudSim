@@ -1,0 +1,20 @@
+{
+  "dataset": "pakistan_Tuple30K",
+  "offloading_metrics": {
+    "GAT": {
+      "error": "Model not found"
+    },
+    "GraphSAGE": {
+      "error": "Model not found"
+    },
+    "GCN": {
+      "error": "Model not found"
+    },
+    "Transformer": {
+      "error": "Model not found"
+    }
+  },
+  "trust_trajectories": {},
+  "attack_timeline": {},
+  "network_protection_stats": {}
+}

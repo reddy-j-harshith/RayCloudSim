@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ultimate Mid-Semester GNN Trust System Analysis</title>
+    <meta charset="UTF-8">
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; padding: 0; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: #333;
+        }
+        .container { 
+            max-width: 1800px; margin: 0 auto; background: white; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.3); 
+        }
+        .header { 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
+            color: white; padding: 50px; text-align: center; 
+        }
+        .header h1 { 
+            font-size: 3.5em; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
+            background: linear-gradient(45deg, #fff, #f0f8ff); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
+        .header h2 { font-size: 1.8em; margin: 20px 0; opacity: 0.9; }
+        .header p { font-size: 1.3em; margin: 10px 0; }
+        
+        .dashboard { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 25px; padding: 50px; background: #f8f9ff; 
+        }
+        .metric-card { 
+            background: white; padding: 30px; border-radius: 20px; text-align: center; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            border-left: 6px solid #667eea; 
+            transition: transform 0.3s ease; 
+        }
+        .metric-card:hover { transform: translateY(-10px); }
+        .metric-card h3 { color: #2c3e50; margin: 0 0 15px 0; font-size: 1.2em; }
+        .metric-card .value { 
+            font-size: 3em; font-weight: bold; 
+            background: linear-gradient(45deg, #667eea, #764ba2); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
+        .metric-card .label { color: #7f8c8d; font-size: 0.95em; margin-top: 10px; }
+        
+        .section { padding: 50px; }
+        .section h2 { 
+            color: #2c3e50; font-size: 2.8em; 
+            border-bottom: 5px solid #667eea; 
+            padding-bottom: 20px; margin-bottom: 40px; 
+            text-align: center;
+        }
+        .section h3 { color: #34495e; font-size: 1.8em; margin-top: 40px; }
+        
+        .plots-gallery { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(700px, 1fr)); 
+            gap: 40px; margin: 50px 0; 
+        }
+        .plot-showcase { 
+            background: white; border-radius: 20px; padding: 30px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            border: 1px solid #e8e8e8;
+        }
+        .plot-showcase img { 
+            width: 100%; height: auto; border-radius: 15px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+        }
+        .plot-showcase h4 { 
+            color: #2c3e50; margin: 0 0 20px 0; font-size: 1.6em; 
+            text-align: center; 
+        }
+        .plot-showcase p { 
+            color: #7f8c8d; line-height: 1.8; font-size: 1.1em; 
+            text-align: justify; 
+        }
+        
+        .data-table { 
+            width: 100%; border-collapse: collapse; margin: 40px 0; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            border-radius: 15px; overflow: hidden; 
+        }
+        .data-table th { 
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); 
+            color: white; padding: 20px; text-align: center; 
+            font-size: 1.2em; font-weight: bold; 
+        }
+        .data-table td { 
+            padding: 18px; text-align: center; 
+            border-bottom: 1px solid #ecf0f1; font-size: 1.05em; 
+        }
+        .data-table tr:nth-child(even) { background: #f8f9ff; }
+        .data-table tr:hover { 
+            background: #e8f4fd; transform: scale(1.02); 
+            transition: all 0.3s ease; 
+        }
+        
+        .highlight-section { 
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); 
+            color: white; padding: 40px; border-radius: 20px; 
+            margin: 50px 0; text-align: center; 
+        }
+        .highlight-section h3 { margin: 0 0 20px 0; font-size: 2em; }
+        .highlight-section p { font-size: 1.3em; line-height: 1.8; }
+        
+        .success { color: #27ae60; font-weight: bold; }
+        .warning { color: #f39c12; font-weight: bold; }
+        .danger { color: #e74c3c; font-weight: bold; }
+        .info { color: #3498db; font-weight: bold; }
+        
+        .footer { 
+            background: #2c3e50; color: white; padding: 50px; 
+            text-align: center; font-size: 1.1em; 
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5em; }
+            .dashboard { grid-template-columns: 1fr; }
+            .plots-gallery { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Ultimate Mid-Semester GNN Trust System</h1>
+            <h2>Complete Performance Analysis & Evaluation Report</h2>
+            <p>Comprehensive analysis with <strong>7 datasets</strong>, 
+               <strong>239 network nodes</strong>, and <strong>500+ data points</strong></p>
+            <p>Generated: Thursday, October 09, 2025 at 04:23:37</p>
+        </div>
+        
+        <div class="dashboard">
+            <div class="metric-card">
+                <h3>📊 Total Datasets</h3>
+                <div class="value">7</div>
+                <div class="label">Pakistan + Topo4MEC Networks</div>
+            </div>
+            <div class="metric-card">
+                <h3>🛡️ Average Trust Gap</h3>
+                <div class="value">0.473</div>
+                <div class="label">Honest - Malicious Separation</div>
+            </div>
+            <div class="metric-card">
+                <h3>🎯 Best F1-Score</h3>
+                <div class="value">0.775</div>
+                <div class="label">Hybrid Ensemble</div>
+            </div>
+            <div class="metric-card">
+                <h3>🌐 Total Network Nodes</h3>
+                <div class="value">239</div>
+                <div class="label">Across All Networks</div>
+            </div>
+            <div class="metric-card">
+                <h3>🤖 GNN Models</h3>
+                <div class="value">4</div>
+                <div class="label">GAT, GraphSAGE, GCN, Transformer</div>
+            </div>
+            <div class="metric-card">
+                <h3>⚔️ Attack Scenarios</h3>
+                <div class="value">6</div>
+                <div class="label">Different Attack Types</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🧠 Model Training & Validation Analysis</h2>
+            <p style="font-size: 1.2em; text-align: center; color: #7f8c8d; margin-bottom: 40px;">
+                Comprehensive training curves showing loss evolution, accuracy progression, and RMSE metrics for all GNN models across datasets.
+            </p>
+            <div class="plots-gallery">
+                <div class="plot-showcase">
+                    <h4>🎯 GAT Model Training Curves</h4>
+                    <img src="plots/GAT_training_curves.png" alt="GAT Training">
+                    <p>Graph Attention Network (GAT) training progression showing loss reduction, accuracy improvement, RMSE evolution, and learning rate schedule across all datasets. Demonstrates convergence patterns and model stability.</p>
+                </div>
+                <div class="plot-showcase">
+                    <h4>🔗 GraphSAGE Model Training Curves</h4>
+                    <img src="plots/GraphSAGE_training_curves.png" alt="GraphSAGE Training">
+                    <p>GraphSAGE (Sample and Aggregate) model training dynamics with comprehensive metrics. Shows the model's ability to learn node representations through neighborhood sampling and aggregation.</p>
+                </div>
+                <div class="plot-showcase">
+                    <h4>📡 GCN Model Training Curves</h4>
+                    <img src="plots/GCN_training_curves.png" alt="GCN Training">
+                    <p>Graph Convolutional Network (GCN) training analysis demonstrating spectral-based learning approach. Includes validation performance and overfitting detection metrics.</p>
+                </div>
+                <div class="plot-showcase">
+                    <h4>🤖 Transformer Model Training Curves</h4>
+                    <img src="plots/Transformer_training_curves.png" alt="Transformer Training">
+                    <p>Graph Transformer model training with attention mechanisms. Shows sophisticated learning patterns and the model's ability to capture long-range dependencies in graph structures.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>⚔️ Attack-Aware Trust Trajectory Analysis</h2>
+            <p style="font-size: 1.2em; text-align: center; color: #7f8c8d; margin-bottom: 40px;">
+                Detailed analysis of trust evolution during attack events, comparing scenarios with and without trust-based offloading protection.
+            </p>
+            <div class="plots-gallery">
+                <div class="plot-showcase">
+                    <h4>⚔️ pakistan Tuple30K Attack Analysis</h4>
+                    <img src="plots/pakistan_Tuple30K_detailed_attack_analysis.png" alt="pakistan_Tuple30K Attack">
+                    <p>Comprehensive attack analysis for pakistan Tuple30K showing trust trajectories during 6 different attack types, recovery patterns, and network protection effectiveness with and without trust-based offloading.</p>
+                </div>
+                <div class="plot-showcase">
+                    <h4>⚔️ pakistan Tuple50K Attack Analysis</h4>
+                    <img src="plots/pakistan_Tuple50K_detailed_attack_analysis.png" alt="pakistan_Tuple50K Attack">
+                    <p>Comprehensive attack analysis for pakistan Tuple50K showing trust trajectories during 6 different attack types, recovery patterns, and network protection effectiveness with and without trust-based offloading.</p>
+                </div>
+                <div class="plot-showcase">
+                    <h4>⚔️ pakistan Tuple100K Attack Analysis</h4>
+                    <img src="plots/pakistan_Tuple100K_detailed_attack_analysis.png" alt="pakistan_Tuple100K Attack">
+                    <p>Comprehensive attack analysis for pakistan Tuple100K showing trust trajectories during 6 different attack types, recovery patterns, and network protection effectiveness with and without trust-based offloading.</p>
+                </div>
+                <div class="plot-showcase">
+                    <h4>⚔️ topo4mec 25N50E Attack Analysis</h4>
+                    <img src="plots/topo4mec_25N50E_detailed_attack_analysis.png" alt="topo4mec_25N50E Attack">
+                    <p>Comprehensive attack analysis for topo4mec 25N50E showing trust trajectories during 6 different attack types, recovery patterns, and network protection effectiveness with and without trust-based offloading.</p>
+                </div>
+                <div class="plot-showcase">
+                    <h4>⚔️ topo4mec 50N50E Attack Analysis</h4>
+                    <img src="plots/topo4mec_50N50E_detailed_attack_analysis.png" alt="topo4mec_50N50E Attack">
+                    <p>Comprehensive attack analysis for topo4mec 50N50E showing trust trajectories during 6 different attack types, recovery patterns, and network protection effectiveness with and without trust-based offloading.</p>
+                </div>
+                <div class="plot-showcase">
+                    <h4>⚔️ topo4mec 100N150E Attack Analysis</h4>
+                    <img src="plots/topo4mec_100N150E_detailed_attack_analysis.png" alt="topo4mec_100N150E Attack">
+                    <p>Comprehensive attack analysis for topo4mec 100N150E showing trust trajectories during 6 different attack types, recovery patterns, and network protection effectiveness with and without trust-based offloading.</p>
+                </div>
+                <div class="plot-showcase">
+                    <h4>⚔️ topo4mec MilanCityCenter Attack Analysis</h4>
+                    <img src="plots/topo4mec_MilanCityCenter_detailed_attack_analysis.png" alt="topo4mec_MilanCityCenter Attack">
+                    <p>Comprehensive attack analysis for topo4mec MilanCityCenter showing trust trajectories during 6 different attack types, recovery patterns, and network protection effectiveness with and without trust-based offloading.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Trust Distribution & Separation Analysis</h2>
+            <div class="plots-gallery">
+                <div class="plot-showcase">
+                    <h4>📈 Complete Trust Distributions</h4>
+                    <img src="plots/complete_trust_distributions.png" alt="Trust Distributions">
+                    <p>Comprehensive trust distribution analysis showing the separation between malicious and honest nodes across all datasets. Median values and trust gaps demonstrate the effectiveness of the trust-based detection system.</p>
+                </div>
+                <div class="plot-showcase">
+                    <h4>🎯 Classification Performance Analysis</h4>
+                    <img src="plots/comprehensive_classification_analysis.png" alt="Classification Analysis">
+                    <p>Complete classification performance evaluation including F1-scores, precision-recall analysis, method comparison, and performance heatmaps across different detection algorithms and datasets.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="highlight-section">
+            <h3>🎯 Key Research Findings</h3>
+            <p><strong>Trust Separation Excellence:</strong> Average trust gap of 0.473 enables reliable malicious node detection</p>
+            <p><strong>Classification Performance:</strong> Hybrid Ensemble achieves 0.775 F1-score for optimal detection</p>
+            <p><strong>Attack Resilience:</strong> Trust-based systems demonstrate superior protection during all attack scenarios</p>
+            <p><strong>Scalability Validated:</strong> Consistent performance across networks from 8 to 100+ nodes</p>
+        </div>
+        
+        <div class="section">
+            <h2>📋 Detailed Trust Metrics</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Dataset</th>
+                        <th>Malicious Median Trust</th>
+                        <th>Honest Median Trust</th>
+                        <th>Trust Gap</th>
+                        <th>Malicious Mean</th>
+                        <th>Honest Mean</th>
+                        <th>Separation Quality</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>pakistan Tuple30K</strong></td>
+                        <td class="danger">0.329</td>
+                        <td class="success">0.807</td>
+                        <td><strong>0.478</strong></td>
+                        <td class="danger">0.329</td>
+                        <td class="success">0.824</td>
+                        <td class="success"><strong>Excellent</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>pakistan Tuple50K</strong></td>
+                        <td class="danger">0.409</td>
+                        <td class="success">0.864</td>
+                        <td><strong>0.455</strong></td>
+                        <td class="danger">0.415</td>
+                        <td class="success">0.863</td>
+                        <td class="success"><strong>Excellent</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>pakistan Tuple100K</strong></td>
+                        <td class="danger">0.230</td>
+                        <td class="success">0.769</td>
+                        <td><strong>0.539</strong></td>
+                        <td class="danger">0.230</td>
+                        <td class="success">0.771</td>
+                        <td class="success"><strong>Excellent</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>topo4mec 25N50E</strong></td>
+                        <td class="danger">0.328</td>
+                        <td class="success">0.823</td>
+                        <td><strong>0.495</strong></td>
+                        <td class="danger">0.349</td>
+                        <td class="success">0.814</td>
+                        <td class="success"><strong>Excellent</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>topo4mec 50N50E</strong></td>
+                        <td class="danger">0.349</td>
+                        <td class="success">0.852</td>
+                        <td><strong>0.503</strong></td>
+                        <td class="danger">0.340</td>
+                        <td class="success">0.823</td>
+                        <td class="success"><strong>Excellent</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>topo4mec 100N150E</strong></td>
+                        <td class="danger">0.372</td>
+                        <td class="success">0.804</td>
+                        <td><strong>0.432</strong></td>
+                        <td class="danger">0.372</td>
+                        <td class="success">0.795</td>
+                        <td class="success"><strong>Excellent</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>topo4mec MilanCityCenter</strong></td>
+                        <td class="danger">0.420</td>
+                        <td class="success">0.830</td>
+                        <td><strong>0.410</strong></td>
+                        <td class="danger">0.412</td>
+                        <td class="success">0.794</td>
+                        <td class="success"><strong>Excellent</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Classification Performance Summary</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Average Precision</th>
+                        <th>Average Recall</th>
+                        <th>Average F1-Score</th>
+                        <th>Average Accuracy</th>
+                        <th>Performance Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Behavioral Pattern</strong></td>
+                        <td>0.451</td>
+                        <td>0.631</td>
+                        <td class="info"><strong>0.525</strong></td>
+                        <td>0.681</td>
+                        <td class="danger"><strong>B</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Deep Learning</strong></td>
+                        <td>0.601</td>
+                        <td>0.720</td>
+                        <td class="info"><strong>0.654</strong></td>
+                        <td>0.790</td>
+                        <td class="danger"><strong>B</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Graph Neural Network</strong></td>
+                        <td>0.627</td>
+                        <td>0.741</td>
+                        <td class="info"><strong>0.678</strong></td>
+                        <td>0.806</td>
+                        <td class="danger"><strong>B</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hybrid Ensemble</strong></td>
+                        <td>0.761</td>
+                        <td>0.790</td>
+                        <td class="info"><strong>0.775</strong></td>
+                        <td>0.876</td>
+                        <td class="warning"><strong>B</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Statistical Analysis</strong></td>
+                        <td>0.451</td>
+                        <td>0.631</td>
+                        <td class="info"><strong>0.525</strong></td>
+                        <td>0.681</td>
+                        <td class="danger"><strong>B</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Trust-Based GNN</strong></td>
+                        <td>0.682</td>
+                        <td>0.771</td>
+                        <td class="info"><strong>0.723</strong></td>
+                        <td>0.839</td>
+                        <td class="danger"><strong>B</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Statistical Analysis Summary</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 40px 0;">
+                <div style="background: #f8f9ff; padding: 30px; border-radius: 15px; text-align: center; border-left: 5px solid #3498db;">
+                    <h3 style="color: #2c3e50;">Trust Analysis</h3>
+                    <p><strong>Average Trust Gap:</strong> <span class="info">0.473</span></p>
+                    <p><strong>Datasets with Good Separation:</strong> <span class="success">7 / 7</span></p>
+                    <p><strong>Best Separation:</strong> <span class="success">pakistan Tuple100K</span></p>
+                </div>
+                <div style="background: #f8f9ff; padding: 30px; border-radius: 15px; text-align: center; border-left: 5px solid #27ae60;">
+                    <h3 style="color: #2c3e50;">Classification Performance</h3>
+                    <p><strong>Best Method:</strong> <span class="success">Hybrid Ensemble</span></p>
+                    <p><strong>Top F1-Score:</strong> <span class="success">0.775</span></p>
+                    <p><strong>Average Accuracy:</strong> <span class="info">0.779</span></p>
+                </div>
+                <div style="background: #f8f9ff; padding: 30px; border-radius: 15px; text-align: center; border-left: 5px solid #e74c3c;">
+                    <h3 style="color: #2c3e50;">Network Analysis</h3>
+                    <p><strong>Total Nodes:</strong> <span class="info">239</span></p>
+                    <p><strong>Datasets Analyzed:</strong> <span class="success">7</span></p>
+                    <p><strong>Attack Scenarios:</strong> <span class="warning">6 Types</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <h2>🔬 Ultimate Mid-Semester GNN Trust System Analysis</h2>
+            <p>Complete evaluation report with training curves, attack analysis, trust distributions, and classification metrics</p>
+            <p>Generated: 2025-10-09 04:23:37 | 
+               Datasets: 7 | Total Nodes: 239 | Analysis Points: 500+</p>
+            <p style="margin-top: 20px;">
+                ✅ Model Training Analysis | ⚔️ Attack Scenario Testing | 📊 Trust Distribution Analysis | 
+                🎯 Classification Performance | 🛡️ Network Protection Evaluation
+            </p>
+        </div>
+    </div>
+</body>
+</html>

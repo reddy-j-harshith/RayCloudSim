@@ -1,0 +1,86 @@
+{
+  "pakistan_Tuple30K": {
+    "GAT": {
+      "error": "Model GAT training failed!"
+    },
+    "GraphSAGE": {
+      "error": "Model GraphSAGE training failed!"
+    },
+    "GCN": {
+      "error": "Model GCN training failed!"
+    },
+    "Transformer": {
+      "error": "Model Transformer training failed!"
+    }
+  },
+  "pakistan_Tuple50K": {
+    "GAT": {
+      "error": "Model GAT training failed!"
+    },
+    "GraphSAGE": {
+      "error": "Model GraphSAGE training failed!"
+    },
+    "GCN": {
+      "error": "Model GCN training failed!"
+    },
+    "Transformer": {
+      "error": "Model Transformer training failed!"
+    }
+  },
+  "pakistan_Tuple100K": {
+    "GAT": {
+      "error": "Model GAT training failed!"
+    },
+    "GraphSAGE": {
+      "error": "Model GraphSAGE training failed!"
+    },
+    "GCN": {
+      "error": "Model GCN training failed!"
+    },
+    "Transformer": {
+      "error": "Model Transformer training failed!"
+    }
+  },
+  "topo4mec_25N50E": {
+    "GAT": {
+      "error": "Model GAT training failed!"
+    },
+    "GraphSAGE": {
+      "error": "Model GraphSAGE training failed!"
+    },
+    "GCN": {
+      "error": "Model GCN training failed!"
+    },
+    "Transformer": {
+      "error": "Model Transformer training failed!"
+    }
+  },
+  "topo4mec_50N50E": {
+    "GAT": {
+      "error": "Model GAT training failed!"
+    },
+    "GraphSAGE": {
+      "error": "Model GraphSAGE training failed!"
+    },
+    "GCN": {
+      "error": "Model GCN training failed!"
+    },
+    "Transformer": {
+      "error": "Model Transformer training failed!"
+    }
+  },
+  "topo4mec_100N150E": {
+    "GAT": {
+      "error": "Model GAT training failed!"
+    },
+    "GraphSAGE": {
+      "error": "Model GraphSAGE training failed!"
+    },
+    "GCN": {
+      "error": "Model GCN training failed!"
+    },
+    "Transformer": {
+      "error": "Model Transformer training failed!"
+    }
+  }
+}

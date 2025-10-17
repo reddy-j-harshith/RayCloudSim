@@ -7,7 +7,16 @@
 [<img src="https://img.shields.io/badge/License-MIT-blue.svg" height="30px" />](https://github.com/ZhangRui111/RayCloudSim/blob/main/LICENSE) [<img src="https://api.gitsponsors.com/api/badge/img?id=638982897" height="30">](https://api.gitsponsors.com/api/badge/link?p=JIrAC5FDNZDuOserq1+rtK+ePrdHC6pqFQMndZ+SGnLnSZE6kl4J4Dp3L4yJ1EunkradtRRZ0Nn4KY4O6aHr0kZk/a7DLTdz6bFIn667HJuIoij3RANSfBXi+eoJVy1zDTde6CE8enSRQddgwpgVPQ==)
 
 ## Update Summary
+
+- **2025/10/07**
+
+  - [**New**] Added GNN-based trust calculation for task offloading ([policies/gnn_trust](https://github.com/dhairya8luthra/RayCloudSim/tree/gnn_trust/policies/gnn_trust))
+  - [**New**] Implemented spatio-temporal graph neural networks for modeling node behavior over time
+  - [**New**] Added configurable message passing and aggregation strategies for trust propagation
+  - [**New**] Created contextual thresholding for adaptive trust-based decision making
+
 - **2024/07/02**
+
   - [**New**] Adding support for the [Topo4MEC](https://github.com/ZhangRui111/RayCloudSim/blob/main/eval/benchmarks/Topo4MEC/__init__.py) dataset
 
 - **2024/04/26**
@@ -25,12 +34,12 @@
   - [**New**] Computational tasks now support the feature of **timeout failure**
   - [**Optimization**] Optimization of the **task queue**
   - [**Optimization**] **README** documentation updated
-  - [**Optimization**] **examples/*** Example programs updated
+  - [**Optimization**] **examples/\*** Example programs updated
   - [**Fix**] Fixed some bugs
     - Module import failures caused by file paths
 
 > **Important Notice for Previous Users:**
-  The versions prior to v1.0.0 have been preserved on the pre-v0.6.6 branch, but no further updates are expected for this version. We are very grateful for the support of all users for the early versions!
+> The versions prior to v1.0.0 have been preserved on the pre-v0.6.6 branch, but no further updates are expected for this version. We are very grateful for the support of all users for the early versions!
 
 <div style="text-align: center;">
   <picture>
@@ -44,12 +53,14 @@
 
 RayCloudSim is a lightweight simulator written in Python for analytical modeling and simulation of Cloud/Fog/Edge Computing infrastructures and services. The original intention for the development of RayCloudSim was for research related to task offloading, and it now supports a more diverse range of research topics.
 
-RayCloudSim has the following advantages: 
+RayCloudSim has the following advantages:
+
 - Compact source code, which is easy to read, understand and customize according to individual needs.
 - It is a process-based discrete-event simulation framework and can be performed "as fast as possible", in wall clock time.
 - It is easy to integrate with machine learning frameworks such as PyTorch, TensorFlow, and other Python-based ML frameworks.
 
 RayCloudSim can be used for the following research topics:
+
 - Research on task offloading in cloud/fog/edge computing
 - Research on performance and cost analysis of cloud/fog/edge computing
 - Research on traffic analysis of complex networks
@@ -66,7 +77,7 @@ Main Dependent Modules:
 - **simpy**: SimPy is a process-based discrete-event simulation framework based on standard Python.
 - **numpy**: NumPy is a Python library used for working with arrays.
 - **pandas**: Pandas is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool.
-  
+
 The following modules are used for visualization tools:
 
 - **matplotlib**
@@ -82,6 +93,7 @@ pip install -r requirements.txt
 ```
 
 ## III. Set Sail
+
 ### 3.1 Hello World
 
 ```python
@@ -110,6 +122,50 @@ print("-----------------------------------------------\n")
 env.close()
 ```
 
+### 3.1.1 Using GNN-based Trust for Task Offloading
+
+```python
+# Create the scenario with GNN trust nodes
+scenario = Scenario(config_file="examples/scenarios/configs/gnn_trust_config.json")
+env = Env_Trust(scenario, config_file="core/configs/env_config.json")
+
+# Load simulated tasks
+data = pd.read_csv("examples/dataset/task_dataset.csv")
+simulated_tasks = list(data.iloc[:].values)
+
+# Begin Simulation with intelligent trust-based offloading
+until = 1
+for task_info in simulated_tasks:
+    # Update time
+    delta_t = task_info[1] - until
+    if delta_t > 0:
+        env.run(delta_t)
+        until = task_info[1]
+
+    # Create task
+    task = Task(
+        task_id=int(task_info[2]),
+        task_size=int(task_info[3]),
+        cycles_per_bit=int(task_info[4]),
+        trans_bit_rate=int(task_info[5]),
+        src_name=task_info[7],
+        ddl=int(task_info[6]),
+        task_name=task_info[0]
+    )
+
+    # Process task (GNN will automatically select best destination)
+    env.process(task=task)
+    print(f"Task {task.task_id} from {task.src_name} to {task.dst_name}")
+
+# Continue simulation until completion
+while env.task_count > env.task_done:
+    env.run(10)
+    print(f"Time {until}, Completed {env.task_done} / {env.task_count} tasks")
+
+# Success rate
+print(f"Success rate: {env.task_success / env.task_count:.2%}")
+```
+
 Simulation log:
 
 ```text
@@ -132,7 +188,7 @@ Averaged: 0.036
 
 ### 3.2 Tutorials
 
-**3.2.1** The following figure presents the framework of RayCloudSim, which consists of two main components：`Env` and `Task`: 
+**3.2.1** The following figure presents the framework of RayCloudSim, which consists of two main components：`Env` and `Task`:
 
 [comment]: <> (![The framework of RayCloudSim]&#40;docs/framework.jpg&#41;)
 
@@ -182,27 +238,30 @@ Note that learning how to use [Simpy](https://simpy.readthedocs.io/en/latest/con
 
 The complete video:
 
- - [Github](https://github.com/ZhangRui111/RayCloudSim/blob/main/docs/videos/out.avi)
+- [Github](https://github.com/ZhangRui111/RayCloudSim/blob/main/docs/videos/out.avi)
 
- - [Baidu Netdisk (Access code: xa1r)](https://pan.baidu.com/s/16X1Mdn-wvMu_o4GpUFtRDw?pwd=xa1r)
+- [Baidu Netdisk (Access code: xa1r)](https://pan.baidu.com/s/16X1Mdn-wvMu_o4GpUFtRDw?pwd=xa1r)
 
 ## IV. Development Plan
+
 ### 4.1 TODO
 
 > For subsequent updates, please refer to the [update summary](https://github.com/ZhangRui111/RayCloudSim/blob/main/README.md#update-summary)
 
-- [X] The basic version. (2023/05/10)
-- [X] Added modules zoo, including WirelessNode, etc. (2023/10/24)
-- [X] Computational nodes now support queue space to facilitate task buffering. (2023/11/10)
+- [x] The basic version. (2023/05/10)
+- [x] Added modules zoo, including WirelessNode, etc. (2023/10/24)
+- [x] Computational nodes now support queue space to facilitate task buffering. (2023/11/10)
 <!-- - [ ] ~~Support using wireless nodes as relay communication nodes?~~ -->
-- [X] Modeling of 'computational energy consumption' and 'task timeout' supported, etc. (2024/04/14)
-<!-- - [ ] Modeling of divisible tasks (Application >>> Task)-->
-<!-- - [ ] Details such as the energy consumption and transmission of wireless nodes -->
-- [X] Metric/* (2024/04/16)
-- [X] Evaluation APIs (2024/04/16)
+- [x] Modeling of 'computational energy consumption' and 'task timeout' supported, etc. (2024/04/14)
+  <!-- - [ ] Modeling of divisible tasks (Application >>> Task)-->
+  <!-- - [ ] Details such as the energy consumption and transmission of wireless nodes -->
+- [x] Metric/\* (2024/04/16)
+- [x] Evaluation APIs (2024/04/16)
+- [x] GNN-based trust calculation for task offloading (2025/10/07)
 - [ ] Anything reasonable
 
 ### 4.2 Contribute Code to RayCloudSim
+
 We welcome any contributions to the codebase. However, please note that the **main** branch is protected, and we recommend that you submit/push your code to the **dev-open** branch.
 
 <!-- ## Citation
@@ -224,8 +283,8 @@ Besides, RayCloudSim is inspired by [LEAF](https://github.com/dos-group/leaf) an
 ```text
 @inproceedings{WiesnerThamsen_LEAF_2021,
   author={Wiesner, Philipp and Thamsen, Lauritz},
-  booktitle={2021 IEEE 5th International Conference on Fog and Edge Computing (ICFEC)}, 
-  title={{LEAF}: Simulating Large Energy-Aware Fog Computing Environments}, 
+  booktitle={2021 IEEE 5th International Conference on Fog and Edge Computing (ICFEC)},
+  title={{LEAF}: Simulating Large Energy-Aware Fog Computing Environments},
   year={2021},
   pages={29-36},
   doi={10.1109/ICFEC51620.2021.00012}

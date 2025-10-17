@@ -1,0 +1,7 @@
+Dataset,Nodes,GNN_Nodes,Tasks,Success_Rate,Avg_Trust,Processed_Tasks,Completed_Tasks,Avg_Selection_Time,Total_Time,Status,Error
+topo4mec-25N50E,25.0,5.0,5.0,100.00%,0.5000,5.0,0.0,0.0004s,1.81s,success,
+topo4mec-50N50E,50.0,5.0,8.0,75.00%,0.5000,8.0,0.0,0.0012s,0.08s,success,
+topo4mec-100N150E,100.0,5.0,10.0,70.00%,0.5000,10.0,0.0,0.0039s,0.15s,success,
+pakistan-Tuple30K,8.0,4.0,5.0,100.00%,0.5000,5.0,0.0,0.0001s,0.02s,success,
+pakistan-Tuple50K,,,,,,,,,,failed,"('NetCongestionError', '**NetCongestionError: Task {45}** network congestion Node {f1} --> {e0}', 45)"
+pakistan-Tuple100K,15.0,4.0,10.0,100.00%,0.5000,10.0,0.0,0.0003s,0.06s,success,

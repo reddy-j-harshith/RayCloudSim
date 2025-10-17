@@ -1,0 +1,48 @@
+{
+  "dataset": "topo4mec_25N50E",
+  "test_metrics": {
+    "GAT": {
+      "accuracy": 0.7916666666666666,
+      "precision": 1.0,
+      "recall": 0.2857142857142857,
+      "f1_score": 0.4444444444444444,
+      "roc_auc": 0.0,
+      "attack_detection_accuracy": 0.7916666666666666,
+      "total_attacks_detected": 0,
+      "total_attacks_simulated": 0
+    },
+    "GraphSAGE": {
+      "accuracy": 0.7391304347826086,
+      "precision": 0.5,
+      "recall": 0.16666666666666666,
+      "f1_score": 0.25,
+      "roc_auc": 0.0,
+      "attack_detection_accuracy": 0.7391304347826086,
+      "total_attacks_detected": 0,
+      "total_attacks_simulated": 0
+    },
+    "GCN": {
+      "accuracy": 0.8181818181818182,
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1_score": 0.5,
+      "roc_auc": 0.0,
+      "attack_detection_accuracy": 0.8181818181818182,
+      "total_attacks_detected": 0,
+      "total_attacks_simulated": 0
+    },
+    "Transformer": {
+      "accuracy": 0.782608695652174,
+      "precision": 1.0,
+      "recall": 0.16666666666666666,
+      "f1_score": 0.2857142857142857,
+      "roc_auc": 0.0,
+      "attack_detection_accuracy": 0.782608695652174,
+      "total_attacks_detected": 0,
+      "total_attacks_simulated": 0
+    }
+  },
+  "confusion_matrices": {},
+  "classification_reports": {},
+  "attack_detection_results": {}
+}

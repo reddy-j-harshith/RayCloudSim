@@ -8,8 +8,9 @@ sys.path.insert(0, parent_dir)
 
 import math
 import random
+import time
 import numpy as np
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 
 current_file_path = os.path.abspath(__file__)
 current_dir = os.path.dirname(current_file_path)
@@ -199,19 +200,38 @@ class TrustNode(Node):
             The trust score if it exists, otherwise 0.0.
         """
         return self.trust_mat.get(other_node.name, 0.0)
+    
+    def update_trust(self, target_node_name: str, interaction_result: bool):
+        """Update trust score based on interaction result.
+        
+        Args:
+            target_node_name: Name of the target node
+            interaction_result: True if interaction was successful, False otherwise
+        """
+        if target_node_name not in self.trust_mat:
+            self.trust_mat[target_node_name] = 0.5  # Initialize with neutral trust
+        
+        # Simple trust update mechanism
+        if interaction_result:
+            # Positive interaction - increase trust
+            self.trust_mat[target_node_name] = min(1.0, self.trust_mat[target_node_name] + 0.1)
+        else:
+            # Negative interaction - decrease trust
+            self.trust_mat[target_node_name] = max(0.0, self.trust_mat[target_node_name] - 0.2)
 
 
 class MaliciousNode(TrustNode):
-    """Malicious Node.
+    """Enhanced Malicious Node with comprehensive attack capabilities.
 
-    (1) Node with malicious tendency
-    (2) Malicious nodes can be of different types
+    (1) Node with malicious tendency that can perform various attacks
+    (2) Supports on-off, ballot stuffing, bad-mouthing, collusion, and Sybil attacks
+    (3) Tracks attack behavior and maintains statistics
     """
 
     def __init__(self, node_id: int, name: str,
                  self_trust: float,
-                 mal_type: int,
-                 max_cpu_freq: float,
+                 mal_type: int = 0,
+                 max_cpu_freq: float = 1000,
                  max_buffer_size: Optional[int] = 0,
                  location: Optional[Location] = None,
                  idle_energy_coef: Optional[float] = 0, 
@@ -222,14 +242,147 @@ class MaliciousNode(TrustNode):
                          location, 
                          idle_energy_coef, exe_energy_coef)
         
+        # Basic malicious attributes
         self.malicious_type = mal_type
         self.normal_threshold = 0
+        
+        # Enhanced attack behavior parameters
+        self.is_behaving_well = True
+        self.attack_probability = 0.1
+        self.is_sybil = False
+        self.controller = None
+        self.attack_history = []
+        
+        # Attack types this node can perform
+        self.attack_types = [
+            'on_off',
+            'ballot_stuffing', 
+            'bad_mouthing',
+            'collusion',
+            'sybil'
+        ]
+        
+        # Initialize malicious behavior patterns
+        self._init_malicious_patterns()
+    
+    def _init_malicious_patterns(self):
+        """Initialize malicious behavior patterns."""
+        # Random behavior patterns for more realistic attacks
+        self.good_period_length = np.random.randint(20, 50)
+        self.bad_period_length = np.random.randint(30, 60)
+        self.current_period_counter = 0
+        
+        # Trust manipulation parameters
+        self.fake_positive_trust = 0.9
+        self.fake_negative_trust = 0.1
 
     def set_malicious_type(self, mal_type: int):
         self.malicious_type = mal_type
 
     def get_malicious_type(self) -> int:
         return self.malicious_type
+    
+    def perform_task(self, task):
+        """Perform task with potential malicious behavior."""
+        # Record attack behavior
+        attack_info = {
+            'timestamp': getattr(task, 'timestamp', time.time()),
+            'task_id': getattr(task, 'task_id', 'unknown'),
+            'behavior': 'malicious' if not self.is_behaving_well else 'honest'
+        }
+        self.attack_history.append(attack_info)
+        
+        if self.is_behaving_well or np.random.random() > self.attack_probability:
+            # Behave honestly
+            try:
+                # Simulate honest task execution
+                processing_time = getattr(task, 'task_size', 100) / 1000.0
+                time.sleep(min(processing_time, 0.01))  # Cap simulation time
+                return True
+            except:
+                # Fallback for simple task execution
+                time.sleep(0.001)  # Minimal processing time
+                return True
+        else:
+            # Malicious behavior - may drop task, corrupt result, or delay
+            attack_type = np.random.choice(['drop', 'corrupt', 'delay'])
+            
+            if attack_type == 'drop':
+                # Drop the task
+                return False
+            elif attack_type == 'corrupt':
+                # Return corrupted result
+                time.sleep(0.0005)  # Faster but wrong
+                return False
+            else:  # delay
+                # Excessive delay
+                time.sleep(0.002)  # Much slower
+                return True
+    
+    def update_trust(self, target_node_name: str, interaction_result: bool):
+        """Update trust with potential malicious bias."""
+        if not self.is_behaving_well:
+            # Malicious trust updates
+            if np.random.random() < 0.7:  # 70% chance of malicious trust update
+                if target_node_name not in self.trust_mat:
+                    self.trust_mat[target_node_name] = 0.5  # Initialize if needed
+                
+                # Randomly give false positive or negative ratings
+                if np.random.random() < 0.5:
+                    # False positive (ballot stuffing)
+                    self.trust_mat[target_node_name] = self.fake_positive_trust
+                else:
+                    # False negative (bad mouthing)
+                    self.trust_mat[target_node_name] = self.fake_negative_trust
+                return
+        
+        # Normal trust update when behaving well
+        if target_node_name not in self.trust_mat:
+            self.trust_mat[target_node_name] = 0.5
+        
+        # Simple trust update based on interaction result
+        if interaction_result:
+            self.trust_mat[target_node_name] = min(1.0, self.trust_mat[target_node_name] + 0.1)
+        else:
+            self.trust_mat[target_node_name] = max(0.0, self.trust_mat[target_node_name] - 0.2)
+    
+    def cycle_behavior(self):
+        """Cycle between good and bad behavior for on-off attacks."""
+        self.current_period_counter += 1
+        
+        if self.is_behaving_well:
+            if self.current_period_counter >= self.good_period_length:
+                self.is_behaving_well = False
+                self.attack_probability = 0.8
+                self.current_period_counter = 0
+        else:
+            if self.current_period_counter >= self.bad_period_length:
+                self.is_behaving_well = True
+                self.attack_probability = 0.1
+                self.current_period_counter = 0
+    
+    def coordinate_with_colluders(self, colluding_nodes: List[str]):
+        """Coordinate attack with other malicious nodes."""
+        for colluder_name in colluding_nodes:
+            if colluder_name != self.name:
+                # Boost each other's trust
+                self.trust_mat[colluder_name] = 0.95
+    
+    def get_attack_statistics(self) -> Dict[str, Any]:
+        """Get statistics about attack behavior."""
+        total_attacks = len(self.attack_history)
+        malicious_count = sum(1 for attack in self.attack_history 
+                             if attack['behavior'] == 'malicious')
+        
+        return {
+            'total_interactions': total_attacks,
+            'malicious_interactions': malicious_count,
+            'malicious_ratio': malicious_count / max(1, total_attacks),
+            'current_behavior': 'malicious' if not self.is_behaving_well else 'honest',
+            'attack_probability': self.attack_probability,
+            'is_sybil': self.is_sybil,
+            'controller': self.controller
+        }
     
     # Function for On-and-Off Attacks in trust based-environments delaying execution after crossing a certain threshold
     def execute_on_and_off_attack(self) ->  int:

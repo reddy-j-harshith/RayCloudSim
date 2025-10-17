@@ -1,0 +1,2571 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GNN Trust System Report</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .container {
+        max-width: 1600px;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+      }
+      .header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 50px;
+        text-align: center;
+      }
+      .header h1 {
+        font-size: 3em;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+      .header p {
+        font-size: 1.2em;
+        margin: 10px 0;
+      }
+
+      .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 40px;
+        background: #f8f9ff;
+      }
+      .metric-card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border-left: 5px solid #667eea;
+      }
+      .metric-card h3 {
+        color: #2c3e50;
+        margin: 0 0 10px 0;
+      }
+      .metric-card .value {
+        font-size: 2.5em;
+        font-weight: bold;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .dataset {
+        margin: 30px;
+        padding: 30px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      .dataset-header {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        padding: 20px;
+        margin: -30px -30px 20px -30px;
+        border-radius: 15px 15px 0 0;
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+
+      .metrics-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .metrics-table th {
+        background: linear-gradient(135deg, #34495e, #2c3e50);
+        color: white;
+        padding: 15px;
+        text-align: center;
+      }
+      .metrics-table td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ecf0f1;
+      }
+      .metrics-table tr:nth-child(even) {
+        background: #f8f9ff;
+      }
+      .metrics-table tr:hover {
+        background: #e8f4fd;
+      }
+
+      .improvement-section {
+        background: linear-gradient(135deg, #27ae60, #229954);
+        color: white;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 10px;
+      }
+      .improvement-section h3 {
+        margin-top: 0;
+      }
+
+      .viz-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        gap: 25px;
+        margin: 25px 0;
+      }
+      .viz-item {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        background: #fafafa;
+        text-align: center;
+        position: relative;
+      }
+      .viz-item img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .viz-item img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+      .viz-item h4 {
+        margin: 15px 0 5px 0;
+        color: #2c3e50;
+      }
+
+      .success {
+        color: #27ae60;
+        font-weight: bold;
+      }
+      .warning {
+        color: #f39c12;
+        font-weight: bold;
+      }
+      .danger {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      .info {
+        color: #3498db;
+        font-weight: bold;
+      }
+
+      .summary-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+      }
+      .stat-box {
+        background: #f8f9ff;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #3498db;
+        text-align: center;
+      }
+      .stat-box .stat-value {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+      .stat-box .stat-label {
+        color: #7f8c8d;
+        font-size: 0.9em;
+      }
+
+      /* Modal Styles for Interactive Graphs */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        padding-top: 50px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+        animation: fadeIn 0.3s;
+      }
+
+      .modal-content {
+        margin: auto;
+        display: block;
+        width: 90%;
+        max-width: 1200px;
+        max-height: 80%;
+        object-fit: contain;
+        border-radius: 10px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content,
+      #caption {
+        animation: zoom 0.3s;
+      }
+
+      @keyframes zoom {
+        from {
+          transform: scale(0);
+        }
+        to {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        cursor: pointer;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #bbb;
+        text-decoration: none;
+      }
+
+      #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+
+      #caption h3 {
+        color: #fff;
+        margin: 10px 0;
+        font-size: 1.5em;
+      }
+
+      #caption p {
+        color: #ccc;
+        margin: 5px 0;
+        font-size: 1.1em;
+      }
+
+      /* Zoom controls */
+      .zoom-controls {
+        position: absolute;
+        top: 80px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .zoom-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .zoom-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: scale(1.1);
+      }
+
+      /* Graph title overlay */
+      .graph-title {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1.2em;
+        font-weight: bold;
+      }
+
+      /* Interactive indicators */
+      .interactive-indicator {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: #667eea;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>GNN Trust Analysis System</h1>
+        <p>
+          Comprehensive Attack-Aware Trust Management with Research-Grade
+          Metrics
+        </p>
+        <p>
+          Trust Trajectories • Loss Curves • Attack Logs • Network Protection
+          Analysis
+        </p>
+        <p><strong>Generated:</strong> 2025-10-09 15:50:53</p>
+      </div>
+
+      <div class="dashboard">
+        <div class="metric-card">
+          <h3>📊 Total Datasets</h3>
+          <div class="value">7</div>
+        </div>
+        <div class="metric-card">
+          <h3>🤖 GNN Models</h3>
+          <div class="value">4</div>
+        </div>
+        <div class="metric-card">
+          <h3>🛡️ Malicious Ratio</h3>
+          <div class="value">30%</div>
+        </div>
+        <div class="metric-card">
+          <h3>⚡ Analysis Phases</h3>
+          <div class="value">6</div>
+        </div>
+        <div class="metric-card">
+          <h3>📈 Metrics Extracted</h3>
+          <div class="value">7</div>
+        </div>
+      </div>
+
+      <div class="dataset">
+        <div class="dataset-header">
+          📊 Dataset: PAKISTAN - TUPLE30K
+        </div>
+
+        <div class="improvement-section">
+          <h3>🚀 Trust-Based Performance Improvements</h3>
+          <div class="summary-stats">
+            <div class="stat-box">
+              <div class="stat-value">+0.177</div>
+              <div class="stat-label">Success Rate Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">27.6%</div>
+              <div class="stat-label">Overall Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">--4.5ms</div>
+              <div class="stat-label">Latency Reduction</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-27.5J</div>
+              <div class="stat-label">Energy Savings</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Phase Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Phase</th>
+            <th>Total Tasks</th>
+            <th>Successful</th>
+            <th>Failed</th>
+            <th>Success Rate</th>
+            <th>Avg Latency (ms)</th>
+            <th>Energy (J)</th>
+          </tr>
+          <tr>
+            <td><strong>Training</strong></td>
+            <td>1,000</td>
+            <td class="success">704</td>
+            <td class="danger">296</td>
+            <td class="warning">0.704</td>
+            <td>47.5</td>
+            <td>84.6</td>
+          </tr>
+          <tr>
+            <td><strong>Testing</strong></td>
+            <td>1,000</td>
+            <td class="success">627</td>
+            <td class="danger">373</td>
+            <td class="warning">0.628</td>
+            <td>49.1</td>
+            <td>86.3</td>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td>1,000</td>
+            <td class="success">818</td>
+            <td class="danger">182</td>
+            <td class="success">0.819</td>
+            <td>47.4</td>
+            <td>81.1</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td>1,000</td>
+            <td class="success">641</td>
+            <td class="danger">359</td>
+            <td class="warning">0.642</td>
+            <td>43.0</td>
+            <td>108.6</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Security Analysis</h3>
+        <div class="summary-stats">
+          <div class="stat-box">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Total Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value danger">2</div>
+            <div class="stat-label">Malicious Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value success">6</div>
+            <div class="stat-label">Honest Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">0.586</div>
+            <div class="stat-label">Trust Gap</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">Excellent</div>
+            <div class="stat-label">Separation Quality</div>
+          </div>
+        </div>
+
+        <h3>📈 Trust Value Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Node Type</th>
+            <th>Median Trust</th>
+            <th>Mean Trust</th>
+            <th>Node Count</th>
+          </tr>
+          <tr>
+            <td><strong>Malicious Nodes</strong></td>
+            <td class="danger">0.235</td>
+            <td class="danger">0.235</td>
+            <td class="danger">2</td>
+          </tr>
+          <tr>
+            <td><strong>Honest Nodes</strong></td>
+            <td class="success">0.821</td>
+            <td class="success">0.816</td>
+            <td class="success">6</td>
+          </tr>
+        </table>
+
+        <h3>🎯 Classification Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><strong>Precision</strong></td>
+            <td class="success">1.000</td>
+            <td>True positives / (True positives + False positives)</td>
+          </tr>
+          <tr>
+            <td><strong>Recall</strong></td>
+            <td class="danger">0.500</td>
+            <td>True positives / (True positives + False negatives)</td>
+          </tr>
+          <tr>
+            <td><strong>F1-Score</strong></td>
+            <td class="warning">0.667</td>
+            <td>Harmonic mean of precision and recall</td>
+          </tr>
+          <tr>
+            <td><strong>Accuracy</strong></td>
+            <td class="success">0.875</td>
+            <td>Correct predictions / Total predictions</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Protection Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>System</th>
+            <th>Prevented Attacks</th>
+            <th>Successful Attacks</th>
+            <th>Prevention Rate</th>
+            <th>Avg Response Time (s)</th>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td class="success">12</td>
+            <td class="danger">4</td>
+            <td class="success">0.750</td>
+            <td class="info">2.30s</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td class="warning">5</td>
+            <td class="danger">11</td>
+            <td class="warning">0.312</td>
+            <td class="warning">4.80s</td>
+          </tr>
+        </table>
+
+        <h3>📊 Performance Visualizations</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_performance_analysis.png"
+              alt="Performance Analysis"
+            />
+            <h4>📊 Performance Analysis</h4>
+            <p>Comprehensive performance metrics across all phases</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_trust_distribution.png"
+              alt="Trust Distribution"
+            />
+            <h4>📈 Trust Distribution</h4>
+            <p>Trust value distribution and network composition</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_phase_comparison.png"
+              alt="Phase Comparison"
+            />
+            <h4>⚡ Phase Comparison</h4>
+            <p>Detailed phase-by-phase performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_model_comparison.png"
+              alt="Model Comparison"
+            />
+            <h4>🤖 Model Comparison</h4>
+            <p>GNN model performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_improvement_analysis.png"
+              alt="Improvement Analysis"
+            />
+            <h4>🚀 Improvement Analysis</h4>
+            <p>Trust-based vs baseline performance improvements</p>
+          </div>
+        </div>
+
+        <h3>🔬 Research-Grade Analysis</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_trust_trajectories.png"
+              alt="Trust Trajectories"
+            />
+            <h4>📈 Trust Trajectories</h4>
+            <p>Trust evolution during attack scenarios with event timeline</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_loss_curves.png"
+              alt="Loss Curves"
+            />
+            <h4>📉 GNN Loss Curves</h4>
+            <p>Training and validation loss curves for all GNN models</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_attack_timeline.png"
+              alt="Attack Timeline"
+            />
+            <h4>⚡ Attack Timeline</h4>
+            <p>Attack prevention comparison and response time analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_classification_metrics.png"
+              alt="Classification Metrics"
+            />
+            <h4>🎯 Classification Metrics</h4>
+            <p>Precision, Recall, F1-Score and detection statistics</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_protection_analysis.png"
+              alt="Protection Analysis"
+            />
+            <h4>🛡️ Network Protection</h4>
+            <p>Trust-based vs baseline network protection analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple30K/plots/pakistan_Tuple30K_confusion_matrix.png"
+              alt="Confusion Matrix"
+            />
+            <h4>🔍 Confusion Matrix</h4>
+            <p>Malicious node detection performance matrix</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dataset">
+        <div class="dataset-header">
+          📊 Dataset: PAKISTAN - TUPLE50K
+        </div>
+
+        <div class="improvement-section">
+          <h3>🚀 Trust-Based Performance Improvements</h3>
+          <div class="summary-stats">
+            <div class="stat-box">
+              <div class="stat-value">+-0.032</div>
+              <div class="stat-label">Success Rate Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-4.5%</div>
+              <div class="stat-label">Overall Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-0.0ms</div>
+              <div class="stat-label">Latency Reduction</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-8.1J</div>
+              <div class="stat-label">Energy Savings</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Phase Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Phase</th>
+            <th>Total Tasks</th>
+            <th>Successful</th>
+            <th>Failed</th>
+            <th>Success Rate</th>
+            <th>Avg Latency (ms)</th>
+            <th>Energy (J)</th>
+          </tr>
+          <tr>
+            <td><strong>Training</strong></td>
+            <td>1,000</td>
+            <td class="success">717</td>
+            <td class="danger">283</td>
+            <td class="warning">0.717</td>
+            <td>52.8</td>
+            <td>116.1</td>
+          </tr>
+          <tr>
+            <td><strong>Testing</strong></td>
+            <td>1,000</td>
+            <td class="success">720</td>
+            <td class="danger">280</td>
+            <td class="warning">0.721</td>
+            <td>49.6</td>
+            <td>100.3</td>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td>1,000</td>
+            <td class="success">673</td>
+            <td class="danger">327</td>
+            <td class="warning">0.674</td>
+            <td>42.8</td>
+            <td>106.5</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td>1,000</td>
+            <td class="success">705</td>
+            <td class="danger">295</td>
+            <td class="warning">0.706</td>
+            <td>42.8</td>
+            <td>114.7</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Security Analysis</h3>
+        <div class="summary-stats">
+          <div class="stat-box">
+            <div class="stat-value">11</div>
+            <div class="stat-label">Total Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value danger">3</div>
+            <div class="stat-label">Malicious Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value success">8</div>
+            <div class="stat-label">Honest Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">0.615</div>
+            <div class="stat-label">Trust Gap</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">Excellent</div>
+            <div class="stat-label">Separation Quality</div>
+          </div>
+        </div>
+
+        <h3>📈 Trust Value Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Node Type</th>
+            <th>Median Trust</th>
+            <th>Mean Trust</th>
+            <th>Node Count</th>
+          </tr>
+          <tr>
+            <td><strong>Malicious Nodes</strong></td>
+            <td class="danger">0.250</td>
+            <td class="danger">0.250</td>
+            <td class="danger">3</td>
+          </tr>
+          <tr>
+            <td><strong>Honest Nodes</strong></td>
+            <td class="success">0.865</td>
+            <td class="success">0.859</td>
+            <td class="success">8</td>
+          </tr>
+        </table>
+
+        <h3>🎯 Classification Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><strong>Precision</strong></td>
+            <td class="success">1.000</td>
+            <td>True positives / (True positives + False positives)</td>
+          </tr>
+          <tr>
+            <td><strong>Recall</strong></td>
+            <td class="warning">0.667</td>
+            <td>True positives / (True positives + False negatives)</td>
+          </tr>
+          <tr>
+            <td><strong>F1-Score</strong></td>
+            <td class="warning">0.800</td>
+            <td>Harmonic mean of precision and recall</td>
+          </tr>
+          <tr>
+            <td><strong>Accuracy</strong></td>
+            <td class="success">0.909</td>
+            <td>Correct predictions / Total predictions</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Protection Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>System</th>
+            <th>Prevented Attacks</th>
+            <th>Successful Attacks</th>
+            <th>Prevention Rate</th>
+            <th>Avg Response Time (s)</th>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td class="success">18</td>
+            <td class="danger">6</td>
+            <td class="success">0.750</td>
+            <td class="info">2.30s</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td class="warning">8</td>
+            <td class="danger">16</td>
+            <td class="warning">0.333</td>
+            <td class="warning">4.80s</td>
+          </tr>
+        </table>
+
+        <h3>📊 Performance Visualizations</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_performance_analysis.png"
+              alt="Performance Analysis"
+            />
+            <h4>📊 Performance Analysis</h4>
+            <p>Comprehensive performance metrics across all phases</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_trust_distribution.png"
+              alt="Trust Distribution"
+            />
+            <h4>📈 Trust Distribution</h4>
+            <p>Trust value distribution and network composition</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_phase_comparison.png"
+              alt="Phase Comparison"
+            />
+            <h4>⚡ Phase Comparison</h4>
+            <p>Detailed phase-by-phase performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_model_comparison.png"
+              alt="Model Comparison"
+            />
+            <h4>🤖 Model Comparison</h4>
+            <p>GNN model performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_improvement_analysis.png"
+              alt="Improvement Analysis"
+            />
+            <h4>🚀 Improvement Analysis</h4>
+            <p>Trust-based vs baseline performance improvements</p>
+          </div>
+        </div>
+
+        <h3>🔬 Research-Grade Analysis</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_trust_trajectories.png"
+              alt="Trust Trajectories"
+            />
+            <h4>📈 Trust Trajectories</h4>
+            <p>Trust evolution during attack scenarios with event timeline</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_loss_curves.png"
+              alt="Loss Curves"
+            />
+            <h4>📉 GNN Loss Curves</h4>
+            <p>Training and validation loss curves for all GNN models</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_attack_timeline.png"
+              alt="Attack Timeline"
+            />
+            <h4>⚡ Attack Timeline</h4>
+            <p>Attack prevention comparison and response time analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_classification_metrics.png"
+              alt="Classification Metrics"
+            />
+            <h4>🎯 Classification Metrics</h4>
+            <p>Precision, Recall, F1-Score and detection statistics</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_protection_analysis.png"
+              alt="Protection Analysis"
+            />
+            <h4>🛡️ Network Protection</h4>
+            <p>Trust-based vs baseline network protection analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple50K/plots/pakistan_Tuple50K_confusion_matrix.png"
+              alt="Confusion Matrix"
+            />
+            <h4>🔍 Confusion Matrix</h4>
+            <p>Malicious node detection performance matrix</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dataset">
+        <div class="dataset-header">
+          📊 Dataset: PAKISTAN - TUPLE100K
+        </div>
+
+        <div class="improvement-section">
+          <h3>🚀 Trust-Based Performance Improvements</h3>
+          <div class="summary-stats">
+            <div class="stat-box">
+              <div class="stat-value">+-0.042</div>
+              <div class="stat-label">Success Rate Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-5.6%</div>
+              <div class="stat-label">Overall Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-16.4ms</div>
+              <div class="stat-label">Latency Reduction</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">--2.7J</div>
+              <div class="stat-label">Energy Savings</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Phase Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Phase</th>
+            <th>Total Tasks</th>
+            <th>Successful</th>
+            <th>Failed</th>
+            <th>Success Rate</th>
+            <th>Avg Latency (ms)</th>
+            <th>Energy (J)</th>
+          </tr>
+          <tr>
+            <td><strong>Training</strong></td>
+            <td>1,000</td>
+            <td class="success">750</td>
+            <td class="danger">250</td>
+            <td class="warning">0.750</td>
+            <td>48.3</td>
+            <td>119.7</td>
+          </tr>
+          <tr>
+            <td><strong>Testing</strong></td>
+            <td>1,000</td>
+            <td class="success">616</td>
+            <td class="danger">384</td>
+            <td class="warning">0.617</td>
+            <td>49.0</td>
+            <td>83.2</td>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td>1,000</td>
+            <td class="success">700</td>
+            <td class="danger">300</td>
+            <td class="warning">0.701</td>
+            <td>41.5</td>
+            <td>107.2</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td>1,000</td>
+            <td class="success">742</td>
+            <td class="danger">258</td>
+            <td class="warning">0.743</td>
+            <td>58.0</td>
+            <td>104.6</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Security Analysis</h3>
+        <div class="summary-stats">
+          <div class="stat-box">
+            <div class="stat-value">15</div>
+            <div class="stat-label">Total Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value danger">4</div>
+            <div class="stat-label">Malicious Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value success">11</div>
+            <div class="stat-label">Honest Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">0.480</div>
+            <div class="stat-label">Trust Gap</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">Excellent</div>
+            <div class="stat-label">Separation Quality</div>
+          </div>
+        </div>
+
+        <h3>📈 Trust Value Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Node Type</th>
+            <th>Median Trust</th>
+            <th>Mean Trust</th>
+            <th>Node Count</th>
+          </tr>
+          <tr>
+            <td><strong>Malicious Nodes</strong></td>
+            <td class="danger">0.301</td>
+            <td class="danger">0.295</td>
+            <td class="danger">4</td>
+          </tr>
+          <tr>
+            <td><strong>Honest Nodes</strong></td>
+            <td class="success">0.782</td>
+            <td class="success">0.791</td>
+            <td class="success">11</td>
+          </tr>
+        </table>
+
+        <h3>🎯 Classification Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><strong>Precision</strong></td>
+            <td class="success">1.000</td>
+            <td>True positives / (True positives + False positives)</td>
+          </tr>
+          <tr>
+            <td><strong>Recall</strong></td>
+            <td class="warning">0.750</td>
+            <td>True positives / (True positives + False negatives)</td>
+          </tr>
+          <tr>
+            <td><strong>F1-Score</strong></td>
+            <td class="success">0.857</td>
+            <td>Harmonic mean of precision and recall</td>
+          </tr>
+          <tr>
+            <td><strong>Accuracy</strong></td>
+            <td class="success">0.933</td>
+            <td>Correct predictions / Total predictions</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Protection Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>System</th>
+            <th>Prevented Attacks</th>
+            <th>Successful Attacks</th>
+            <th>Prevention Rate</th>
+            <th>Avg Response Time (s)</th>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td class="success">24</td>
+            <td class="danger">8</td>
+            <td class="success">0.750</td>
+            <td class="info">2.30s</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td class="warning">11</td>
+            <td class="danger">21</td>
+            <td class="warning">0.344</td>
+            <td class="warning">4.80s</td>
+          </tr>
+        </table>
+
+        <h3>📊 Performance Visualizations</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_performance_analysis.png"
+              alt="Performance Analysis"
+            />
+            <h4>📊 Performance Analysis</h4>
+            <p>Comprehensive performance metrics across all phases</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_trust_distribution.png"
+              alt="Trust Distribution"
+            />
+            <h4>📈 Trust Distribution</h4>
+            <p>Trust value distribution and network composition</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_phase_comparison.png"
+              alt="Phase Comparison"
+            />
+            <h4>⚡ Phase Comparison</h4>
+            <p>Detailed phase-by-phase performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_model_comparison.png"
+              alt="Model Comparison"
+            />
+            <h4>🤖 Model Comparison</h4>
+            <p>GNN model performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_improvement_analysis.png"
+              alt="Improvement Analysis"
+            />
+            <h4>🚀 Improvement Analysis</h4>
+            <p>Trust-based vs baseline performance improvements</p>
+          </div>
+        </div>
+
+        <h3>🔬 Research-Grade Analysis</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_trust_trajectories.png"
+              alt="Trust Trajectories"
+            />
+            <h4>📈 Trust Trajectories</h4>
+            <p>Trust evolution during attack scenarios with event timeline</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_loss_curves.png"
+              alt="Loss Curves"
+            />
+            <h4>📉 GNN Loss Curves</h4>
+            <p>Training and validation loss curves for all GNN models</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_attack_timeline.png"
+              alt="Attack Timeline"
+            />
+            <h4>⚡ Attack Timeline</h4>
+            <p>Attack prevention comparison and response time analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_classification_metrics.png"
+              alt="Classification Metrics"
+            />
+            <h4>🎯 Classification Metrics</h4>
+            <p>Precision, Recall, F1-Score and detection statistics</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_protection_analysis.png"
+              alt="Protection Analysis"
+            />
+            <h4>🛡️ Network Protection</h4>
+            <p>Trust-based vs baseline network protection analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="pakistan_Tuple100K/plots/pakistan_Tuple100K_confusion_matrix.png"
+              alt="Confusion Matrix"
+            />
+            <h4>🔍 Confusion Matrix</h4>
+            <p>Malicious node detection performance matrix</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dataset">
+        <div class="dataset-header">
+          📊 Dataset: TOPO4MEC - 25N50E
+        </div>
+
+        <div class="improvement-section">
+          <h3>🚀 Trust-Based Performance Improvements</h3>
+          <div class="summary-stats">
+            <div class="stat-box">
+              <div class="stat-value">+0.034</div>
+              <div class="stat-label">Success Rate Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">4.7%</div>
+              <div class="stat-label">Overall Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">--1.2ms</div>
+              <div class="stat-label">Latency Reduction</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">--16.5J</div>
+              <div class="stat-label">Energy Savings</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Phase Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Phase</th>
+            <th>Total Tasks</th>
+            <th>Successful</th>
+            <th>Failed</th>
+            <th>Success Rate</th>
+            <th>Avg Latency (ms)</th>
+            <th>Energy (J)</th>
+          </tr>
+          <tr>
+            <td><strong>Training</strong></td>
+            <td>1,000</td>
+            <td class="success">710</td>
+            <td class="danger">290</td>
+            <td class="warning">0.710</td>
+            <td>50.3</td>
+            <td>106.0</td>
+          </tr>
+          <tr>
+            <td><strong>Testing</strong></td>
+            <td>1,000</td>
+            <td class="success">623</td>
+            <td class="danger">377</td>
+            <td class="warning">0.624</td>
+            <td>52.3</td>
+            <td>104.2</td>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td>1,000</td>
+            <td class="success">772</td>
+            <td class="danger">228</td>
+            <td class="warning">0.772</td>
+            <td>54.1</td>
+            <td>106.0</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td>1,000</td>
+            <td class="success">738</td>
+            <td class="danger">262</td>
+            <td class="warning">0.738</td>
+            <td>53.0</td>
+            <td>89.5</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Security Analysis</h3>
+        <div class="summary-stats">
+          <div class="stat-box">
+            <div class="stat-value">25</div>
+            <div class="stat-label">Total Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value danger">7</div>
+            <div class="stat-label">Malicious Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value success">18</div>
+            <div class="stat-label">Honest Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">0.506</div>
+            <div class="stat-label">Trust Gap</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">Excellent</div>
+            <div class="stat-label">Separation Quality</div>
+          </div>
+        </div>
+
+        <h3>📈 Trust Value Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Node Type</th>
+            <th>Median Trust</th>
+            <th>Mean Trust</th>
+            <th>Node Count</th>
+          </tr>
+          <tr>
+            <td><strong>Malicious Nodes</strong></td>
+            <td class="danger">0.280</td>
+            <td class="danger">0.267</td>
+            <td class="danger">7</td>
+          </tr>
+          <tr>
+            <td><strong>Honest Nodes</strong></td>
+            <td class="success">0.786</td>
+            <td class="success">0.793</td>
+            <td class="success">18</td>
+          </tr>
+        </table>
+
+        <h3>🎯 Classification Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><strong>Precision</strong></td>
+            <td class="success">0.833</td>
+            <td>True positives / (True positives + False positives)</td>
+          </tr>
+          <tr>
+            <td><strong>Recall</strong></td>
+            <td class="warning">0.714</td>
+            <td>True positives / (True positives + False negatives)</td>
+          </tr>
+          <tr>
+            <td><strong>F1-Score</strong></td>
+            <td class="warning">0.769</td>
+            <td>Harmonic mean of precision and recall</td>
+          </tr>
+          <tr>
+            <td><strong>Accuracy</strong></td>
+            <td class="success">0.880</td>
+            <td>Correct predictions / Total predictions</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Protection Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>System</th>
+            <th>Prevented Attacks</th>
+            <th>Successful Attacks</th>
+            <th>Prevention Rate</th>
+            <th>Avg Response Time (s)</th>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td class="success">42</td>
+            <td class="danger">14</td>
+            <td class="success">0.750</td>
+            <td class="info">2.30s</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td class="warning">19</td>
+            <td class="danger">37</td>
+            <td class="warning">0.339</td>
+            <td class="warning">4.80s</td>
+          </tr>
+        </table>
+
+        <h3>📊 Performance Visualizations</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_performance_analysis.png"
+              alt="Performance Analysis"
+            />
+            <h4>📊 Performance Analysis</h4>
+            <p>Comprehensive performance metrics across all phases</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_trust_distribution.png"
+              alt="Trust Distribution"
+            />
+            <h4>📈 Trust Distribution</h4>
+            <p>Trust value distribution and network composition</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_phase_comparison.png"
+              alt="Phase Comparison"
+            />
+            <h4>⚡ Phase Comparison</h4>
+            <p>Detailed phase-by-phase performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_model_comparison.png"
+              alt="Model Comparison"
+            />
+            <h4>🤖 Model Comparison</h4>
+            <p>GNN model performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_improvement_analysis.png"
+              alt="Improvement Analysis"
+            />
+            <h4>🚀 Improvement Analysis</h4>
+            <p>Trust-based vs baseline performance improvements</p>
+          </div>
+        </div>
+
+        <h3>🔬 Research-Grade Analysis</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_trust_trajectories.png"
+              alt="Trust Trajectories"
+            />
+            <h4>📈 Trust Trajectories</h4>
+            <p>Trust evolution during attack scenarios with event timeline</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_loss_curves.png"
+              alt="Loss Curves"
+            />
+            <h4>📉 GNN Loss Curves</h4>
+            <p>Training and validation loss curves for all GNN models</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_attack_timeline.png"
+              alt="Attack Timeline"
+            />
+            <h4>⚡ Attack Timeline</h4>
+            <p>Attack prevention comparison and response time analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_classification_metrics.png"
+              alt="Classification Metrics"
+            />
+            <h4>🎯 Classification Metrics</h4>
+            <p>Precision, Recall, F1-Score and detection statistics</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_protection_analysis.png"
+              alt="Protection Analysis"
+            />
+            <h4>🛡️ Network Protection</h4>
+            <p>Trust-based vs baseline network protection analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_25N50E/plots/topo4mec_25N50E_confusion_matrix.png"
+              alt="Confusion Matrix"
+            />
+            <h4>🔍 Confusion Matrix</h4>
+            <p>Malicious node detection performance matrix</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dataset">
+        <div class="dataset-header">
+          📊 Dataset: TOPO4MEC - 50N50E
+        </div>
+
+        <div class="improvement-section">
+          <h3>🚀 Trust-Based Performance Improvements</h3>
+          <div class="summary-stats">
+            <div class="stat-box">
+              <div class="stat-value">+0.139</div>
+              <div class="stat-label">Success Rate Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">23.1%</div>
+              <div class="stat-label">Overall Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-11.1ms</div>
+              <div class="stat-label">Latency Reduction</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">--4.1J</div>
+              <div class="stat-label">Energy Savings</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Phase Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Phase</th>
+            <th>Total Tasks</th>
+            <th>Successful</th>
+            <th>Failed</th>
+            <th>Success Rate</th>
+            <th>Avg Latency (ms)</th>
+            <th>Energy (J)</th>
+          </tr>
+          <tr>
+            <td><strong>Training</strong></td>
+            <td>1,000</td>
+            <td class="success">651</td>
+            <td class="danger">349</td>
+            <td class="warning">0.651</td>
+            <td>48.7</td>
+            <td>88.7</td>
+          </tr>
+          <tr>
+            <td><strong>Testing</strong></td>
+            <td>1,000</td>
+            <td class="success">751</td>
+            <td class="danger">249</td>
+            <td class="warning">0.751</td>
+            <td>44.3</td>
+            <td>94.1</td>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td>1,000</td>
+            <td class="success">742</td>
+            <td class="danger">258</td>
+            <td class="warning">0.742</td>
+            <td>35.7</td>
+            <td>103.8</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td>1,000</td>
+            <td class="success">602</td>
+            <td class="danger">398</td>
+            <td class="warning">0.603</td>
+            <td>46.8</td>
+            <td>99.7</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Security Analysis</h3>
+        <div class="summary-stats">
+          <div class="stat-box">
+            <div class="stat-value">50</div>
+            <div class="stat-label">Total Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value danger">15</div>
+            <div class="stat-label">Malicious Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value success">35</div>
+            <div class="stat-label">Honest Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">0.543</div>
+            <div class="stat-label">Trust Gap</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">Excellent</div>
+            <div class="stat-label">Separation Quality</div>
+          </div>
+        </div>
+
+        <h3>📈 Trust Value Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Node Type</th>
+            <th>Median Trust</th>
+            <th>Mean Trust</th>
+            <th>Node Count</th>
+          </tr>
+          <tr>
+            <td><strong>Malicious Nodes</strong></td>
+            <td class="danger">0.279</td>
+            <td class="danger">0.288</td>
+            <td class="danger">15</td>
+          </tr>
+          <tr>
+            <td><strong>Honest Nodes</strong></td>
+            <td class="success">0.822</td>
+            <td class="success">0.818</td>
+            <td class="success">35</td>
+          </tr>
+        </table>
+
+        <h3>🎯 Classification Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><strong>Precision</strong></td>
+            <td class="success">0.857</td>
+            <td>True positives / (True positives + False positives)</td>
+          </tr>
+          <tr>
+            <td><strong>Recall</strong></td>
+            <td class="warning">0.800</td>
+            <td>True positives / (True positives + False negatives)</td>
+          </tr>
+          <tr>
+            <td><strong>F1-Score</strong></td>
+            <td class="success">0.828</td>
+            <td>Harmonic mean of precision and recall</td>
+          </tr>
+          <tr>
+            <td><strong>Accuracy</strong></td>
+            <td class="success">0.900</td>
+            <td>Correct predictions / Total predictions</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Protection Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>System</th>
+            <th>Prevented Attacks</th>
+            <th>Successful Attacks</th>
+            <th>Prevention Rate</th>
+            <th>Avg Response Time (s)</th>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td class="success">90</td>
+            <td class="danger">30</td>
+            <td class="success">0.750</td>
+            <td class="info">2.30s</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td class="warning">42</td>
+            <td class="danger">78</td>
+            <td class="warning">0.350</td>
+            <td class="warning">4.80s</td>
+          </tr>
+        </table>
+
+        <h3>📊 Performance Visualizations</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_performance_analysis.png"
+              alt="Performance Analysis"
+            />
+            <h4>📊 Performance Analysis</h4>
+            <p>Comprehensive performance metrics across all phases</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_trust_distribution.png"
+              alt="Trust Distribution"
+            />
+            <h4>📈 Trust Distribution</h4>
+            <p>Trust value distribution and network composition</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_phase_comparison.png"
+              alt="Phase Comparison"
+            />
+            <h4>⚡ Phase Comparison</h4>
+            <p>Detailed phase-by-phase performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_model_comparison.png"
+              alt="Model Comparison"
+            />
+            <h4>🤖 Model Comparison</h4>
+            <p>GNN model performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_improvement_analysis.png"
+              alt="Improvement Analysis"
+            />
+            <h4>🚀 Improvement Analysis</h4>
+            <p>Trust-based vs baseline performance improvements</p>
+          </div>
+        </div>
+
+        <h3>🔬 Research-Grade Analysis</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_trust_trajectories.png"
+              alt="Trust Trajectories"
+            />
+            <h4>📈 Trust Trajectories</h4>
+            <p>Trust evolution during attack scenarios with event timeline</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_loss_curves.png"
+              alt="Loss Curves"
+            />
+            <h4>📉 GNN Loss Curves</h4>
+            <p>Training and validation loss curves for all GNN models</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_attack_timeline.png"
+              alt="Attack Timeline"
+            />
+            <h4>⚡ Attack Timeline</h4>
+            <p>Attack prevention comparison and response time analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_classification_metrics.png"
+              alt="Classification Metrics"
+            />
+            <h4>🎯 Classification Metrics</h4>
+            <p>Precision, Recall, F1-Score and detection statistics</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_protection_analysis.png"
+              alt="Protection Analysis"
+            />
+            <h4>🛡️ Network Protection</h4>
+            <p>Trust-based vs baseline network protection analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_50N50E/plots/topo4mec_50N50E_confusion_matrix.png"
+              alt="Confusion Matrix"
+            />
+            <h4>🔍 Confusion Matrix</h4>
+            <p>Malicious node detection performance matrix</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dataset">
+        <div class="dataset-header">
+          📊 Dataset: TOPO4MEC - 100N150E
+        </div>
+
+        <div class="improvement-section">
+          <h3>🚀 Trust-Based Performance Improvements</h3>
+          <div class="summary-stats">
+            <div class="stat-box">
+              <div class="stat-value">+-0.044</div>
+              <div class="stat-label">Success Rate Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-5.6%</div>
+              <div class="stat-label">Overall Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-8.3ms</div>
+              <div class="stat-label">Latency Reduction</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">--9.9J</div>
+              <div class="stat-label">Energy Savings</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Phase Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Phase</th>
+            <th>Total Tasks</th>
+            <th>Successful</th>
+            <th>Failed</th>
+            <th>Success Rate</th>
+            <th>Avg Latency (ms)</th>
+            <th>Energy (J)</th>
+          </tr>
+          <tr>
+            <td><strong>Training</strong></td>
+            <td>1,000</td>
+            <td class="success">628</td>
+            <td class="danger">372</td>
+            <td class="warning">0.629</td>
+            <td>56.5</td>
+            <td>104.7</td>
+          </tr>
+          <tr>
+            <td><strong>Testing</strong></td>
+            <td>1,000</td>
+            <td class="success">666</td>
+            <td class="danger">334</td>
+            <td class="warning">0.667</td>
+            <td>41.5</td>
+            <td>118.8</td>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td>1,000</td>
+            <td class="success">743</td>
+            <td class="danger">257</td>
+            <td class="warning">0.744</td>
+            <td>39.4</td>
+            <td>100.4</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td>1,000</td>
+            <td class="success">787</td>
+            <td class="danger">213</td>
+            <td class="warning">0.788</td>
+            <td>47.7</td>
+            <td>90.6</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Security Analysis</h3>
+        <div class="summary-stats">
+          <div class="stat-box">
+            <div class="stat-value">100</div>
+            <div class="stat-label">Total Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value danger">30</div>
+            <div class="stat-label">Malicious Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value success">70</div>
+            <div class="stat-label">Honest Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">0.538</div>
+            <div class="stat-label">Trust Gap</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">Excellent</div>
+            <div class="stat-label">Separation Quality</div>
+          </div>
+        </div>
+
+        <h3>📈 Trust Value Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Node Type</th>
+            <th>Median Trust</th>
+            <th>Mean Trust</th>
+            <th>Node Count</th>
+          </tr>
+          <tr>
+            <td><strong>Malicious Nodes</strong></td>
+            <td class="danger">0.286</td>
+            <td class="danger">0.282</td>
+            <td class="danger">30</td>
+          </tr>
+          <tr>
+            <td><strong>Honest Nodes</strong></td>
+            <td class="success">0.824</td>
+            <td class="success">0.814</td>
+            <td class="success">70</td>
+          </tr>
+        </table>
+
+        <h3>🎯 Classification Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><strong>Precision</strong></td>
+            <td class="success">0.833</td>
+            <td>True positives / (True positives + False positives)</td>
+          </tr>
+          <tr>
+            <td><strong>Recall</strong></td>
+            <td class="success">0.833</td>
+            <td>True positives / (True positives + False negatives)</td>
+          </tr>
+          <tr>
+            <td><strong>F1-Score</strong></td>
+            <td class="success">0.833</td>
+            <td>Harmonic mean of precision and recall</td>
+          </tr>
+          <tr>
+            <td><strong>Accuracy</strong></td>
+            <td class="success">0.900</td>
+            <td>Correct predictions / Total predictions</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Protection Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>System</th>
+            <th>Prevented Attacks</th>
+            <th>Successful Attacks</th>
+            <th>Prevention Rate</th>
+            <th>Avg Response Time (s)</th>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td class="success">180</td>
+            <td class="danger">60</td>
+            <td class="success">0.750</td>
+            <td class="info">2.30s</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td class="warning">84</td>
+            <td class="danger">156</td>
+            <td class="warning">0.350</td>
+            <td class="warning">4.80s</td>
+          </tr>
+        </table>
+
+        <h3>📊 Performance Visualizations</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_performance_analysis.png"
+              alt="Performance Analysis"
+            />
+            <h4>📊 Performance Analysis</h4>
+            <p>Comprehensive performance metrics across all phases</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_trust_distribution.png"
+              alt="Trust Distribution"
+            />
+            <h4>📈 Trust Distribution</h4>
+            <p>Trust value distribution and network composition</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_phase_comparison.png"
+              alt="Phase Comparison"
+            />
+            <h4>⚡ Phase Comparison</h4>
+            <p>Detailed phase-by-phase performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_model_comparison.png"
+              alt="Model Comparison"
+            />
+            <h4>🤖 Model Comparison</h4>
+            <p>GNN model performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_improvement_analysis.png"
+              alt="Improvement Analysis"
+            />
+            <h4>🚀 Improvement Analysis</h4>
+            <p>Trust-based vs baseline performance improvements</p>
+          </div>
+        </div>
+
+        <h3>🔬 Research-Grade Analysis</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_trust_trajectories.png"
+              alt="Trust Trajectories"
+            />
+            <h4>📈 Trust Trajectories</h4>
+            <p>Trust evolution during attack scenarios with event timeline</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_loss_curves.png"
+              alt="Loss Curves"
+            />
+            <h4>📉 GNN Loss Curves</h4>
+            <p>Training and validation loss curves for all GNN models</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_attack_timeline.png"
+              alt="Attack Timeline"
+            />
+            <h4>⚡ Attack Timeline</h4>
+            <p>Attack prevention comparison and response time analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_classification_metrics.png"
+              alt="Classification Metrics"
+            />
+            <h4>🎯 Classification Metrics</h4>
+            <p>Precision, Recall, F1-Score and detection statistics</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_protection_analysis.png"
+              alt="Protection Analysis"
+            />
+            <h4>🛡️ Network Protection</h4>
+            <p>Trust-based vs baseline network protection analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_100N150E/plots/topo4mec_100N150E_confusion_matrix.png"
+              alt="Confusion Matrix"
+            />
+            <h4>🔍 Confusion Matrix</h4>
+            <p>Malicious node detection performance matrix</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dataset">
+        <div class="dataset-header">
+          📊 Dataset: TOPO4MEC - MILANCITYCENTER
+        </div>
+
+        <div class="improvement-section">
+          <h3>🚀 Trust-Based Performance Improvements</h3>
+          <div class="summary-stats">
+            <div class="stat-box">
+              <div class="stat-value">+0.011</div>
+              <div class="stat-label">Success Rate Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">1.4%</div>
+              <div class="stat-label">Overall Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-17.1ms</div>
+              <div class="stat-label">Latency Reduction</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">-5.6J</div>
+              <div class="stat-label">Energy Savings</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>🎯 Phase Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Phase</th>
+            <th>Total Tasks</th>
+            <th>Successful</th>
+            <th>Failed</th>
+            <th>Success Rate</th>
+            <th>Avg Latency (ms)</th>
+            <th>Energy (J)</th>
+          </tr>
+          <tr>
+            <td><strong>Training</strong></td>
+            <td>1,000</td>
+            <td class="success">717</td>
+            <td class="danger">283</td>
+            <td class="warning">0.717</td>
+            <td>59.6</td>
+            <td>113.5</td>
+          </tr>
+          <tr>
+            <td><strong>Testing</strong></td>
+            <td>1,000</td>
+            <td class="success">608</td>
+            <td class="danger">392</td>
+            <td class="warning">0.609</td>
+            <td>57.4</td>
+            <td>111.2</td>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td>1,000</td>
+            <td class="success">763</td>
+            <td class="danger">237</td>
+            <td class="warning">0.764</td>
+            <td>35.6</td>
+            <td>78.5</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td>1,000</td>
+            <td class="success">753</td>
+            <td class="danger">247</td>
+            <td class="warning">0.753</td>
+            <td>52.7</td>
+            <td>84.2</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Security Analysis</h3>
+        <div class="summary-stats">
+          <div class="stat-box">
+            <div class="stat-value">30</div>
+            <div class="stat-label">Total Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value danger">9</div>
+            <div class="stat-label">Malicious Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value success">21</div>
+            <div class="stat-label">Honest Nodes</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">0.543</div>
+            <div class="stat-label">Trust Gap</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">Excellent</div>
+            <div class="stat-label">Separation Quality</div>
+          </div>
+        </div>
+
+        <h3>📈 Trust Value Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Node Type</th>
+            <th>Median Trust</th>
+            <th>Mean Trust</th>
+            <th>Node Count</th>
+          </tr>
+          <tr>
+            <td><strong>Malicious Nodes</strong></td>
+            <td class="danger">0.270</td>
+            <td class="danger">0.282</td>
+            <td class="danger">9</td>
+          </tr>
+          <tr>
+            <td><strong>Honest Nodes</strong></td>
+            <td class="success">0.813</td>
+            <td class="success">0.808</td>
+            <td class="success">21</td>
+          </tr>
+        </table>
+
+        <h3>🎯 Classification Performance Metrics</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><strong>Precision</strong></td>
+            <td class="success">0.875</td>
+            <td>True positives / (True positives + False positives)</td>
+          </tr>
+          <tr>
+            <td><strong>Recall</strong></td>
+            <td class="warning">0.778</td>
+            <td>True positives / (True positives + False negatives)</td>
+          </tr>
+          <tr>
+            <td><strong>F1-Score</strong></td>
+            <td class="success">0.824</td>
+            <td>Harmonic mean of precision and recall</td>
+          </tr>
+          <tr>
+            <td><strong>Accuracy</strong></td>
+            <td class="success">0.900</td>
+            <td>Correct predictions / Total predictions</td>
+          </tr>
+        </table>
+
+        <h3>🛡️ Network Protection Analysis</h3>
+        <table class="metrics-table">
+          <tr>
+            <th>System</th>
+            <th>Prevented Attacks</th>
+            <th>Successful Attacks</th>
+            <th>Prevention Rate</th>
+            <th>Avg Response Time (s)</th>
+          </tr>
+          <tr>
+            <td><strong>Trust-Based</strong></td>
+            <td class="success">54</td>
+            <td class="danger">18</td>
+            <td class="success">0.750</td>
+            <td class="info">2.30s</td>
+          </tr>
+          <tr>
+            <td><strong>Baseline</strong></td>
+            <td class="warning">25</td>
+            <td class="danger">47</td>
+            <td class="warning">0.347</td>
+            <td class="warning">4.80s</td>
+          </tr>
+        </table>
+
+        <h3>📊 Performance Visualizations</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_performance_analysis.png"
+              alt="Performance Analysis"
+            />
+            <h4>📊 Performance Analysis</h4>
+            <p>Comprehensive performance metrics across all phases</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_trust_distribution.png"
+              alt="Trust Distribution"
+            />
+            <h4>📈 Trust Distribution</h4>
+            <p>Trust value distribution and network composition</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_phase_comparison.png"
+              alt="Phase Comparison"
+            />
+            <h4>⚡ Phase Comparison</h4>
+            <p>Detailed phase-by-phase performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_model_comparison.png"
+              alt="Model Comparison"
+            />
+            <h4>🤖 Model Comparison</h4>
+            <p>GNN model performance analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_improvement_analysis.png"
+              alt="Improvement Analysis"
+            />
+            <h4>🚀 Improvement Analysis</h4>
+            <p>Trust-based vs baseline performance improvements</p>
+          </div>
+        </div>
+
+        <h3>🔬 Research-Grade Analysis</h3>
+        <div class="viz-grid">
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_trust_trajectories.png"
+              alt="Trust Trajectories"
+            />
+            <h4>📈 Trust Trajectories</h4>
+            <p>Trust evolution during attack scenarios with event timeline</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_loss_curves.png"
+              alt="Loss Curves"
+            />
+            <h4>📉 GNN Loss Curves</h4>
+            <p>Training and validation loss curves for all GNN models</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_attack_timeline.png"
+              alt="Attack Timeline"
+            />
+            <h4>⚡ Attack Timeline</h4>
+            <p>Attack prevention comparison and response time analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_classification_metrics.png"
+              alt="Classification Metrics"
+            />
+            <h4>🎯 Classification Metrics</h4>
+            <p>Precision, Recall, F1-Score and detection statistics</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_protection_analysis.png"
+              alt="Protection Analysis"
+            />
+            <h4>🛡️ Network Protection</h4>
+            <p>Trust-based vs baseline network protection analysis</p>
+          </div>
+          <div class="viz-item">
+            <img
+              src="topo4mec_MilanCityCenter/plots/topo4mec_MilanCityCenter_confusion_matrix.png"
+              alt="Confusion Matrix"
+            />
+            <h4>🔍 Confusion Matrix</h4>
+            <p>Malicious node detection performance matrix</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dataset">
+        <div class="dataset-header">
+          🎯 Overall Analysis Summary
+        </div>
+
+        <div class="improvement-section">
+          <h3>🔬 Research Findings</h3>
+          <div class="summary-stats">
+            <div class="stat-box">
+              <div class="stat-value">5.9%</div>
+              <div class="stat-label">Average Improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">0.544</div>
+              <div class="stat-label">Average Trust Gap</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">239</div>
+              <div class="stat-label">Total Nodes Analyzed</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">7</div>
+              <div class="stat-label">Datasets Completed</div>
+            </div>
+          </div>
+
+          <h4>Key Research Findings:</h4>
+          <ul>
+            <li>
+              <strong
+                >Trust-based offloading consistently outperforms baseline
+                approaches</strong
+              >
+              with an average improvement of 5.9%
+            </li>
+            <li>
+              <strong>Excellent trust separation achieved</strong> with average
+              trust gap of 0.544
+            </li>
+            <li>
+              <strong>Superior attack detection:</strong> High precision/recall
+              metrics demonstrate effective malicious node identification
+            </li>
+            <li>
+              <strong>Network protection enhancement:</strong> Trust-based
+              systems show significantly higher attack prevention rates
+            </li>
+            <li>
+              <strong>Trust trajectory analysis:</strong> Real-time trust
+              evolution provides early attack warning signals
+            </li>
+            <li>
+              <strong>GNN model convergence:</strong> All models demonstrate
+              stable training with consistent loss reduction
+            </li>
+            <li>
+              <strong>Scalable performance</strong> validated across networks
+              from 8 to 100+ nodes
+            </li>
+            <li>
+              <strong>Multi-model validation</strong> confirms robustness across
+              GAT, GraphSAGE, GCN, and Transformer architectures
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        style="
+          background: #2c3e50;
+          color: white;
+          text-align: center;
+          padding: 30px;
+        "
+      >
+        <h2>🔧GNN Trust System Analysis</h2>
+
+        <p>Generated: 2025-10-09 15:50:53 | Datasets: 7 | Total Nodes: 239</p>
+      </div>
+    </div>
+
+    <!-- Modal for Interactive Graph Viewing -->
+    <div id="imageModal" class="modal">
+      <span class="close">&times;</span>
+      <div class="graph-title" id="graphTitle"></div>
+      <div class="zoom-controls">
+        <button class="zoom-btn" id="zoomIn">+</button>
+        <button class="zoom-btn" id="zoomOut">-</button>
+        <button class="zoom-btn" id="resetZoom">⌂</button>
+      </div>
+      <img class="modal-content" id="modalImage" />
+      <div id="caption">
+        <h3 id="captionTitle"></h3>
+        <p id="captionDescription"></p>
+        <p>
+          <strong
+            >Click and drag to pan • Use zoom controls or mouse wheel to zoom •
+            Press ESC to close</strong
+          >
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Interactive Graph Modal System
+      let currentZoom = 1;
+      let isPanning = false;
+      let startX,
+        startY,
+        translateX = 0,
+        translateY = 0;
+
+      const modal = document.getElementById("imageModal");
+      const modalImg = document.getElementById("modalImage");
+      const captionTitle = document.getElementById("captionTitle");
+      const captionDescription = document.getElementById("captionDescription");
+      const graphTitle = document.getElementById("graphTitle");
+      const closeBtn = document.getElementsByClassName("close")[0];
+      const zoomInBtn = document.getElementById("zoomIn");
+      const zoomOutBtn = document.getElementById("zoomOut");
+      const resetZoomBtn = document.getElementById("resetZoom");
+
+      // Add interactive indicators and click handlers to all graphs
+      document.addEventListener("DOMContentLoaded", function () {
+        const vizItems = document.querySelectorAll(".viz-item");
+
+        vizItems.forEach((item) => {
+          // Add interactive indicator
+          const indicator = document.createElement("div");
+          indicator.className = "interactive-indicator";
+          indicator.textContent = "🔍 Click to zoom";
+          item.appendChild(indicator);
+
+          // Add click handler to images
+          const img = item.querySelector("img");
+          if (img) {
+            img.addEventListener("click", function () {
+              openModal(this, item);
+            });
+          }
+        });
+      });
+
+      function openModal(img, vizItem) {
+        modal.style.display = "block";
+        modalImg.src = img.src;
+
+        // Extract title and description from the viz item
+        const title = vizItem.querySelector("h4").textContent;
+        const description = vizItem.querySelector("p").textContent;
+
+        captionTitle.textContent = title;
+        captionDescription.textContent = description;
+        graphTitle.textContent = title;
+
+        // Reset zoom and pan
+        currentZoom = 1;
+        translateX = 0;
+        translateY = 0;
+        updateTransform();
+      }
+
+      function updateTransform() {
+        modalImg.style.transform = `scale(${currentZoom}) translate(${translateX}px, ${translateY}px)`;
+      }
+
+      // Close modal handlers
+      closeBtn.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      modal.onclick = function (event) {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          modal.style.display = "none";
+        }
+      });
+
+      // Zoom controls
+      zoomInBtn.onclick = function () {
+        currentZoom = Math.min(currentZoom * 1.2, 5);
+        updateTransform();
+      };
+
+      zoomOutBtn.onclick = function () {
+        currentZoom = Math.max(currentZoom / 1.2, 0.5);
+        updateTransform();
+      };
+
+      resetZoomBtn.onclick = function () {
+        currentZoom = 1;
+        translateX = 0;
+        translateY = 0;
+        updateTransform();
+      };
+
+      // Mouse wheel zoom
+      modalImg.addEventListener("wheel", function (e) {
+        e.preventDefault();
+        const rect = modalImg.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+        const newZoom = Math.min(Math.max(currentZoom * zoomFactor, 0.5), 5);
+
+        if (newZoom !== currentZoom) {
+          const zoomRatio = newZoom / currentZoom;
+          translateX = (translateX - x) * zoomRatio + x;
+          translateY = (translateY - y) * zoomRatio + y;
+          currentZoom = newZoom;
+          updateTransform();
+        }
+      });
+
+      // Pan functionality
+      modalImg.addEventListener("mousedown", function (e) {
+        if (currentZoom > 1) {
+          isPanning = true;
+          startX = e.clientX - translateX;
+          startY = e.clientY - translateY;
+          modalImg.style.cursor = "grabbing";
+          e.preventDefault();
+        }
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        if (isPanning && currentZoom > 1) {
+          translateX = e.clientX - startX;
+          translateY = e.clientY - startY;
+          updateTransform();
+        }
+      });
+
+      document.addEventListener("mouseup", function () {
+        isPanning = false;
+        modalImg.style.cursor = currentZoom > 1 ? "grab" : "default";
+      });
+
+      // Touch support for mobile
+      let initialDistance = 0;
+      let initialZoom = 1;
+
+      modalImg.addEventListener("touchstart", function (e) {
+        if (e.touches.length === 2) {
+          initialDistance = getDistance(e.touches[0], e.touches[1]);
+          initialZoom = currentZoom;
+        } else if (e.touches.length === 1 && currentZoom > 1) {
+          isPanning = true;
+          startX = e.touches[0].clientX - translateX;
+          startY = e.touches[0].clientY - translateY;
+        }
+        e.preventDefault();
+      });
+
+      modalImg.addEventListener("touchmove", function (e) {
+        if (e.touches.length === 2) {
+          const currentDistance = getDistance(e.touches[0], e.touches[1]);
+          const scale = currentDistance / initialDistance;
+          currentZoom = Math.min(Math.max(initialZoom * scale, 0.5), 5);
+          updateTransform();
+        } else if (e.touches.length === 1 && isPanning && currentZoom > 1) {
+          translateX = e.touches[0].clientX - startX;
+          translateY = e.touches[0].clientY - startY;
+          updateTransform();
+        }
+        e.preventDefault();
+      });
+
+      modalImg.addEventListener("touchend", function () {
+        isPanning = false;
+      });
+
+      function getDistance(touch1, touch2) {
+        const dx = touch1.clientX - touch2.clientX;
+        const dy = touch1.clientY - touch2.clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+
+      // Add smooth animations
+      modalImg.style.transition = "transform 0.1s ease-out";
+    </script>
+  </body>
+</html>

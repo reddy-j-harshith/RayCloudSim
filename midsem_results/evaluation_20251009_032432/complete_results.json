@@ -1,0 +1,81 @@
+{
+  "evaluation_timestamp": "2025-10-09T03:24:42.720628",
+  "datasets_processed": [
+    "pakistan_Tuple30K"
+  ],
+  "gnn_models": [
+    "GAT",
+    "GraphSAGE",
+    "GCN",
+    "Transformer"
+  ],
+  "training_results": {
+    "pakistan_Tuple30K": {
+      "dataset": "pakistan_Tuple30K",
+      "malicious_ratio": 0.3,
+      "malicious_nodes": [
+        3,
+        7
+      ],
+      "honest_nodes": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "models": {
+        "GAT": {
+          "model_type": "GAT",
+          "error": "'GNNTrustModel' object has no attribute 'conv_layers'",
+          "training_completed": false
+        },
+        "GraphSAGE": {
+          "model_type": "GraphSAGE",
+          "error": "'GNNTrustModel' object has no attribute 'conv_layers'",
+          "training_completed": false
+        },
+        "GCN": {
+          "model_type": "GCN",
+          "error": "'GNNTrustModel' object has no attribute 'conv_layers'",
+          "training_completed": false
+        },
+        "Transformer": {
+          "model_type": "Transformer",
+          "error": "'GNNTrustModel' object has no attribute 'conv_layers'",
+          "training_completed": false
+        }
+      }
+    }
+  },
+  "testing_results": {
+    "pakistan_Tuple30K": {
+      "dataset": "pakistan_Tuple30K",
+      "test_metrics": {
+        "GAT": {
+          "error": "Model not found"
+        },
+        "GraphSAGE": {
+          "error": "Model not found"
+        },
+        "GCN": {
+          "error": "Model not found"
+        },
+        "Transformer": {
+          "error": "Model not found"
+        }
+      },
+      "predictions": {},
+      "confusion_matrices": {}
+    }
+  },
+  "offloading_results": {
+    "pakistan_Tuple30K": {
+      "dataset": "pakistan_Tuple30K",
+      "offloading_comparison": {},
+      "trust_trajectories": {},
+      "performance_metrics": {}
+    }
+  }
+}

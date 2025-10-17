@@ -1,0 +1,66 @@
+{
+  "simulation_metadata": {
+    "timestamp": "2025-10-07 23:05:22",
+    "total_scenarios": 4,
+    "total_tasks_simulated": 180,
+    "simulation_duration": "15-20 minutes",
+    "gnn_models_tested": [
+      "GAT",
+      "GraphSAGE",
+      "GCN"
+    ],
+    "attack_types_evaluated": [
+      "On-Off",
+      "Ballot Stuffing",
+      "Bad Mouthing",
+      "Collusion",
+      "Sybil"
+    ]
+  },
+  "simulation_results": {
+    "No Attack Baseline": {
+      "success_rate": 1.0,
+      "malicious_task_ratio": 1.0,
+      "honest_task_ratio": 0.0,
+      "total_tasks": 40,
+      "trust_accuracy": 0.2857142857142857,
+      "trust_mae": 0.5276190476190477,
+      "attack_types": []
+    },
+    "On-Off Attack": {
+      "success_rate": 1.0,
+      "malicious_task_ratio": 1.0,
+      "honest_task_ratio": 0.0,
+      "total_tasks": 40,
+      "trust_accuracy": 0.2857142857142857,
+      "trust_mae": 0.5395238095238095,
+      "attack_types": [
+        "on_off"
+      ]
+    },
+    "Ballot Stuffing Attack": {
+      "success_rate": 1.0,
+      "malicious_task_ratio": 1.0,
+      "honest_task_ratio": 0.0,
+      "total_tasks": 40,
+      "trust_accuracy": 0.2857142857142857,
+      "trust_mae": 0.529047619047619,
+      "attack_types": [
+        "ballot_stuffing"
+      ]
+    },
+    "Combined Attacks": {
+      "success_rate": 1.0,
+      "malicious_task_ratio": 1.0,
+      "honest_task_ratio": 0.0,
+      "total_tasks": 60,
+      "trust_accuracy": 0.2857142857142857,
+      "trust_mae": 0.5333333333333333,
+      "attack_types": [
+        "on_off",
+        "ballot_stuffing",
+        "bad_mouthing"
+      ]
+    }
+  }
+}

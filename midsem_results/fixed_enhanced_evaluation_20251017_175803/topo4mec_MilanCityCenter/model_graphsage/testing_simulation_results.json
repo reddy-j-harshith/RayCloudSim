@@ -1,0 +1,5065 @@
+{
+  "dataset_name": "topo4mec",
+  "dataset_flag": "MilanCityCenter",
+  "model_type": "graphsage",
+  "malicious_ratio": 0.3,
+  "malicious_nodes": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    7,
+    9,
+    13,
+    23
+  ],
+  "honest_nodes": [
+    0,
+    2,
+    8,
+    10,
+    11,
+    12,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "network_size": 30,
+  "execution_results": {
+    "successful_tasks": 1091,
+    "failed_tasks": 309,
+    "total_execution_time": 46281.695672818736,
+    "total_energy_consumed": 827.7096600890711,
+    "trust_evolution_data": [],
+    "attack_statistics": {
+      "on_off": 73
+    },
+    "offloading_patterns": {
+      "6->16": 17,
+      "15->16": 18,
+      "6->4": 3,
+      "0->19": 20,
+      "24->11": 25,
+      "22->0": 16,
+      "21->27": 17,
+      "9->26": 7,
+      "4->7": 9,
+      "20->27": 6,
+      "5->17": 17,
+      "1->3": 8,
+      "19->1": 3,
+      "26->4": 7,
+      "11->5": 3,
+      "18->14": 25,
+      "24->21": 3,
+      "12->15": 21,
+      "12->8": 13,
+      "26->14": 13,
+      "17->14": 16,
+      "27->24": 17,
+      "3->5": 20,
+      "3->9": 8,
+      "11->10": 21,
+      "5->9": 8,
+      "29->10": 18,
+      "25->21": 15,
+      "17->25": 20,
+      "19->4": 10,
+      "3->24": 21,
+      "14->5": 2,
+      "22->7": 4,
+      "10->4": 6,
+      "1->6": 9,
+      "9->2": 17,
+      "24->14": 15,
+      "13->1": 3,
+      "21->6": 12,
+      "16->26": 20,
+      "23->10": 12,
+      "11->0": 8,
+      "2->17": 10,
+      "23->25": 12,
+      "29->24": 16,
+      "8->6": 8,
+      "1->2": 14,
+      "16->4": 2,
+      "10->0": 17,
+      "20->16": 20,
+      "22->29": 21,
+      "27->0": 16,
+      "28->19": 12,
+      "2->7": 4,
+      "27->21": 16,
+      "7->11": 14,
+      "18->15": 17,
+      "25->27": 19,
+      "0->1": 7,
+      "28->18": 21,
+      "23->5": 5,
+      "14->26": 16,
+      "15->21": 9,
+      "15->5": 9,
+      "19->15": 19,
+      "13->11": 9,
+      "0->3": 5,
+      "7->10": 13,
+      "7->29": 12,
+      "8->18": 14,
+      "6->11": 16,
+      "17->18": 10,
+      "12->7": 5,
+      "5->23": 7,
+      "4->25": 16,
+      "16->10": 12,
+      "14->19": 18,
+      "20->24": 24,
+      "2->22": 15,
+      "8->9": 7,
+      "18->17": 12,
+      "7->6": 3,
+      "4->23": 9,
+      "21->28": 13,
+      "24->27": 9,
+      "13->28": 12,
+      "8->27": 11,
+      "22->20": 19,
+      "11->2": 10,
+      "9->13": 6,
+      "12->10": 7,
+      "28->6": 1,
+      "6->7": 1,
+      "12->3": 1,
+      "2->14": 10,
+      "26->29": 14,
+      "29->26": 12,
+      "28->1": 3,
+      "10->15": 9,
+      "15->0": 11,
+      "26->13": 5,
+      "9->11": 10,
+      "3->6": 1,
+      "4->3": 7,
+      "25->13": 7,
+      "10->26": 15,
+      "14->12": 5,
+      "13->21": 10,
+      "28->26": 5,
+      "0->28": 12,
+      "6->8": 9,
+      "23->11": 3,
+      "16->18": 8,
+      "19->11": 6,
+      "5->2": 3,
+      "2->16": 4,
+      "5->27": 7,
+      "14->25": 5,
+      "20->18": 8,
+      "0->2": 3,
+      "3->10": 7,
+      "26->25": 6,
+      "25->11": 2,
+      "23->14": 5,
+      "1->17": 6,
+      "25->28": 8,
+      "0->11": 2,
+      "1->24": 4,
+      "5->21": 8,
+      "19->13": 1,
+      "4->28": 4,
+      "8->16": 5,
+      "28->27": 2,
+      "16->11": 2,
+      "21->18": 4,
+      "4->16": 1,
+      "13->12": 3,
+      "10->22": 3,
+      "22->21": 1
+    },
+    "temporal_trust_data": [
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 0,
+        "avg_trust": 0.5062847525401231,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 1,
+        "avg_trust": 0.48419308501782987,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 2,
+        "avg_trust": 0.4763754515598393,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 3,
+        "avg_trust": 0.4993393106753508,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 4,
+        "avg_trust": 0.5050036246517572,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 5,
+        "avg_trust": 0.5279789399021302,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 6,
+        "avg_trust": 0.5146917181511008,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 7,
+        "avg_trust": 0.48990370811038664,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 8,
+        "avg_trust": 0.4755710876651899,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 9,
+        "avg_trust": 0.501304875535239,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 10,
+        "avg_trust": 0.48907290136106835,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 11,
+        "avg_trust": 0.5159247874512118,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 12,
+        "avg_trust": 0.4634181466167201,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 13,
+        "avg_trust": 0.504495974610367,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 14,
+        "avg_trust": 0.498287664930684,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 15,
+        "avg_trust": 0.48762670791329754,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 16,
+        "avg_trust": 0.4897333396660239,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 17,
+        "avg_trust": 0.47053627406885723,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 18,
+        "avg_trust": 0.5229921705202848,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 19,
+        "avg_trust": 0.4837573776888742,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 20,
+        "avg_trust": 0.4558104950927621,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 21,
+        "avg_trust": 0.4976924007521692,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 22,
+        "avg_trust": 0.4799099106414984,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 23,
+        "avg_trust": 0.4775957477461955,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 24,
+        "avg_trust": 0.4982490628464401,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 25,
+        "avg_trust": 0.4954943351301699,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 26,
+        "avg_trust": 0.49335553263699405,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 27,
+        "avg_trust": 0.5022924308799934,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 28,
+        "avg_trust": 0.49908752377230736,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 0.0,
+        "task_index": 0,
+        "node_id": 29,
+        "avg_trust": 0.4852959880535064,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 0,
+        "avg_trust": 0.5060734443741259,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 1,
+        "avg_trust": 0.48425795401460603,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 2,
+        "avg_trust": 0.4764569784541219,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 3,
+        "avg_trust": 0.49935763787324483,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 4,
+        "avg_trust": 0.5047307159605242,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 5,
+        "avg_trust": 0.5277045192132274,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 6,
+        "avg_trust": 0.5145205894130878,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 7,
+        "avg_trust": 0.48992264015462905,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 8,
+        "avg_trust": 0.47525155249305995,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 9,
+        "avg_trust": 0.5013411773573737,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 10,
+        "avg_trust": 0.48871706136176174,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 11,
+        "avg_trust": 0.5153486167213398,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 12,
+        "avg_trust": 0.4634181466167201,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 13,
+        "avg_trust": 0.504495974610367,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 14,
+        "avg_trust": 0.49826410322266834,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 15,
+        "avg_trust": 0.4872909086907301,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 16,
+        "avg_trust": 0.4897947248674825,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 17,
+        "avg_trust": 0.4705790990918248,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 18,
+        "avg_trust": 0.5229078415230964,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 19,
+        "avg_trust": 0.48376028293108175,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 20,
+        "avg_trust": 0.4558104950927621,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 21,
+        "avg_trust": 0.49737339076669035,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 22,
+        "avg_trust": 0.4799099106414984,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 23,
+        "avg_trust": 0.4775957477461955,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 24,
+        "avg_trust": 0.49743816943655167,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 25,
+        "avg_trust": 0.49490074081565016,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 26,
+        "avg_trust": 0.4924451105804032,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 27,
+        "avg_trust": 0.502254966046111,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 28,
+        "avg_trust": 0.49908752377230736,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 109.0,
+        "task_index": 100,
+        "node_id": 29,
+        "avg_trust": 0.4852525088981257,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 0,
+        "avg_trust": 0.5059409382995086,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 1,
+        "avg_trust": 0.4842849960760821,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 2,
+        "avg_trust": 0.4764656792231642,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 3,
+        "avg_trust": 0.49942033057920693,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 4,
+        "avg_trust": 0.5044905217389826,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 5,
+        "avg_trust": 0.5123896988727253,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 6,
+        "avg_trust": 0.5145552788319994,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 7,
+        "avg_trust": 0.49009184750895046,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 8,
+        "avg_trust": 0.47525155249305995,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 9,
+        "avg_trust": 0.5013640341470326,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 10,
+        "avg_trust": 0.4888833937589439,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 11,
+        "avg_trust": 0.5145469228871453,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 12,
+        "avg_trust": 0.4634181466167201,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 13,
+        "avg_trust": 0.504495974610367,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 14,
+        "avg_trust": 0.49797936400449555,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 15,
+        "avg_trust": 0.4872946726105815,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 16,
+        "avg_trust": 0.48943390222748573,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 17,
+        "avg_trust": 0.4705618482760682,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 18,
+        "avg_trust": 0.5222912464317143,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 19,
+        "avg_trust": 0.48291283678771585,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 20,
+        "avg_trust": 0.4558104950927621,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 21,
+        "avg_trust": 0.4966841835152474,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 22,
+        "avg_trust": 0.47966366446887004,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 23,
+        "avg_trust": 0.47758563706896545,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 24,
+        "avg_trust": 0.49743544836714626,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 25,
+        "avg_trust": 0.49440537517344957,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 26,
+        "avg_trust": 0.49193737755750755,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 27,
+        "avg_trust": 0.5023408673577601,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 28,
+        "avg_trust": 0.49906004974776663,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 218.0,
+        "task_index": 200,
+        "node_id": 29,
+        "avg_trust": 0.48478659054409734,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 0,
+        "avg_trust": 0.5050921484484895,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 1,
+        "avg_trust": 0.4843660411065108,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 2,
+        "avg_trust": 0.4765143372382384,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 3,
+        "avg_trust": 0.49942033057920693,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 4,
+        "avg_trust": 0.4823311670017538,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 5,
+        "avg_trust": 0.49584058403874465,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 6,
+        "avg_trust": 0.5010132116220745,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 7,
+        "avg_trust": 0.46772001211414965,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 8,
+        "avg_trust": 0.47525155249305995,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 9,
+        "avg_trust": 0.5014217913066896,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 10,
+        "avg_trust": 0.4882051591993592,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 11,
+        "avg_trust": 0.514592849953232,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 12,
+        "avg_trust": 0.4634181466167201,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 13,
+        "avg_trust": 0.5044581531770267,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 14,
+        "avg_trust": 0.49743603156177224,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 15,
+        "avg_trust": 0.48710004152782216,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 16,
+        "avg_trust": 0.48943390222748573,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 17,
+        "avg_trust": 0.47069491823875387,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 18,
+        "avg_trust": 0.5222134640497431,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 19,
+        "avg_trust": 0.48291283678771585,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 20,
+        "avg_trust": 0.45583726684975306,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 21,
+        "avg_trust": 0.49631400739867143,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 22,
+        "avg_trust": 0.47972163569139536,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 23,
+        "avg_trust": 0.4775200160562209,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 24,
+        "avg_trust": 0.4969243755796859,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 25,
+        "avg_trust": 0.4942747444302999,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 26,
+        "avg_trust": 0.4915444919390709,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 27,
+        "avg_trust": 0.5010402393941641,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 28,
+        "avg_trust": 0.4987268177058903,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 330.0,
+        "task_index": 300,
+        "node_id": 29,
+        "avg_trust": 0.48476053792796436,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 0,
+        "avg_trust": 0.5041358480468338,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 1,
+        "avg_trust": 0.4843783745420499,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 2,
+        "avg_trust": 0.4765577645524587,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 3,
+        "avg_trust": 0.4994554986830066,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 4,
+        "avg_trust": 0.46697237002986364,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 5,
+        "avg_trust": 0.4827692141521897,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 6,
+        "avg_trust": 0.4849146056832196,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 7,
+        "avg_trust": 0.4602552670442805,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 8,
+        "avg_trust": 0.47525155249305995,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 9,
+        "avg_trust": 0.4718867612906096,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 10,
+        "avg_trust": 0.4879328583550829,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 11,
+        "avg_trust": 0.5135802913372217,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 12,
+        "avg_trust": 0.4634181466167201,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 13,
+        "avg_trust": 0.5044581531770267,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 14,
+        "avg_trust": 0.4967164556451249,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 15,
+        "avg_trust": 0.487138599259398,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 16,
+        "avg_trust": 0.48910463585268216,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 17,
+        "avg_trust": 0.4707833208241744,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 18,
+        "avg_trust": 0.5213232067037021,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 19,
+        "avg_trust": 0.4828511914367239,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 20,
+        "avg_trust": 0.455914412130524,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 21,
+        "avg_trust": 0.49635113148874244,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 22,
+        "avg_trust": 0.4793949270759528,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 23,
+        "avg_trust": 0.47752530930707865,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 24,
+        "avg_trust": 0.4968365448472487,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 25,
+        "avg_trust": 0.4941259932982246,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 26,
+        "avg_trust": 0.49038930820201015,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 27,
+        "avg_trust": 0.5002066384301236,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 28,
+        "avg_trust": 0.49859322898963343,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 426.0,
+        "task_index": 400,
+        "node_id": 29,
+        "avg_trust": 0.48471645888184217,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 0,
+        "avg_trust": 0.5036403336377208,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 1,
+        "avg_trust": 0.46149776826478806,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 2,
+        "avg_trust": 0.4766274461578876,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 3,
+        "avg_trust": 0.4995630721013256,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 4,
+        "avg_trust": 0.4595225778016802,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 5,
+        "avg_trust": 0.4705966567200389,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 6,
+        "avg_trust": 0.46472838777197495,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 7,
+        "avg_trust": 0.44778204122794774,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 8,
+        "avg_trust": 0.47527576764805657,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 9,
+        "avg_trust": 0.46555523296134915,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 10,
+        "avg_trust": 0.48767147281703954,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 11,
+        "avg_trust": 0.5136637399089943,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 12,
+        "avg_trust": 0.46308663095576363,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 13,
+        "avg_trust": 0.5043585378787592,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 14,
+        "avg_trust": 0.49665442648620656,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 15,
+        "avg_trust": 0.4854607521519919,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 16,
+        "avg_trust": 0.48874605088210227,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 17,
+        "avg_trust": 0.4709979231626703,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 18,
+        "avg_trust": 0.5208986636551292,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 19,
+        "avg_trust": 0.48242296743799745,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 20,
+        "avg_trust": 0.455914412130524,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 21,
+        "avg_trust": 0.4963958124919941,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 22,
+        "avg_trust": 0.47942958021902604,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 23,
+        "avg_trust": 0.45497057163445437,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 24,
+        "avg_trust": 0.49646307977736426,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 25,
+        "avg_trust": 0.4941259932982246,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 26,
+        "avg_trust": 0.49051113941480173,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 27,
+        "avg_trust": 0.5002507808650732,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 28,
+        "avg_trust": 0.49820712732390904,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 504.0,
+        "task_index": 500,
+        "node_id": 29,
+        "avg_trust": 0.48466010611911226,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 0,
+        "avg_trust": 0.5027868666732548,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 1,
+        "avg_trust": 0.46149776826478806,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 2,
+        "avg_trust": 0.4766698444195768,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 3,
+        "avg_trust": 0.4996795913521488,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 4,
+        "avg_trust": 0.45303281590081906,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 5,
+        "avg_trust": 0.4631474706203016,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 6,
+        "avg_trust": 0.4647753175408286,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 7,
+        "avg_trust": 0.44778204122794774,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 8,
+        "avg_trust": 0.4753480816637349,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 9,
+        "avg_trust": 0.46555523296134915,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 10,
+        "avg_trust": 0.48767147281703954,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 11,
+        "avg_trust": 0.5136299999373651,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 12,
+        "avg_trust": 0.46308663095576363,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 13,
+        "avg_trust": 0.5043597353228534,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 14,
+        "avg_trust": 0.4953682865050993,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 15,
+        "avg_trust": 0.4848409680954328,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 16,
+        "avg_trust": 0.4887639965568655,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 17,
+        "avg_trust": 0.470725012758534,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 18,
+        "avg_trust": 0.5207828043497794,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 19,
+        "avg_trust": 0.4815943933496175,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 20,
+        "avg_trust": 0.4559870206516234,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 21,
+        "avg_trust": 0.49597616967647423,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 22,
+        "avg_trust": 0.47942958021902604,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 23,
+        "avg_trust": 0.45497057163445437,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 24,
+        "avg_trust": 0.49544917712309827,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 25,
+        "avg_trust": 0.493582884718009,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 26,
+        "avg_trust": 0.49045467891599964,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 27,
+        "avg_trust": 0.5003218783258512,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 28,
+        "avg_trust": 0.49752540127870093,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 588.0,
+        "task_index": 600,
+        "node_id": 29,
+        "avg_trust": 0.484608833190274,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 0,
+        "avg_trust": 0.5026293801356063,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 1,
+        "avg_trust": 0.45618505427880257,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 2,
+        "avg_trust": 0.4761429488780352,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 3,
+        "avg_trust": 0.4709822240733093,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 4,
+        "avg_trust": 0.44667284923797507,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 5,
+        "avg_trust": 0.4632892980698106,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 6,
+        "avg_trust": 0.4647371961927749,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 7,
+        "avg_trust": 0.4407160555758025,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 8,
+        "avg_trust": 0.4753480816637349,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 9,
+        "avg_trust": 0.46555523296134915,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 10,
+        "avg_trust": 0.48757256222761336,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 11,
+        "avg_trust": 0.5130088691381162,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 12,
+        "avg_trust": 0.46308663095576363,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 13,
+        "avg_trust": 0.5043234116182734,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 14,
+        "avg_trust": 0.4953204921479959,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 15,
+        "avg_trust": 0.4848883290461367,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 16,
+        "avg_trust": 0.48853544305178453,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 17,
+        "avg_trust": 0.47046416279484604,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 18,
+        "avg_trust": 0.5202978485714439,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 19,
+        "avg_trust": 0.4811304730636119,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 20,
+        "avg_trust": 0.4556782107321276,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 21,
+        "avg_trust": 0.4956090795826361,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 22,
+        "avg_trust": 0.47946354029923777,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 23,
+        "avg_trust": 0.44776081537417906,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 24,
+        "avg_trust": 0.4953360344564189,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 25,
+        "avg_trust": 0.49307750490692587,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 26,
+        "avg_trust": 0.48980824793989264,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 27,
+        "avg_trust": 0.4994248277651719,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 28,
+        "avg_trust": 0.4970660428037311,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 705.0,
+        "task_index": 700,
+        "node_id": 29,
+        "avg_trust": 0.48424429516130635,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 0,
+        "avg_trust": 0.5020835065607303,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 1,
+        "avg_trust": 0.45618505427880257,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 2,
+        "avg_trust": 0.4762993847721897,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 3,
+        "avg_trust": 0.4709822240733093,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 4,
+        "avg_trust": 0.44667284923797507,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 5,
+        "avg_trust": 0.46342550915231917,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 6,
+        "avg_trust": 0.4647473380505419,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 7,
+        "avg_trust": 0.4407160555758025,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 8,
+        "avg_trust": 0.47541894939909957,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 9,
+        "avg_trust": 0.4581337834745359,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 10,
+        "avg_trust": 0.4877330258303779,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 11,
+        "avg_trust": 0.51281178533557,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 12,
+        "avg_trust": 0.46308663095576363,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 13,
+        "avg_trust": 0.5042939222616031,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 14,
+        "avg_trust": 0.4942248689259981,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 15,
+        "avg_trust": 0.48493848294721326,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 16,
+        "avg_trust": 0.4885719643315048,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 17,
+        "avg_trust": 0.4701562432134213,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 18,
+        "avg_trust": 0.5199673115551343,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 19,
+        "avg_trust": 0.48104956549723493,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 20,
+        "avg_trust": 0.4557076281763312,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 21,
+        "avg_trust": 0.49494752231552847,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 22,
+        "avg_trust": 0.4794968211778453,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 23,
+        "avg_trust": 0.44776081537417906,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 24,
+        "avg_trust": 0.49529703064550107,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 25,
+        "avg_trust": 0.49193841512024084,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 26,
+        "avg_trust": 0.4898004012575291,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 27,
+        "avg_trust": 0.4987849209483969,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 28,
+        "avg_trust": 0.49624753485508183,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 814.0,
+        "task_index": 800,
+        "node_id": 29,
+        "avg_trust": 0.48425278034021485,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 0,
+        "avg_trust": 0.5016420354460348,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 1,
+        "avg_trust": 0.45016756008977826,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 2,
+        "avg_trust": 0.4755698095029047,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 3,
+        "avg_trust": 0.4560728452413855,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 4,
+        "avg_trust": 0.4396290474256295,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 5,
+        "avg_trust": 0.46355632627596033,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 6,
+        "avg_trust": 0.4500504020258119,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 7,
+        "avg_trust": 0.4350079413608382,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 8,
+        "avg_trust": 0.47515968415549115,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 9,
+        "avg_trust": 0.4508607629774591,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 10,
+        "avg_trust": 0.48758051471025055,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 11,
+        "avg_trust": 0.5126856953488189,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 12,
+        "avg_trust": 0.46308663095576363,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 13,
+        "avg_trust": 0.49606336036685567,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 14,
+        "avg_trust": 0.4943675643869143,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 15,
+        "avg_trust": 0.48502851960295074,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 16,
+        "avg_trust": 0.4883010424951699,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 17,
+        "avg_trust": 0.47021461962575006,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 18,
+        "avg_trust": 0.5194234285073346,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 19,
+        "avg_trust": 0.48066035103504084,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 20,
+        "avg_trust": 0.455409882198857,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 21,
+        "avg_trust": 0.49457945253574936,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 22,
+        "avg_trust": 0.4794968211778453,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 23,
+        "avg_trust": 0.4419118059632472,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 24,
+        "avg_trust": 0.49487297154275806,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 25,
+        "avg_trust": 0.49049932308158484,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 26,
+        "avg_trust": 0.4894048954420718,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 27,
+        "avg_trust": 0.4987849209483969,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 28,
+        "avg_trust": 0.49582026836295934,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 897.0,
+        "task_index": 900,
+        "node_id": 29,
+        "avg_trust": 0.483224696676456,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 0,
+        "avg_trust": 0.5015945911293777,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 1,
+        "avg_trust": 0.45016756008977826,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 2,
+        "avg_trust": 0.4756149497016696,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 3,
+        "avg_trust": 0.45005759523310956,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 4,
+        "avg_trust": 0.4396290474256295,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 5,
+        "avg_trust": 0.4636197791878517,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 6,
+        "avg_trust": 0.4429390491577095,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 7,
+        "avg_trust": 0.4350079413608382,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 8,
+        "avg_trust": 0.4751876605705249,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 9,
+        "avg_trust": 0.4508607629774591,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 10,
+        "avg_trust": 0.487211382688495,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 11,
+        "avg_trust": 0.512538959755673,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 12,
+        "avg_trust": 0.46311657319423327,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 13,
+        "avg_trust": 0.4801607685377075,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 14,
+        "avg_trust": 0.4943588530763634,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 15,
+        "avg_trust": 0.4847709411737322,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 16,
+        "avg_trust": 0.48833731664394925,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 17,
+        "avg_trust": 0.47041268347189247,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 18,
+        "avg_trust": 0.5186401080267921,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 19,
+        "avg_trust": 0.48068069272854264,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 20,
+        "avg_trust": 0.45544466621372603,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 21,
+        "avg_trust": 0.49439983813931204,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 22,
+        "avg_trust": 0.4794968211778453,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 23,
+        "avg_trust": 0.4419118059632472,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 24,
+        "avg_trust": 0.494553479442987,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 25,
+        "avg_trust": 0.4904794598519682,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 26,
+        "avg_trust": 0.4891435489242325,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 27,
+        "avg_trust": 0.4978015457497841,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 28,
+        "avg_trust": 0.49562607542163484,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1019.0,
+        "task_index": 1000,
+        "node_id": 29,
+        "avg_trust": 0.4829031417262413,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 0,
+        "avg_trust": 0.5012050622849293,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 1,
+        "avg_trust": 0.45016756008977826,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 2,
+        "avg_trust": 0.47576702183070024,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 3,
+        "avg_trust": 0.45005759523310956,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 4,
+        "avg_trust": 0.4396761996103653,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 5,
+        "avg_trust": 0.46370108694572076,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 6,
+        "avg_trust": 0.42914018005244353,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 7,
+        "avg_trust": 0.4350079413608382,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 8,
+        "avg_trust": 0.4752800459261067,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 9,
+        "avg_trust": 0.4437332028903237,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 10,
+        "avg_trust": 0.48671064301317246,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 11,
+        "avg_trust": 0.5127304479926852,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 12,
+        "avg_trust": 0.4631459165879334,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 13,
+        "avg_trust": 0.4689025400346488,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 14,
+        "avg_trust": 0.4942225082926051,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 15,
+        "avg_trust": 0.48448605089282804,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 16,
+        "avg_trust": 0.48820059227143997,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 17,
+        "avg_trust": 0.4704370310289133,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 18,
+        "avg_trust": 0.5176107182543528,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 19,
+        "avg_trust": 0.4806538834469455,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 20,
+        "avg_trust": 0.45554489955270044,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 21,
+        "avg_trust": 0.494190601706515,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 22,
+        "avg_trust": 0.47921366836021245,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 23,
+        "avg_trust": 0.4419118059632472,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 24,
+        "avg_trust": 0.4934977023878033,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 25,
+        "avg_trust": 0.4905728144953954,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 26,
+        "avg_trust": 0.48879118037575253,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 27,
+        "avg_trust": 0.49797141385999877,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 28,
+        "avg_trust": 0.4954493731178645,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1127.0,
+        "task_index": 1100,
+        "node_id": 29,
+        "avg_trust": 0.48290011956831647,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 0,
+        "avg_trust": 0.5007741649462925,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 1,
+        "avg_trust": 0.45016756008977826,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 2,
+        "avg_trust": 0.47544659449876525,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 3,
+        "avg_trust": 0.45005759523310956,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 4,
+        "avg_trust": 0.4397224087514064,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 5,
+        "avg_trust": 0.46385885651908987,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 6,
+        "avg_trust": 0.42914018005244353,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 7,
+        "avg_trust": 0.42819743770603524,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 8,
+        "avg_trust": 0.475068230671132,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 9,
+        "avg_trust": 0.4437332028903237,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 10,
+        "avg_trust": 0.48663090110333324,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 11,
+        "avg_trust": 0.5119646248583284,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 12,
+        "avg_trust": 0.46291286754084504,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 13,
+        "avg_trust": 0.46222517888912823,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 14,
+        "avg_trust": 0.4939986350433302,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 15,
+        "avg_trust": 0.484352637612737,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 16,
+        "avg_trust": 0.4875587516824064,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 17,
+        "avg_trust": 0.47021885870306585,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 18,
+        "avg_trust": 0.5170067746488006,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 19,
+        "avg_trust": 0.48034989220217483,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 20,
+        "avg_trust": 0.45554489955270044,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 21,
+        "avg_trust": 0.49389425166741635,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 22,
+        "avg_trust": 0.4789346318424338,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 23,
+        "avg_trust": 0.4357742594991547,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 24,
+        "avg_trust": 0.492742641773579,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 25,
+        "avg_trust": 0.4890371171610567,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 26,
+        "avg_trust": 0.48841805450940357,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 27,
+        "avg_trust": 0.49776283536915206,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 28,
+        "avg_trust": 0.494792077284493,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1232.0,
+        "task_index": 1200,
+        "node_id": 29,
+        "avg_trust": 0.4821941090034876,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 0,
+        "avg_trust": 0.49989036873431314,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 1,
+        "avg_trust": 0.45016756008977826,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 2,
+        "avg_trust": 0.4755625689239157,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 3,
+        "avg_trust": 0.45005759523310956,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 4,
+        "avg_trust": 0.4398120729686826,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 5,
+        "avg_trust": 0.4492315630423131,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 6,
+        "avg_trust": 0.42914018005244353,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 7,
+        "avg_trust": 0.42819743770603524,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 8,
+        "avg_trust": 0.47478986784014193,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 9,
+        "avg_trust": 0.4437332028903237,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 10,
+        "avg_trust": 0.48634179191370974,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 11,
+        "avg_trust": 0.5119774048225192,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 12,
+        "avg_trust": 0.462614977875774,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 13,
+        "avg_trust": 0.46222517888912823,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 14,
+        "avg_trust": 0.49426211848517915,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 15,
+        "avg_trust": 0.4837343445814415,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 16,
+        "avg_trust": 0.48695739280158484,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 17,
+        "avg_trust": 0.46993278764787916,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 18,
+        "avg_trust": 0.5163819011707494,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 19,
+        "avg_trust": 0.4799728771385427,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 20,
+        "avg_trust": 0.45554489955270044,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 21,
+        "avg_trust": 0.49336524703650164,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 22,
+        "avg_trust": 0.4786437375621183,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 23,
+        "avg_trust": 0.4357742594991547,
+        "is_malicious": true,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 24,
+        "avg_trust": 0.4927407470682267,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 25,
+        "avg_trust": 0.48897225366071245,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 26,
+        "avg_trust": 0.48804748882306825,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 27,
+        "avg_trust": 0.4978667316944446,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 28,
+        "avg_trust": 0.4938939608010375,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      },
+      {
+        "timestamp": 1360.0,
+        "task_index": 1300,
+        "node_id": 29,
+        "avg_trust": 0.48188232591453506,
+        "is_malicious": false,
+        "num_trust_relationships": 29
+      }
+    ],
+    "final_trust_matrix": {
+      "0": {
+        "0": 1.0,
+        "1": 0.5080466252291245,
+        "2": 0.5216330864403174,
+        "3": 0.47267204878753527,
+        "4": 0.2907492253310319,
+        "5": 0.4970508502650804,
+        "6": 0.4142680819973674,
+        "7": 0.47827276890891746,
+        "8": 0.4031547125354669,
+        "9": 0.4197399443138451,
+        "10": 0.41751822601156396,
+        "11": 0.5392305888271568,
+        "12": 0.37144019049005544,
+        "13": 0.47519513380302736,
+        "14": 0.4983737958724393,
+        "15": 0.43748726471516874,
+        "16": 0.5167533304223716,
+        "17": 0.5262609001275818,
+        "18": 0.5457467062498546,
+        "19": 0.6154833620173448,
+        "20": 0.4677730472172684,
+        "21": 0.5418910174234733,
+        "22": 0.41601798644896826,
+        "23": 0.42028010398774673,
+        "24": 0.5483947817546918,
+        "25": 0.40992993324228283,
+        "26": 0.563754755247817,
+        "27": 0.5257378285022435,
+        "28": 0.5871365119669023,
+        "29": 0.4238491269967791
+      },
+      "1": {
+        "0": 0.4587231018488156,
+        "1": 1.0,
+        "2": 0.6069045702000632,
+        "3": 0.5193840699773847,
+        "4": 0.4598447154572302,
+        "5": 0.4933989774492987,
+        "6": 0.5284505475479578,
+        "7": 0.47776048841641716,
+        "8": 0.4341009814853449,
+        "9": 0.4116830120118542,
+        "10": 0.5302511601836579,
+        "11": 0.24779821535406332,
+        "12": 0.47195783810082664,
+        "13": 0.4872221816187079,
+        "14": 0.3772960881808231,
+        "15": 0.5661998827226803,
+        "16": 0.4117177594192812,
+        "17": 0.5963224744531306,
+        "18": 0.5147348688906993,
+        "19": 0.3645763857766332,
+        "20": 0.5588417641148296,
+        "21": 0.4638910025010997,
+        "22": 0.42633429125656297,
+        "23": 0.38268072671969344,
+        "24": 0.6089752643523356,
+        "25": 0.4988816162808017,
+        "26": 0.3824630022413914,
+        "27": 0.6014989878089096,
+        "28": 0.53213379456023,
+        "29": 0.5313420625424801
+      },
+      "2": {
+        "0": 0.3862125870308445,
+        "1": 0.2487954306271801,
+        "2": 1.0,
+        "3": 0.4060318396002973,
+        "4": 0.3609508653137619,
+        "5": 0.35688763734294987,
+        "6": 0.3532118593284447,
+        "7": 0.4810971143627722,
+        "8": 0.3402787392328498,
+        "9": 0.46799393702080283,
+        "10": 0.30107873805339086,
+        "11": 0.41463855836990654,
+        "12": 0.557978376544857,
+        "13": 0.4460746092256621,
+        "14": 0.5793303889652609,
+        "15": 0.21509609179874123,
+        "16": 0.5759416722713332,
+        "17": 0.654545532619673,
+        "18": 0.5774049369554666,
+        "19": 0.46542897703010355,
+        "20": 0.3331328353050183,
+        "21": 0.41376280503101825,
+        "22": 0.5846762931563843,
+        "23": 0.4693043000682488,
+        "24": 0.5106834418807966,
+        "25": 0.40113662166453534,
+        "26": 0.5300602626119589,
+        "27": 0.4452714931383672,
+        "28": 0.4483561011690203,
+        "29": 0.503598524673505
+      },
+      "3": {
+        "0": 0.33659359238873005,
+        "1": 0.4472397560553442,
+        "2": 0.34493076628530783,
+        "3": 1.0,
+        "4": 0.3355750965029895,
+        "5": 0.5014633461131713,
+        "6": 0.49982021271524,
+        "7": 0.35997535681145504,
+        "8": 0.3392193987601263,
+        "9": 0.5511301936476354,
+        "10": 0.5399744674304527,
+        "11": 0.47326046639729513,
+        "12": 0.5155431621753809,
+        "13": 0.4631647100212763,
+        "14": 0.39931344901117355,
+        "15": 0.5737623918275399,
+        "16": 0.37120072844209534,
+        "17": 0.2790850634019383,
+        "18": 0.5439604824629234,
+        "19": 0.46762372527670787,
+        "20": 0.4485738074921322,
+        "21": 0.5064051521726946,
+        "22": 0.5536989980416614,
+        "23": 0.45795923193190546,
+        "24": 0.6771685881876376,
+        "25": 0.42589857411527243,
+        "26": 0.4184817580232313,
+        "27": 0.4424243333222951,
+        "28": 0.39954058952277915,
+        "29": 0.5059103925657106
+      },
+      "4": {
+        "0": 0.4997373063386223,
+        "1": 0.506978170276424,
+        "2": 0.41391835834766194,
+        "3": 0.5197114558649663,
+        "4": 1.0,
+        "5": 0.3680103579955032,
+        "6": 0.3388608078598285,
+        "7": 0.48646326661778944,
+        "8": 0.329798625170718,
+        "9": 0.45758724132012357,
+        "10": 0.24751233447999527,
+        "11": 0.47446258917053136,
+        "12": 0.1644005520983421,
+        "13": 0.5165410409338794,
+        "14": 0.44397723784712745,
+        "15": 0.558060643037085,
+        "16": 0.5669777781025165,
+        "17": 0.44042412403365133,
+        "18": 0.4682191896010605,
+        "19": 0.46409695691896014,
+        "20": 0.3333411217563051,
+        "21": 0.4043275437393535,
+        "22": 0.503063639060032,
+        "23": 0.5704170307538672,
+        "24": 0.44959285416947076,
+        "25": 0.7017474884788518,
+        "26": 0.31553403723399587,
+        "27": 0.3783830951762286,
+        "28": 0.61020677969301,
+        "29": 0.4968062212043812
+      },
+      "5": {
+        "0": 0.3298413212263739,
+        "1": 0.32047570846313433,
+        "2": 0.4852375149647351,
+        "3": 0.3560619152760384,
+        "4": 0.38775516803879917,
+        "5": 1.0,
+        "6": 0.4308081796518537,
+        "7": 0.38383626775307816,
+        "8": 0.4203466032894205,
+        "9": 0.4817677419854234,
+        "10": 0.47941624155804974,
+        "11": 0.46757145814537615,
+        "12": 0.2825145790387862,
+        "13": 0.3661695582161595,
+        "14": 0.4078678290526492,
+        "15": 0.3643684399537487,
+        "16": 0.428243504659965,
+        "17": 0.5503143869375072,
+        "18": 0.5103343557287024,
+        "19": 0.44766327454676935,
+        "20": 0.3699906311328325,
+        "21": 0.5509267400439483,
+        "22": 0.33447342542893654,
+        "23": 0.4997253054191533,
+        "24": 0.3174267075168412,
+        "25": 0.4704636777302553,
+        "26": 0.5102924643981998,
+        "27": 0.5681580729237019,
+        "28": 0.46064700695629524,
+        "29": 0.42421552572150634
+      },
+      "6": {
+        "0": 0.5202373593671612,
+        "1": 0.3588654070078662,
+        "2": 0.576991345089609,
+        "3": 0.4911577003447573,
+        "4": 0.5205280507595257,
+        "5": 0.3977302196698318,
+        "6": 1.0,
+        "7": 0.48782252725940767,
+        "8": 0.5785812834038161,
+        "9": 0.4388487850296903,
+        "10": 0.4280313326659132,
+        "11": 0.7282314617098515,
+        "12": 0.5118126712969745,
+        "13": 0.3956971758903967,
+        "14": 0.38625422664927356,
+        "15": 0.32115028436180393,
+        "16": 0.6514123660852466,
+        "17": 0.35091969458741706,
+        "18": 0.5089563505447566,
+        "19": 0.3485975951809064,
+        "20": 0.49683233245534725,
+        "21": 0.5032694644105948,
+        "22": 0.5117646358896125,
+        "23": 0.4091658412587054,
+        "24": 0.39338024311664244,
+        "25": 0.40714030444468496,
+        "26": 0.4649058031608101,
+        "27": 0.48963385202211823,
+        "28": 0.4714953168605036,
+        "29": 0.39842721545153925
+      },
+      "7": {
+        "0": 0.5880208496149191,
+        "1": 0.4148267801620426,
+        "2": 0.5192513154166536,
+        "3": 0.357281281776798,
+        "4": 0.49365021984673363,
+        "5": 0.3825717475921034,
+        "6": 0.49600275948756584,
+        "7": 1.0,
+        "8": 0.5651125770204911,
+        "9": 0.47906923946298574,
+        "10": 0.5964470978949841,
+        "11": 0.5798973011231802,
+        "12": 0.50042699600845,
+        "13": 0.36955881945105923,
+        "14": 0.47443788155605954,
+        "15": 0.41831190174197563,
+        "16": 0.5142916979535258,
+        "17": 0.4853276271550621,
+        "18": 0.5896738587863181,
+        "19": 0.4051646371630466,
+        "20": 0.5453760149147829,
+        "21": 0.3752454073849548,
+        "22": 0.5220431125434877,
+        "23": 0.46381845111358777,
+        "24": 0.5042633478879465,
+        "25": 0.45315465153831175,
+        "26": 0.4788738764860317,
+        "27": 0.5878677674168317,
+        "28": 0.40730522405602754,
+        "29": 0.6672681917429886
+      },
+      "8": {
+        "0": 0.5153367807319515,
+        "1": 0.196052083029229,
+        "2": 0.46049359258438294,
+        "3": 0.43240779699657206,
+        "4": 0.4361473866285223,
+        "5": 0.347221082396517,
+        "6": 0.49594331814849874,
+        "7": 0.3745868077497682,
+        "8": 1.0,
+        "9": 0.5143477698510391,
+        "10": 0.4567448242654942,
+        "11": 0.37563366530602543,
+        "12": 0.4526644648437961,
+        "13": 0.5051052441394095,
+        "14": 0.37424035914810994,
+        "15": 0.4431499207059343,
+        "16": 0.5527363217436722,
+        "17": 0.3976450510557436,
+        "18": 0.5980164902556939,
+        "19": 0.5196362502163342,
+        "20": 0.4729581120293532,
+        "21": 0.45868255214415576,
+        "22": 0.517342051434374,
+        "23": 0.5308600498648884,
+        "24": 0.455833953402699,
+        "25": 0.46110340336332295,
+        "26": 0.3794244367606138,
+        "27": 0.6126261736085544,
+        "28": 0.47492633892053837,
+        "29": 0.5146579959509249
+      },
+      "9": {
+        "0": 0.5609062082772563,
+        "1": 0.30408597658578235,
+        "2": 0.6291141331373734,
+        "3": 0.4892114190505825,
+        "4": 0.5110933001080338,
+        "5": 0.4091771603918716,
+        "6": 0.40568451004276335,
+        "7": 0.4644481244348535,
+        "8": 0.37719773822772634,
+        "9": 1.0,
+        "10": 0.5622566947678095,
+        "11": 0.603939423869684,
+        "12": 0.5350386124585483,
+        "13": 0.6007396451693208,
+        "14": 0.4607347085117851,
+        "15": 0.5889571547481283,
+        "16": 0.4951823231244649,
+        "17": 0.5947381501783559,
+        "18": 0.5921562666126342,
+        "19": 0.4708700776170672,
+        "20": 0.6236470005532362,
+        "21": 0.4500853179609253,
+        "22": 0.505274804041335,
+        "23": 0.5085780450611831,
+        "24": 0.5420702399228896,
+        "25": 0.5709593474184084,
+        "26": 0.651927915125123,
+        "27": 0.18758682851846187,
+        "28": 0.3234442248758296,
+        "29": 0.48411498402420255
+      },
+      "10": {
+        "0": 0.6819718004360013,
+        "1": 0.5167475391540202,
+        "2": 0.5091426619982675,
+        "3": 0.30906370337162414,
+        "4": 0.5629088774566877,
+        "5": 0.3917998047716052,
+        "6": 0.48198310431768293,
+        "7": 0.38856726010464476,
+        "8": 0.5523578428377003,
+        "9": 0.3305834135886417,
+        "10": 1.0,
+        "11": 0.46818205953868053,
+        "12": 0.49914173608302553,
+        "13": 0.4958273987264412,
+        "14": 0.4646906373707548,
+        "15": 0.6132765228820316,
+        "16": 0.49566549304312985,
+        "17": 0.3433601433221902,
+        "18": 0.46777105815195463,
+        "19": 0.3949488001603469,
+        "20": 0.5324433360855414,
+        "21": 0.35684599636407927,
+        "22": 0.6097215737967436,
+        "23": 0.4022936730903728,
+        "24": 0.5973389695734919,
+        "25": 0.523773576459741,
+        "26": 0.6139321767631882,
+        "27": 0.5012816843686844,
+        "28": 0.4820895537093014,
+        "29": 0.36944375335684954
+      },
+      "11": {
+        "0": 0.634458974369837,
+        "1": 0.49680477647073396,
+        "2": 0.5901704800278652,
+        "3": 0.5278169226949597,
+        "4": 0.2808003172745209,
+        "5": 0.5198744262759732,
+        "6": 0.3727992098018585,
+        "7": 0.30533432694172147,
+        "8": 0.38687608827600606,
+        "9": 0.5076914904520448,
+        "10": 0.5616225197194656,
+        "11": 1.0,
+        "12": 0.4918090846539788,
+        "13": 0.5209842174887077,
+        "14": 0.5666105219450365,
+        "15": 0.4843641496912431,
+        "16": 0.26391131446321614,
+        "17": 0.5212898021138589,
+        "18": 0.49913115012300485,
+        "19": 0.47161514726068193,
+        "20": 0.48130986407056087,
+        "21": 0.4103473998634509,
+        "22": 0.4356360146731244,
+        "23": 0.40244859414758777,
+        "24": 0.4696249046321431,
+        "25": 0.331057981255123,
+        "26": 0.2773218197074053,
+        "27": 0.37100488215161054,
+        "28": 0.5553793954972801,
+        "29": 0.49997716272958254
+      },
+      "12": {
+        "0": 0.4104430435082231,
+        "1": 0.40709066986638565,
+        "2": 0.4537564739983499,
+        "3": 0.539222629654777,
+        "4": 0.3340929606732542,
+        "5": 0.47187637124781345,
+        "6": 0.38225315637718604,
+        "7": 0.5071113462544079,
+        "8": 0.5992933960357948,
+        "9": 0.3004151660820552,
+        "10": 0.563735844632833,
+        "11": 0.5122913686036917,
+        "12": 1.0,
+        "13": 0.4528063206785953,
+        "14": 0.4458870749660866,
+        "15": 0.6144201411745579,
+        "16": 0.4594446400245182,
+        "17": 0.37640422014144187,
+        "18": 0.5305010199596731,
+        "19": 0.5423821805654211,
+        "20": 0.48787643503522554,
+        "21": 0.35546381316835607,
+        "22": 0.4045778073833687,
+        "23": 0.4046617702731506,
+        "24": 0.5959331491880814,
+        "25": 0.5322840728249768,
+        "26": 0.5436913876905469,
+        "27": 0.5781112413234221,
+        "28": 0.5569818869240303,
+        "29": 0.4454483322794128
+      },
+      "13": {
+        "0": 0.4516734801391238,
+        "1": 0.6006419905929282,
+        "2": 0.4077700128723845,
+        "3": 0.41767961491007066,
+        "4": 0.4669101472816814,
+        "5": 0.5340107860421561,
+        "6": 0.3872708606577378,
+        "7": 0.4605317510931214,
+        "8": 0.30575474225819127,
+        "9": 0.43140368719685657,
+        "10": 0.24277182868475605,
+        "11": 0.6133333733052524,
+        "12": 0.5801889039431619,
+        "13": 1.0,
+        "14": 0.4343994334874406,
+        "15": 0.5894267414401568,
+        "16": 0.5479062246684927,
+        "17": 0.4429623075767213,
+        "18": 0.5719466368419576,
+        "19": 0.4448307548052254,
+        "20": 0.439468240540914,
+        "21": 0.6060484633066305,
+        "22": 0.5160666085844117,
+        "23": 0.41851273280389323,
+        "24": 0.5682557834307316,
+        "25": 0.46540102658238514,
+        "26": 0.6092346762012723,
+        "27": 0.3572279704967005,
+        "28": 0.7575257914682905,
+        "29": 0.5760064878430804
+      },
+      "14": {
+        "0": 0.5713893803751193,
+        "1": 0.5306447707763078,
+        "2": 0.5102009941974678,
+        "3": 0.3741089114826284,
+        "4": 0.4841574891064944,
+        "5": 0.5635125201542828,
+        "6": 0.49092388455078884,
+        "7": 0.3908831637077247,
+        "8": 0.48172694259147864,
+        "9": 0.4377119757318353,
+        "10": 0.33737821958443004,
+        "11": 0.5153368945161683,
+        "12": 0.5966642372649609,
+        "13": 0.44561283794760964,
+        "14": 1.0,
+        "15": 0.2901215724754631,
+        "16": 0.46356993641964883,
+        "17": 0.5324634286014709,
+        "18": 0.34568289284386855,
+        "19": 0.694566435492748,
+        "20": 0.5290332649795848,
+        "21": 0.5765596577576836,
+        "22": 0.6123517572137737,
+        "23": 0.4445774087097763,
+        "24": 0.4464637209974164,
+        "25": 0.6165158891567051,
+        "26": 0.6243434360620642,
+        "27": 0.546934470462624,
+        "28": 0.6150365356944096,
+        "29": 0.5125643590394297
+      },
+      "15": {
+        "0": 0.640956591618962,
+        "1": 0.4091995104015085,
+        "2": 0.46453888907163315,
+        "3": 0.3980334304614573,
+        "4": 0.32403469711018146,
+        "5": 0.6015603826322696,
+        "6": 0.47372319024254883,
+        "7": 0.3745379500469799,
+        "8": 0.47258460585483597,
+        "9": 0.4365946733007546,
+        "10": 0.43590353187432096,
+        "11": 0.3337669697408947,
+        "12": 0.5765597879855633,
+        "13": 0.3867956459836035,
+        "14": 0.5456589524447836,
+        "15": 1.0,
+        "16": 0.6030575901569847,
+        "17": 0.5743208564043125,
+        "18": 0.433594075616789,
+        "19": 0.4573974161782532,
+        "20": 0.4500528456667664,
+        "21": 0.6261260767732483,
+        "22": 0.4346783988236854,
+        "23": 0.2832487806545907,
+        "24": 0.5240551078323037,
+        "25": 0.3857456616999625,
+        "26": 0.4300673549406955,
+        "27": 0.49702009825210547,
+        "28": 0.4243364471633146,
+        "29": 0.3772801553900966
+      },
+      "16": {
+        "0": 0.4888166621665491,
+        "1": 0.40414277255504,
+        "2": 0.5175412591678699,
+        "3": 0.4711324016244404,
+        "4": 0.6018426922949891,
+        "5": 0.38232783153653405,
+        "6": 0.422219205276258,
+        "7": 0.5356386621681457,
+        "8": 0.38943225664142705,
+        "9": 0.3525430355169996,
+        "10": 0.6118143934124824,
+        "11": 0.5730920244880475,
+        "12": 0.5008507220587972,
+        "13": 0.5130586645343272,
+        "14": 0.46777070832283796,
+        "15": 0.4251228534368148,
+        "16": 1.0,
+        "17": 0.462279196866516,
+        "18": 0.5711916878470679,
+        "19": 0.5425635289696361,
+        "20": 0.4332891470584818,
+        "21": 0.5093484703734601,
+        "22": 0.4174612089740654,
+        "23": 0.48606677664250564,
+        "24": 0.5368789452032661,
+        "25": 0.5726359298183568,
+        "26": 0.6727081982887371,
+        "27": 0.3894606389664179,
+        "28": 0.5356106638743956,
+        "29": 0.5276335072289182
+      },
+      "17": {
+        "0": 0.3965043267898037,
+        "1": 0.6282028349068273,
+        "2": 0.4702902406974215,
+        "3": 0.5999067133831237,
+        "4": 0.5078768331034682,
+        "5": 0.4331016189496984,
+        "6": 0.39533467765504215,
+        "7": 0.38576744388527623,
+        "8": 0.5664029356599615,
+        "9": 0.47413440753091524,
+        "10": 0.6045060824427442,
+        "11": 0.578069356515725,
+        "12": 0.4529263650627865,
+        "13": 0.5479931578755477,
+        "14": 0.711188046531015,
+        "15": 0.4507984926595979,
+        "16": 0.44957415077711194,
+        "17": 1.0,
+        "18": 0.6454165669531151,
+        "19": 0.5634692030352172,
+        "20": 0.44005553810281484,
+        "21": 0.4772219179350074,
+        "22": 0.5281865444990121,
+        "23": 0.5021323716153493,
+        "24": 0.48421811983752683,
+        "25": 0.651684015947675,
+        "26": 0.4914143430519733,
+        "27": 0.45995519611882796,
+        "28": 0.28205350759008274,
+        "29": 0.4493080501337078
+      },
+      "18": {
+        "0": 0.4192028853845441,
+        "1": 0.4742653177721383,
+        "2": 0.4198329717910326,
+        "3": 0.47037431673158886,
+        "4": 0.5059544062090753,
+        "5": 0.46841049239336874,
+        "6": 0.2805477462087774,
+        "7": 0.316677530272708,
+        "8": 0.49983901530200087,
+        "9": 0.3494326287832662,
+        "10": 0.49995077938211896,
+        "11": 0.41102789933099737,
+        "12": 0.5817155612199973,
+        "13": 0.441025089306026,
+        "14": 0.60769612856052,
+        "15": 0.6008902705748121,
+        "16": 0.3002240902649035,
+        "17": 0.605642058074661,
+        "18": 1.0,
+        "19": 0.5541630623211551,
+        "20": 0.47626150736000805,
+        "21": 0.30302400267242896,
+        "22": 0.5720541789668306,
+        "23": 0.32904143551424336,
+        "24": 0.5421787702702664,
+        "25": 0.3978922722236552,
+        "26": 0.4706249998455195,
+        "27": 0.4275783068478241,
+        "28": 0.5125097004521207,
+        "29": 0.3691222896764128
+      },
+      "19": {
+        "0": 0.44835762932784967,
+        "1": 0.5605661888277494,
+        "2": 0.3728606645511997,
+        "3": 0.34609241833225673,
+        "4": 0.5839370728816056,
+        "5": 0.33812650533504457,
+        "6": 0.3417743046614018,
+        "7": 0.21793645695642866,
+        "8": 0.5104140423604551,
+        "9": 0.40115275360236347,
+        "10": 0.39113148690600597,
+        "11": 0.5656609445350096,
+        "12": 0.3830195373820756,
+        "13": 0.4997379797916681,
+        "14": 0.44663228051406617,
+        "15": 0.5888605993683472,
+        "16": 0.5192189365428856,
+        "17": 0.4854953274332537,
+        "18": 0.4504929901845689,
+        "19": 1.0,
+        "20": 0.5044720987878158,
+        "21": 0.45830229899300223,
+        "22": 0.4860061806506275,
+        "23": 0.47695083823180856,
+        "24": 0.2999676027034236,
+        "25": 0.517333442873157,
+        "26": 0.419771182620635,
+        "27": 0.54966575077054,
+        "28": 0.34772834045184475,
+        "29": 0.5706976240262867
+      },
+      "20": {
+        "0": 0.6307915079241706,
+        "1": 0.5357591495158281,
+        "2": 0.5098713223276248,
+        "3": 0.42389937340803074,
+        "4": 0.46170086644996455,
+        "5": 0.4020850179059653,
+        "6": 0.40935166961062236,
+        "7": 0.40825663335883305,
+        "8": 0.5964850622485574,
+        "9": 0.5182362299099921,
+        "10": 0.3376180402452613,
+        "11": 0.5631492680305523,
+        "12": 0.402877945882911,
+        "13": 0.4543348874250435,
+        "14": 0.5746430567968125,
+        "15": 0.5265590008448908,
+        "16": 0.6261932514221763,
+        "17": 0.4041104330656985,
+        "18": 0.5986995862990647,
+        "19": 0.5386734672644673,
+        "20": 1.0,
+        "21": 0.5515633650379018,
+        "22": 0.21945916836529483,
+        "23": 0.3774943115651715,
+        "24": 0.6468315116280362,
+        "25": 0.5850853811413903,
+        "26": 0.5493738629525897,
+        "27": 0.606891179228864,
+        "28": 0.4291756363499991,
+        "29": 0.5414848377874072
+      },
+      "21": {
+        "0": 0.489136398070173,
+        "1": 0.43864983270732827,
+        "2": 0.43091786164564455,
+        "3": 0.4774475125214746,
+        "4": 0.38291286956845816,
+        "5": 0.4955697696762125,
+        "6": 0.6004266334658928,
+        "7": 0.5484285770906339,
+        "8": 0.41424390851185783,
+        "9": 0.42332531591369393,
+        "10": 0.45188827994772196,
+        "11": 0.5800817932946273,
+        "12": 0.3664478222762151,
+        "13": 0.5398194787928834,
+        "14": 0.44696853913639234,
+        "15": 0.5484363758298836,
+        "16": 0.5497539637566975,
+        "17": 0.37283691018928566,
+        "18": 0.5696597252804348,
+        "19": 0.39964736817485746,
+        "20": 0.5535681563893581,
+        "21": 1.0,
+        "22": 0.5037717274194574,
+        "23": 0.29333126963384365,
+        "24": 0.5077815202819242,
+        "25": 0.48346189134392525,
+        "26": 0.4420171693247409,
+        "27": 0.686615190025953,
+        "28": 0.6595801064911462,
+        "29": 0.4022847491660536
+      },
+      "22": {
+        "0": 0.6563276391421313,
+        "1": 0.42460457317928285,
+        "2": 0.35182236449600446,
+        "3": 0.5588729078372322,
+        "4": 0.39904578845291466,
+        "5": 0.38318451841710693,
+        "6": 0.4861915760872469,
+        "7": 0.5518403199565433,
+        "8": 0.5012033385214361,
+        "9": 0.3330521729009645,
+        "10": 0.5528160221506845,
+        "11": 0.46759577370263405,
+        "12": 0.4130303755907536,
+        "13": 0.4876668889533868,
+        "14": 0.44795213068582074,
+        "15": 0.4932240791255654,
+        "16": 0.413099611473595,
+        "17": 0.44907237170168096,
+        "18": 0.4753579870274372,
+        "19": 0.4898692681436545,
+        "20": 0.6032145073878905,
+        "21": 0.5932580761872417,
+        "22": 1.0,
+        "23": 0.36167752691819943,
+        "24": 0.43667685193843364,
+        "25": 0.47594832965574896,
+        "26": 0.5097083657197864,
+        "27": 0.5264944906537391,
+        "28": 0.4573636082130027,
+        "29": 0.6411594202543947
+      },
+      "23": {
+        "0": 0.40690795524916135,
+        "1": 0.5083092572803868,
+        "2": 0.3812114747879013,
+        "3": 0.48842314030904316,
+        "4": 0.4374186185717068,
+        "5": 0.5461272542883492,
+        "6": 0.40977505618565685,
+        "7": 0.40591210064221966,
+        "8": 0.6135192083375882,
+        "9": 0.5497970199914981,
+        "10": 0.6629907792211905,
+        "11": 0.6032241560012329,
+        "12": 0.5101013172628845,
+        "13": 0.40682961213222346,
+        "14": 0.6239777398968218,
+        "15": 0.4794669539785496,
+        "16": 0.599721716116455,
+        "17": 0.4039850594972939,
+        "18": 0.4423624560996718,
+        "19": 0.4146733654474384,
+        "20": 0.42077388346566613,
+        "21": 0.545069927361691,
+        "22": 0.47863486356701657,
+        "23": 1.0,
+        "24": 0.3290162257335208,
+        "25": 0.6006636194297839,
+        "26": 0.36271255045256723,
+        "27": 0.4401317324232413,
+        "28": 0.5250288988615301,
+        "29": 0.43188364905544496
+      },
+      "24": {
+        "0": 0.43424784149071904,
+        "1": 0.5379890206366181,
+        "2": 0.5564779275373605,
+        "3": 0.43764356393570436,
+        "4": 0.37147927258807156,
+        "5": 0.3341346781725873,
+        "6": 0.41885466875687427,
+        "7": 0.44807554169568237,
+        "8": 0.5403813921879083,
+        "9": 0.49846052192504886,
+        "10": 0.4731384210442554,
+        "11": 0.6176961939762552,
+        "12": 0.41162492959383346,
+        "13": 0.31172856453304965,
+        "14": 0.5927982810447748,
+        "15": 0.3982010758808053,
+        "16": 0.41540957661470784,
+        "17": 0.5269202339113094,
+        "18": 0.5474296905391391,
+        "19": 0.41578970466223003,
+        "20": 0.40702579653209786,
+        "21": 0.5336999003800884,
+        "22": 0.36798585711282894,
+        "23": 0.4691255722924127,
+        "24": 1.0,
+        "25": 0.4042955573961502,
+        "26": 0.3893646383437456,
+        "27": 0.5421465125348889,
+        "28": 0.5426557136071682,
+        "29": 0.5175123530616732
+      },
+      "25": {
+        "0": 0.48871121215353,
+        "1": 0.44124151157013697,
+        "2": 0.28466629828275514,
+        "3": 0.33935292970965647,
+        "4": 0.4883538064913162,
+        "5": 0.4968125188782177,
+        "6": 0.48043123064814264,
+        "7": 0.48907890091684897,
+        "8": 0.5385142394249458,
+        "9": 0.57347934269095,
+        "10": 0.5024160181074246,
+        "11": 0.5998839308420997,
+        "12": 0.5927849341781202,
+        "13": 0.5719327621480907,
+        "14": 0.5160098456775949,
+        "15": 0.436842080921596,
+        "16": 0.3352915427896901,
+        "17": 0.3914464494977693,
+        "18": 0.4893700357794341,
+        "19": 0.5002881052240278,
+        "20": 0.5327265465406116,
+        "21": 0.6153481339785281,
+        "22": 0.5321641516563298,
+        "23": 0.4815846679988031,
+        "24": 0.22935654395443922,
+        "25": 1.0,
+        "26": 0.46260798217013727,
+        "27": 0.6129953837077183,
+        "28": 0.5669027465526126,
+        "29": 0.5117564554921248
+      },
+      "26": {
+        "0": 0.410743591644184,
+        "1": 0.4221478343926071,
+        "2": 0.5495790361646103,
+        "3": 0.3451670321838206,
+        "4": 0.6011464962493951,
+        "5": 0.546436317855436,
+        "6": 0.4206416866523454,
+        "7": 0.3105517424324139,
+        "8": 0.4712444329386149,
+        "9": 0.5199090818748325,
+        "10": 0.5687186749106298,
+        "11": 0.5586383321041029,
+        "12": 0.41031971529729033,
+        "13": 0.5950829431912685,
+        "14": 0.6228037460359731,
+        "15": 0.5805712283451062,
+        "16": 0.4555075434364683,
+        "17": 0.44157192105818355,
+        "18": 0.5652922315043313,
+        "19": 0.40450381970316523,
+        "20": 0.38863716350035504,
+        "21": 0.4434138716481121,
+        "22": 0.47068396483702823,
+        "23": 0.32818114622839534,
+        "24": 0.36140099261668057,
+        "25": 0.5880977056588828,
+        "26": 1.0,
+        "27": 0.38000785109421775,
+        "28": 0.5343198038538282,
+        "29": 0.5816251727184337
+      },
+      "27": {
+        "0": 0.6777623018345593,
+        "1": 0.5239208790504755,
+        "2": 0.5552531589703272,
+        "3": 0.5504978106219024,
+        "4": 0.3869533418321959,
+        "5": 0.3953116034009899,
+        "6": 0.2618936529420961,
+        "7": 0.40664439478746683,
+        "8": 0.6415072906311107,
+        "9": 0.4349477948727249,
+        "10": 0.6225386659831793,
+        "11": 0.5349377899427165,
+        "12": 0.3980548051120977,
+        "13": 0.3522945105318822,
+        "14": 0.4781196144742018,
+        "15": 0.44915970007356854,
+        "16": 0.5140468399747933,
+        "17": 0.5126752167690831,
+        "18": 0.3127877906997384,
+        "19": 0.41781544280204663,
+        "20": 0.4140825850095461,
+        "21": 0.6618054833647568,
+        "22": 0.486005017450385,
+        "23": 0.48606565858941164,
+        "24": 0.6086158406674393,
+        "25": 0.33167324769920215,
+        "26": 0.37950577373571903,
+        "27": 1.0,
+        "28": 0.39406721894707364,
+        "29": 0.3479016940355676
+      },
+      "28": {
+        "0": 0.46550355837235796,
+        "1": 0.5646071750846016,
+        "2": 0.4217967528122108,
+        "3": 0.39984807859197236,
+        "4": 0.3024812721834064,
+        "5": 0.44712357429368993,
+        "6": 0.5478203096936115,
+        "7": 0.5120521791497095,
+        "8": 0.42178587672049783,
+        "9": 0.2955507200855527,
+        "10": 0.49190874459618306,
+        "11": 0.352714342769771,
+        "12": 0.3307292894943935,
+        "13": 0.376568147293073,
+        "14": 0.3719485436637415,
+        "15": 0.5306855861374941,
+        "16": 0.5838019296023098,
+        "17": 0.44811602555679897,
+        "18": 0.6994643240642988,
+        "19": 0.6237338494384175,
+        "20": 0.3345381724216401,
+        "21": 0.4099301070215492,
+        "22": 0.5328680211430991,
+        "23": 0.5081393346622175,
+        "24": 0.48780301424756445,
+        "25": 0.40599058826434364,
+        "26": 0.5570675460563701,
+        "27": 0.5669017921073145,
+        "28": 1.0,
+        "29": 0.3515479809439748
+      },
+      "29": {
+        "0": 0.485469364912008,
+        "1": 0.32395770042653793,
+        "2": 0.4820589860349458,
+        "3": 0.5331673223194826,
+        "4": 0.4742482623257759,
+        "5": 0.5228179567834548,
+        "6": 0.4177991209495708,
+        "7": 0.4596366896990517,
+        "8": 0.4803699875004622,
+        "9": 0.4776735872249968,
+        "10": 0.6213457441231341,
+        "11": 0.5023172136288306,
+        "12": 0.5532098449985823,
+        "13": 0.3789629619823925,
+        "14": 0.5572041520757215,
+        "15": 0.4362452898349388,
+        "16": 0.4445082926262779,
+        "17": 0.4529995477857882,
+        "18": 0.31373101251915914,
+        "19": 0.467797993461143,
+        "20": 0.13424215680883256,
+        "21": 0.6106018710239058,
+        "22": 0.3992032015077848,
+        "23": 0.469130569724772,
+        "24": 0.6003540332536105,
+        "25": 0.4803276046509421,
+        "26": 0.6437747885447813,
+        "27": 0.562570858440782,
+        "28": 0.41938156412743577,
+        "29": 1.0
+      }
+    },
+    "phase_logger": "<research_attack_aware_system.TaskOffloadingLogger object at 0x000002078764C620>"
+  },
+  "successful_tasks": 1091,
+  "failed_tasks": 309,
+  "total_attacks_simulated": 0,
+  "attack_statistics": {
+    "on_off": 73
+  },
+  "trained_model": "GNNTrustModel(\n  (conv_layers): ModuleList(\n    (0): SAGEConv(10, 64, aggr=mean)\n    (1): SAGEConv(64, 32, aggr=mean)\n  )\n  (trust_predictor): Sequential(\n    (0): Linear(in_features=32, out_features=32, bias=True)\n    (1): ReLU()\n    (2): Dropout(p=0.3, inplace=False)\n    (3): Linear(in_features=32, out_features=1, bias=True)\n    (4): Sigmoid()\n  )\n  (embedding_layer): Linear(in_features=32, out_features=32, bias=True)\n  (dropout): Dropout(p=0.2, inplace=False)\n)",
+  "final_train_accuracy": 0.7619047619047619,
+  "final_val_accuracy": 0.6666666666666666,
+  "training_losses": [
+    0.0013830842217430472,
+    0.003099090186879039,
+    0.0009228875278495252,
+    0.001477407873608172,
+    0.0005955738015472889,
+    0.0007858401513658464,
+    0.0010980151128023863,
+    0.000750645122025162,
+    0.0007243718137033284,
+    0.0006345816073007882,
+    0.0005963875446468592,
+    0.000701629847753793,
+    0.0006098900339566171,
+    0.0006262220558710396,
+    0.000610256043728441,
+    0.0005407030694186687,
+    0.000544880807865411,
+    0.0005299835465848446,
+    0.0005829342408105731,
+    0.0005386254633776844,
+    0.0005989414639770985,
+    0.0005762127111665905,
+    0.0005630425293929875,
+    0.0006031086086295545,
+    0.0005526824970729649,
+    0.0005533933872357011
+  ],
+  "validation_losses": [
+    0.001699227374047041,
+    0.0013535008765757084,
+    0.0020352602005004883,
+    0.0009222819935530424,
+    0.0003886492340825498,
+    0.00033842885750345886,
+    0.00035308441147208214,
+    0.00047846592497080564,
+    0.0006713464390486479,
+    0.0007739805150777102,
+    0.0008089534239843488,
+    0.0007700597634539008,
+    0.0006914106197655201,
+    0.0006474331021308899,
+    0.0006040403386577964,
+    0.0005712774000130594,
+    0.0005194364348426461,
+    0.0005138502456247807,
+    0.0005074676009826362,
+    0.0005010637687519193,
+    0.0004962008097209036,
+    0.0004914911114610732,
+    0.00048768060514703393,
+    0.0004859876062255353,
+    0.0004858967149630189,
+    0.00048782475641928613
+  ],
+  "converged": false,
+  "train_rmse": 0.02339545078575611,
+  "val_rmse": 0.02208675444126129,
+  "test_accuracy": 0.7586206896551724,
+  "test_precision": 1.0,
+  "test_recall": 0.2222222222222222,
+  "test_f1": 0.36363636363636365,
+  "attack_detection_accuracy": 0.7586206896551724,
+  "total_attacks_detected": 0,
+  "detection_results": {
+    "statistical_detection": {
+      "method": "statistical_threshold",
+      "predicted_labels": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "detection_scores": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        2,
+        1,
+        0,
+        0,
+        1
+      ],
+      "accuracy": 0.7586206896551724,
+      "precision": 1.0,
+      "recall": 0.2222222222222222,
+      "f1_score": 0.36363636363636365,
+      "thresholds": {
+        "success_rate": 0.6,
+        "trust_score": 0.4,
+        "deadline_rate": 0.7,
+        "z_score": 2.0
+      }
+    },
+    "ml_detection": {
+      "RandomForest": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "predictions": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "test_labels": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "IsolationForest": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "predictions": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "test_labels": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "trust_anomaly_detection": {
+      "method": "trust_anomaly",
+      "predicted_labels": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "accuracy": 0.6896551724137931,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "trust_features": [
+        [
+          0.4870470388413287,
+          0.09433271665351371,
+          0.5104824681771128,
+          0.11802390451068272,
+          -0.00019828191888850353,
+          29.0
+        ],
+        [
+          0.4398120729686826,
+          0.09134147723625412,
+          0.4676385949093428,
+          0.14617652892826996,
+          -0.0046565394059339005,
+          29.0
+        ],
+        [
+          0.4795817294777244,
+          0.07930641791289708,
+          0.46941211598677923,
+          0.13408356628175294,
+          -0.00027032146788082335,
+          29.0
+        ],
+        [
+          0.5122642556255296,
+          0.10052721014050976,
+          0.4746024312924194,
+          0.136602000836446,
+          -0.0002819559020494752,
+          29.0
+        ],
+        [
+          0.49948225005978214,
+          0.09908092106590131,
+          0.4951280645044475,
+          0.11670120211563986,
+          -0.00045674170041499443,
+          29.0
+        ],
+        [
+          0.49800633318666165,
+          0.10329959048109182,
+          0.48456150416020854,
+          0.1426719209375091,
+          -0.00031612137039634314,
+          29.0
+        ],
+        [
+          0.48775726081936727,
+          0.10260426215191432,
+          0.4958981693376904,
+          0.12994097374286517,
+          -0.00037914598670898573,
+          29.0
+        ],
+        [
+          0.42819743770603524,
+          0.07895607265303844,
+          0.5078180211432969,
+          0.11920309293956922,
+          -0.004407590743167956,
+          29.0
+        ],
+        [
+          0.46977705221094407,
+          0.08812025277235168,
+          0.5209231019748792,
+          0.12710725424423336,
+          -4.310617292700515e-05,
+          29.0
+        ],
+        [
+          0.45005759523310956,
+          0.07617557618945511,
+          0.47262992637007006,
+          0.1301709841225033,
+          -0.0035201225315886603,
+          29.0
+        ],
+        [
+          0.45016756008977826,
+          0.10168164097892919,
+          0.49817899438244007,
+          0.12396428177700457,
+          -0.002430394637717972,
+          29.0
+        ],
+        [
+          0.4492315630423131,
+          0.07481145568634762,
+          0.4468971201919413,
+          0.12679635769350286,
+          -0.005624812632844077,
+          29.0
+        ],
+        [
+          0.49395811718707233,
+          0.08683178833167354,
+          0.5193678995964655,
+          0.12886702729745433,
+          -0.0002875390318217747,
+          29.0
+        ],
+        [
+          0.4935333046904601,
+          0.09134649879172277,
+          0.5019670238642256,
+          0.1270758163604589,
+          -0.0003090824082619681,
+          29.0
+        ],
+        [
+          0.48355919621683546,
+          0.1008421985585239,
+          0.4791809891441135,
+          0.13204629066322074,
+          -0.00027802595227543233,
+          29.0
+        ],
+        [
+          0.47488714703333756,
+          0.09258342801647933,
+          0.47755080924253723,
+          0.1257144522178033,
+          -5.580141607485529e-05,
+          29.0
+        ],
+        [
+          0.4924324493166294,
+          0.10755681098231569,
+          0.4820764333995996,
+          0.12323939293522616,
+          -0.0003934511270152446,
+          29.0
+        ],
+        [
+          0.4437332028903237,
+          0.07370199826801926,
+          0.5167740111605212,
+          0.1371975123338602,
+          -0.00411226233177966,
+          29.0
+        ],
+        [
+          0.48598017911310804,
+          0.11153139236850378,
+          0.4985718050294475,
+          0.1310191294591317,
+          -0.0001950792462399003,
+          29.0
+        ],
+        [
+          0.48794080732271833,
+          0.09243672155842163,
+          0.5034116769327884,
+          0.13009645053997268,
+          -0.00046586296210410216,
+          29.0
+        ],
+        [
+          0.42914018005244353,
+          0.07507733332276899,
+          0.48492802819915876,
+          0.13072854693180894,
+          -0.006110824149904092,
+          29.0
+        ],
+        [
+          0.47580119013444766,
+          0.08253837943382156,
+          0.46096535234643843,
+          0.1431448591745476,
+          -5.8063045423114735e-05,
+          29.0
+        ],
+        [
+          0.4818906301756162,
+          0.08230007635177872,
+          0.49017025597650343,
+          0.13776997620334583,
+          -0.00024383300992652273,
+          29.0
+        ],
+        [
+          0.5165202215318214,
+          0.08874064390301616,
+          0.4735719904571001,
+          0.13567671400980716,
+          -0.00047216209639538195,
+          29.0
+        ],
+        [
+          0.4357742594991547,
+          0.07008168099786705,
+          0.5009549863882578,
+          0.1263262576781932,
+          -0.002987249160502914,
+          29.0
+        ],
+        [
+          0.4786967408250421,
+          0.08368556209413709,
+          0.49804436281581715,
+          0.12258284722006102,
+          -9.044093424143537e-05,
+          29.0
+        ],
+        [
+          0.49354893132448285,
+          0.10123758496014504,
+          0.4781008945490722,
+          0.1381390160440135,
+          -0.0003709687836621345,
+          29.0
+        ],
+        [
+          0.4556392383694765,
+          0.09618960621978687,
+          0.5143551674664375,
+          0.1336286502619605,
+          -1.8971110004404957e-05,
+          29.0
+        ],
+        [
+          0.46222517888912823,
+          0.07385733669307376,
+          0.5081720353018575,
+          0.13883861874527284,
+          -0.0030193425515170546,
+          29.0
+        ]
+      ]
+    },
+    "ground_truth": {
+      "malicious_nodes": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        13,
+        23
+      ],
+      "honest_nodes": [
+        0,
+        2,
+        8,
+        10,
+        11,
+        12,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "true_labels": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    }
+  }
+}

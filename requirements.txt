@@ -3,7 +3,11 @@ simpy==4.1.1
 numpy<2.0
 pandas==2.0.3
 tensorboard==2.14.0
-matplotlib==3.5.3
+matplotlib
 opencv-python==4.9.0.80
 tqdm==4.66.2
 PyQt5
+torch>=1.9.0
+torch-geometric>=2.0.0
+scikit-learn>=0.24.0
+node2vec>=0.3.0
